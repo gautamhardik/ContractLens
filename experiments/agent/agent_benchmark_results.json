@@ -1,0 +1,301 @@
+{
+  "total_queries_evaluated": 16,
+  "tool_selection_accuracy_pct": 100.0,
+  "tool_execution_success_pct": 96.77,
+  "task_completion_rate_pct": 100.0,
+  "final_answer_grounding_pct": 92.31,
+  "citation_validity_pct": 100.0,
+  "unsupported_claim_rate_pct": 0.0,
+  "unanswerable_safety_pct": 100.0,
+  "average_tool_calls_per_query": 1.94,
+  "average_latency_ms": 1.72,
+  "results": [
+    {
+      "id": "agent_q01",
+      "category": "DIRECT_GRAPH",
+      "query": "Which contracts involve E*TRADE?",
+      "expected_route": "DIRECT_GRAPH",
+      "actual_route": "DIRECT_GRAPH",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "query_contract_graph",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 1.74,
+      "answer_preview": "E*TRADE Financial Corporation: party = E*TRADE Financial Corporation. [E1]."
+    },
+    {
+      "id": "agent_q02",
+      "category": "DIRECT_GRAPH",
+      "query": "Which contracts have Net 30 payment terms?",
+      "expected_route": "DIRECT_GRAPH",
+      "actual_route": "DIRECT_GRAPH",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "query_contract_graph",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 0.46,
+      "answer_preview": "Payment Terms: Net 30: payment_terms = Net 30. [E1]."
+    },
+    {
+      "id": "agent_q03",
+      "category": "DIRECT_GRAPH",
+      "query": "Which agreements have renewal provisions?",
+      "expected_route": "DIRECT_GRAPH",
+      "actual_route": "DIRECT_GRAPH",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "query_contract_graph",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 0.4,
+      "answer_preview": "Automatic Renewal Clause: auto_renewal = 9.2 Extension: This Agreement will automatically renew for an extended term of "
+    },
+    {
+      "id": "agent_q04",
+      "category": "DIRECT_RETRIEVAL",
+      "query": "What does Section 6 say about invoice payment in the Access agreement?",
+      "expected_route": "DIRECT_RETRIEVAL",
+      "actual_route": "DIRECT_RETRIEVAL",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "search_contract_evidence",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 7.3,
+      "answer_preview": "detail the basis for such amount. [E31]."
+    },
+    {
+      "id": "agent_q05",
+      "category": "DIRECT_RETRIEVAL",
+      "query": "What is the confidentiality obligation in the agreement?",
+      "expected_route": "DIRECT_RETRIEVAL",
+      "actual_route": "DIRECT_RETRIEVAL",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "search_contract_evidence",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 7.62,
+      "answer_preview": "Survival. [E12]."
+    },
+    {
+      "id": "agent_q06",
+      "category": "CONTRACT_DETAILS",
+      "query": "What are the payment terms in the Access agreement?",
+      "expected_route": "CONTRACT_DETAILS",
+      "actual_route": "CONTRACT_DETAILS",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "get_contract_details",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 0.42,
+      "answer_preview": "Master Services Agreement: Payment terms Net 30, Governing law Delaware as in Access\u2013E-TRADE MSA.pdf. [E1]."
+    },
+    {
+      "id": "agent_q07",
+      "category": "CONTRACT_DETAILS",
+      "query": "What is the governing law of the Access agreement?",
+      "expected_route": "CONTRACT_DETAILS",
+      "actual_route": "CONTRACT_DETAILS",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "get_contract_details",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 0.34,
+      "answer_preview": "Master Services Agreement: Payment terms Net 30, Governing law Delaware as in Access\u2013E-TRADE MSA.pdf. [E1]."
+    },
+    {
+      "id": "agent_q08",
+      "category": "OBLIGATION_QUERY",
+      "query": "What obligations does the vendor have under the AMX agreement?",
+      "expected_route": "OBLIGATION_QUERY",
+      "actual_route": "OBLIGATION_QUERY",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "get_contract_obligations",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "insufficient_evidence",
+      "is_insufficient_evidence": true,
+      "citations_count": 0,
+      "latency_ms": 0.44,
+      "answer_preview": "The available contract evidence does not establish this."
+    },
+    {
+      "id": "agent_q09",
+      "category": "OBLIGATION_QUERY",
+      "query": "What are the reporting obligations in the Access agreement?",
+      "expected_route": "OBLIGATION_QUERY",
+      "actual_route": "OBLIGATION_QUERY",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "get_contract_obligations",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 0.98,
+      "answer_preview": "shall be referred to individually as the in Access\u2013E-TRADE MSA.pdf. [E1]."
+    },
+    {
+      "id": "agent_q10",
+      "category": "TIMELINE_QUERY",
+      "query": "When does the Access agreement expire?",
+      "expected_route": "TIMELINE_QUERY",
+      "actual_route": "TIMELINE_QUERY",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "get_contract_timeline",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 0.28,
+      "answer_preview": "Agreement takes legal effect on June 1, 2005. [E1]."
+    },
+    {
+      "id": "agent_q11",
+      "category": "TIMELINE_QUERY",
+      "query": "What should I review first among the upcoming contract events?",
+      "expected_route": "TIMELINE_QUERY",
+      "actual_route": "TIMELINE_QUERY",
+      "route_correct": true,
+      "steps_count": 2,
+      "tool_calls": [
+        "get_contract_timeline",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 0.51,
+      "answer_preview": "Client shall shall meet for the purposes of review (quarterly). [E23]."
+    },
+    {
+      "id": "agent_q12",
+      "category": "AMENDMENT_QUERY",
+      "query": "What changed in the Access-E*TRADE amendment?",
+      "expected_route": "AMENDMENT_QUERY",
+      "actual_route": "AMENDMENT_QUERY",
+      "route_correct": true,
+      "steps_count": 3,
+      "tool_calls": [
+        "get_contract_amendments",
+        "search_contract_evidence",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 6.48,
+      "answer_preview": "Amendment is executed (\u201cAmendment Effective Date\u201d) is entered into by and between ACCESS WORLDWIDE. [E3]."
+    },
+    {
+      "id": "agent_q13",
+      "category": "HYBRID_REASONING",
+      "query": "Which contracts involving E*TRADE have Net 30 payment terms?",
+      "expected_route": "HYBRID_REASONING",
+      "actual_route": "HYBRID_REASONING",
+      "route_correct": true,
+      "steps_count": 3,
+      "tool_calls": [
+        "query_contract_graph",
+        "query_contract_graph",
+        "build_grounded_answer"
+      ],
+      "grounding_status": "supported",
+      "is_insufficient_evidence": false,
+      "citations_count": 1,
+      "latency_ms": 0.32,
+      "answer_preview": "Payment Terms: Net 30: payment_terms = Net 30. [E3]."
+    },
+    {
+      "id": "agent_q14",
+      "category": "UNANSWERABLE",
+      "query": "What is the CEO personal salary mentioned in the agreement?",
+      "expected_route": "UNANSWERABLE",
+      "actual_route": "UNANSWERABLE",
+      "route_correct": true,
+      "steps_count": 1,
+      "tool_calls": [
+        "build_grounded_answer"
+      ],
+      "grounding_status": "insufficient_evidence",
+      "is_insufficient_evidence": true,
+      "citations_count": 0,
+      "latency_ms": 0.05,
+      "answer_preview": "The available contract evidence does not establish this."
+    },
+    {
+      "id": "agent_q15",
+      "category": "UNANSWERABLE",
+      "query": "Tell me something not contained in the contracts.",
+      "expected_route": "UNANSWERABLE",
+      "actual_route": "UNANSWERABLE",
+      "route_correct": true,
+      "steps_count": 1,
+      "tool_calls": [
+        "build_grounded_answer"
+      ],
+      "grounding_status": "insufficient_evidence",
+      "is_insufficient_evidence": true,
+      "citations_count": 0,
+      "latency_ms": 0.04,
+      "answer_preview": "The available contract evidence does not establish this."
+    },
+    {
+      "id": "agent_q16",
+      "category": "UNANSWERABLE",
+      "query": "What is the stock ticker of the vendor not mentioned in the contracts?",
+      "expected_route": "UNANSWERABLE",
+      "actual_route": "UNANSWERABLE",
+      "route_correct": true,
+      "steps_count": 1,
+      "tool_calls": [
+        "build_grounded_answer"
+      ],
+      "grounding_status": "insufficient_evidence",
+      "is_insufficient_evidence": true,
+      "citations_count": 0,
+      "latency_ms": 0.04,
+      "answer_preview": "The available contract evidence does not establish this."
+    }
+  ]
+}

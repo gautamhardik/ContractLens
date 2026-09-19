@@ -101,6 +101,19 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
   - **Unknown != Negative**: Unknown or redacted attributes remain explicitly unasserted or marked `unresolved` rather than guessed or fabricated.
   - **Cross-Contract Reasoning Benchmark**: Achieved **100.0%** accuracy (10/10 test queries passed) across direct entity lookups, party relationship graphs, cross-contract party networks, payment term filtering, renewal provisions, termination notice periods, and safe rejection of non-existent entities.
 
+### Decision: Controlled Contract Agent Tool Layer & Rule-First Orchestration
+- **Status**: Accepted
+- **Selection**: Controlled orchestrator (`ContractAgent`) operating over a typed tool registry (`ToolRegistry`), deterministic router (`AgentRouter`), planner (`DeterministicPlanner`), and bounded executor (`AgentExecutor`).
+- **Rationale**: Validated via Phase 18 empirical benchmark across 16 representative queries spanning all 8 routing categories:
+  - **Agent as Orchestrator, Not Source of Truth**: The agent decides *when* to invoke tools (graph, retrieval, details, obligations, timeline, amendments); it never invents contractual facts. The hierarchy of trust remains: Canonical contract evidence > EvidenceBundle > Verified structured facts > Knowledge Graph > Agent reasoning > Verified Answer.
+  - **Deterministic Rule-First Routing**: 100.0% Tool Selection Accuracy across direct graph queries, retrieval, contract details, obligations, lifecycle timelines, amendments, and unanswerable questions without LLM latency or hallucination risk.
+  - **Strict Provenance Preservation**: All structured tool outputs retain their native `EvidenceReference` and coordinate bounding boxes. Facts and commitments are converted to `EvidenceSpans` ensuring downstream Grounded RAG has direct access to provenance.
+  - **Mandatory Phase 16 Verification Bridge**: Final answers are synthesized exclusively through `build_grounded_answer` (Phase 16 Grounded RAG + `ClaimVerifier`). No unverified natural-language text is returned.
+  - **Zero Unsupported Claims & 100% Unanswerable Safety**: 0.0% unsupported claims reached final answers; 100.0% unanswerable safety rate achieved with controlled insufficient-evidence states and zero fabricated citations.
+  - **Hard Execution Bounds**: Enforces `MAX_STEPS = 6`, `MAX_TOOL_CALLS = 6`, `MAX_RETRIES = 1` preventing runaway loops.
+  - **Auditable AgentTrace Without Hidden CoT**: The agent trace records explicit tool names, inputs, outputs, status, and latency without exposing or storing private chain-of-thought tokens.
+  - **Sub-5ms Execution Latency**: Average end-to-end execution latency across deterministic tools and local grounded synthesis is **1.72 ms** per query.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)
