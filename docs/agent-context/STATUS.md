@@ -23,12 +23,12 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 - [x] **Phase 2 — PDF Extraction Benchmark**: Head-to-head empirical benchmark between `PyMuPDF` and `pdfplumber`. PyMuPDF selected for 1.2x–2.3x speedup, native coordinate bounding boxes (`[x0, y0, x1, y1]`), and cleaner table boundary handling. Documented in `experiments/extraction/README.md` and `DECISIONS.md`.
 - [x] **Phase 3 & 4 — Canonical Document Model & Structural Reconstruction**: Provenance-first Pydantic schemas (`src/models/canonical.py`) and deterministic reconstructor (`src/ingestion/reconstructor.py`). Preserves bounding boxes, reading order, table matrices, signatures, exhibit markers, and non-destructive SEC noise tags. 100% test pass (`tests/test_canonical_reconstruction.py`).
 - [x] **Phase 5 & 6 — Contract Intelligence & Hybrid Extraction**: Strongly-typed intelligence models (`src/models/intelligence.py`) and hybrid extractor (`src/ingestion/extractor.py`). Extracts parties, dates, Net payment terms, governing laws, termination notice periods, and amendment modifications with mandatory clause provenance. 100% test pass (`tests/test_intelligence_extraction.py`).
+- [x] **Phase 7, 8 & 9 — Obligation, Temporal & Event Engine**: Strongly-typed `ContractObligation` model, deterministic `TemporalEngine` with 7 temporal types, recurrence rules, non-fabricating date calculator, and `LifecycleEventEngine`. 100% test pass (`tests/test_obligation_temporal.py`). Benchmark documented in `experiments/obligations/`.
 
 ---
 
 ## Master Phase Graph & Next Milestones
-- [ ] **Phase 7, 8 & 9 — Obligation, Temporal & Event Engine**: Structured obligation objects, deterministic date/trigger calculators, and contract lifecycle state machine. (NEXT)
-- [ ] **Phase 10, 11 & 12 — Chunking & Evaluation Dataset**: 40-question benchmark across 8 categories; section-aware vs. hierarchical chunking experiments.
+- [ ] **Phase 10, 11 & 12 — Chunking & Evaluation Dataset**: 40-question benchmark across 8 categories; section-aware vs. hierarchical chunking experiments. (NEXT)
 - [ ] **Phase 10, 11 & 12 — Chunking & Evaluation Dataset**: 40-question benchmark across 8 categories; section-aware vs. hierarchical chunking experiments.
 - [ ] **Phase 13, 14, 15 & 16 — Retrieval Stack**: Embedding model evaluation, lexical BM25, hybrid RRF, and reranker benchmarking.
 - [ ] **Phase 17, 18 & 19 — Evidence Layer & Grounded RAG with Verification**: Verifiable citation pipeline and answer verification engine.

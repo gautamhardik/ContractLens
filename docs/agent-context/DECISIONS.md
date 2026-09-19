@@ -41,6 +41,11 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
 - **Selection**: Deterministic pattern extraction with typed normalization, mandatory `EvidenceReference` provenance, and explicit `is_found=False` for missing/redacted fields.
 - **Rationale**: Validated via Phase 5 & 6 benchmark on core agreements. Deterministic extraction reliably captures parties, effective dates, Net payment terms (Net 30, Net 60), termination notice days (30, 60), and amendment modifications (`DELETE_AND_REPLACE`, `ADD_COVERAGE`) without LLM cost or latency. Missing or redacted fields (`[*****]`) return explicit null states rather than hallucinations.
 
+### Decision: Obligation, Temporal & Lifecycle Engine
+- **Status**: Accepted
+- **Selection**: Strongly-typed `ContractObligation`, `TemporalConstraint`, and `LifecycleEvent` representations.
+- **Rationale**: Validated via Phase 7–9 benchmark across 779 obligations. Distinguishes 7 temporal categories (`FIXED_DATE`, `RELATIVE_OFFSET`, `EVENT_RELATIVE`, `RECURRING`, `CONDITIONAL`, `ONGOING`, `UNSPECIFIED`). Decouples relative offsets (e.g., Net 30, 10 days post-breach) from calendar dates; unknown anchors remain explicitly `unresolved` rather than fabricated. Recurrence is captured via rules (`RecurrenceRule`) without premature infinite materialization. Real-world completion status remains strictly `UNKNOWN` in the absence of external ERP data.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)

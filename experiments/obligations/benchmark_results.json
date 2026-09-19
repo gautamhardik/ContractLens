@@ -1,0 +1,805 @@
+[
+  {
+    "document_id": "doc_03",
+    "filename": "Access\u2013E-TRADE MSA.pdf",
+    "page_count": 14,
+    "total_obligations_extracted": 83,
+    "total_lifecycle_events": 5,
+    "temporal_distribution": {
+      "UNSPECIFIED": 68,
+      "FIXED_DATE": 1,
+      "RECURRING": 1,
+      "ONGOING": 7,
+      "CONDITIONAL": 6
+    },
+    "top_actors": {
+      "unresolved": 72,
+      "The Parties": 5,
+      "Either Party": 3,
+      "Customer": 2,
+      "Contractor": 1
+    },
+    "guarantees": {
+      "all_have_evidence_provenance": true,
+      "zero_fabricated_completion_status": true,
+      "unresolved_relative_anchors_intact": true
+    },
+    "sample_obligations": [
+      {
+        "id": "obl_doc_03_001",
+        "actor": "unresolved",
+        "action": "shall be referred to individually as the",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "ACCESS and COMPANY shall be referred to individually as the party and collectively as the parties.",
+        "page": 1,
+        "bbox": [
+          55.58,
+          147.31,
+          451.87,
+          158.11
+        ]
+      },
+      {
+        "id": "obl_doc_03_002",
+        "actor": "unresolved",
+        "action": "agrees to perform any and all Services (defined",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "WHEREAS, ACCESS hereby agrees to perform any and all Services (defined below) set forth in any Scope of Work (defined\nbelow).",
+        "page": 1,
+        "bbox": [
+          34.5,
+          252.31,
+          545.79,
+          275.11
+        ]
+      },
+      {
+        "id": "obl_doc_03_003",
+        "actor": "The Parties",
+        "action": "shall constitute a separate and distinct contract",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Any Scope of Work entered into by the parties shall constitute a separate and distinct\ncontract between the parties, it being understood and agreed, however, that the terms and conditions of the Agreement shall be deemed\nincorporated by reference into this, and any additional Scope of Work, and shall take precedence over any contrary or inconsistent\nterms and conditions appearing or referred to in any such Scope of Work, unless the Scope of Work explicitly states otherwise.",
+        "page": 1,
+        "bbox": [
+          34.5,
+          376.81,
+          559.64,
+          459.61
+        ]
+      },
+      {
+        "id": "obl_doc_03_004",
+        "actor": "unresolved",
+        "action": "shall become part of any such contract",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "No\nsuch contrary or inconsistent terms and conditions, nor any contrary, inconsistent or additional terms in any document issued by either\nparty shall become part of any such contract unless accepted in writing by the parties.",
+        "page": 1,
+        "bbox": [
+          34.5,
+          376.81,
+          559.64,
+          459.61
+        ]
+      },
+      {
+        "id": "obl_doc_03_005",
+        "actor": "unresolved",
+        "action": "shall commence on June 1, 2005 and",
+        "temporal_type": "FIXED_DATE",
+        "raw_expression": "3.1 The initial term of this Agreement shall commence on June\u00a01, 2005 and, unless sooner terminated as provided herein,\nshall terminate twelve (12)\u00a0month(s) later on June\u00a09, 2006 (\u201cInitial Term\u201d).",
+        "page": 2,
+        "bbox": [
+          34.5,
+          241.06,
+          558.69,
+          323.86
+        ]
+      }
+    ],
+    "lifecycle_events_sample": [
+      {
+        "event_id": "evt_doc_03_001",
+        "event_type": "effective_date",
+        "title": "Contract Effective Date",
+        "trigger_or_date": "June 1, 2005",
+        "page": 1
+      },
+      {
+        "event_id": "evt_doc_03_002",
+        "event_type": "renewal",
+        "title": "Renewal Milestone / Notice Window",
+        "trigger_or_date": "3.1 The initial term of this Agreement shall commence on June 1, 2005 and, unless sooner terminated ",
+        "page": 2
+      },
+      {
+        "event_id": "evt_doc_03_003",
+        "event_type": "notice_deadline",
+        "title": "Termination Notice Deadline Window",
+        "trigger_or_date": "30 days prior notice",
+        "page": 2
+      },
+      {
+        "event_id": "evt_doc_03_004",
+        "event_type": "payment_deadline",
+        "title": "Standard Payment Due Window",
+        "trigger_or_date": "Invoice received + 30 days",
+        "page": 4
+      },
+      {
+        "event_id": "evt_doc_03_005",
+        "event_type": "recurring_obligation",
+        "title": "Recurring Obligation: shall be automatically renewed for additional twel",
+        "trigger_or_date": "This Agreement shall be automatically renewed for\nadditional twelve (12)\u00a0month term(s) (each a \u201cRenewal Term\u201d) unless (a)\u00a0either party gives the other written notice of its intent not to\nrenew at least thirty (30)\u00a0days prior to the expiration of the initial or any renewal term or (b)\u00a0this Agreement is otherwise terminated in\naccordance with its terms.",
+        "page": 2
+      }
+    ]
+  },
+  {
+    "document_id": "doc_02",
+    "filename": "Access\u2013E-TRADE Amendment.pdf",
+    "page_count": 3,
+    "total_obligations_extracted": 12,
+    "total_lifecycle_events": 6,
+    "temporal_distribution": {
+      "UNSPECIFIED": 10,
+      "FIXED_DATE": 2
+    },
+    "top_actors": {
+      "unresolved": 12
+    },
+    "guarantees": {
+      "all_have_evidence_provenance": true,
+      "zero_fabricated_completion_status": true,
+      "unresolved_relative_anchors_intact": true
+    },
+    "sample_obligations": [
+      {
+        "id": "obl_doc_02_001",
+        "actor": "unresolved",
+        "action": "shall each be referred to as a",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Access and the Company shall each be referred to as a \u201cParty\u201d and together the \u201cParties.\u201d",
+        "page": 1,
+        "bbox": [
+          34.5,
+          144.31,
+          535.97,
+          191.11
+        ]
+      },
+      {
+        "id": "obl_doc_02_002",
+        "actor": "unresolved",
+        "action": "shall be deleted in its entirety and",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Section\u00a01.2 of the Agreement shall be deleted in its entirety and the following shall be inserted in lieu thereof:",
+        "page": 1,
+        "bbox": [
+          55.58,
+          280.81,
+          493.19,
+          291.61
+        ]
+      },
+      {
+        "id": "obl_doc_02_003",
+        "actor": "unresolved",
+        "action": "shall be deleted in its entirety and",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Section\u00a03 of the Agreement shall be deleted in its entirety and the following shall be inserted in lieu thereof:\n\u00a0\n\u00a0\n\u201c3.",
+        "page": 1,
+        "bbox": [
+          34.5,
+          342.31,
+          485.88,
+          369.61
+        ]
+      },
+      {
+        "id": "obl_doc_02_004",
+        "actor": "unresolved",
+        "action": "shall commence on June 1, 2005 and",
+        "temporal_type": "FIXED_DATE",
+        "raw_expression": "This Agreement shall commence on June\u00a01, 2005 and, unless sooner terminated as provided herein, shall continue until that date\nthe Service Savings Amount reaches the Initial Services Savings Amount (as defined below) (the \u201cInitial Term\u201d).",
+        "page": 1,
+        "bbox": [
+          55.58,
+          375.31,
+          556.02,
+          422.11
+        ]
+      },
+      {
+        "id": "obl_doc_02_005",
+        "actor": "unresolved",
+        "action": "shall expire or terminate upon the expiration",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Except as\notherwise set forth in the applicable Scope of Work, all Scopes of Work shall expire or terminate upon the expiration or\ntermination of this Agreement.",
+        "page": 1,
+        "bbox": [
+          55.58,
+          375.31,
+          556.02,
+          422.11
+        ]
+      }
+    ],
+    "lifecycle_events_sample": [
+      {
+        "event_id": "evt_doc_02_001",
+        "event_type": "payment_deadline",
+        "title": "Standard Payment Due Window",
+        "trigger_or_date": "Invoice received + 30 days",
+        "page": 2
+      },
+      {
+        "event_id": "evt_doc_02_002",
+        "event_type": "amendment_effective_date",
+        "title": "Amendment Modification: Section 1.2",
+        "trigger_or_date": "DELETE_AND_REPLACE",
+        "page": 1
+      },
+      {
+        "event_id": "evt_doc_02_003",
+        "event_type": "amendment_effective_date",
+        "title": "Amendment Modification: Section 3",
+        "trigger_or_date": "DELETE_AND_REPLACE",
+        "page": 1
+      },
+      {
+        "event_id": "evt_doc_02_004",
+        "event_type": "amendment_effective_date",
+        "title": "Amendment Modification: Section 6",
+        "trigger_or_date": "DELETE_AND_REPLACE",
+        "page": 2
+      },
+      {
+        "event_id": "evt_doc_02_005",
+        "event_type": "amendment_effective_date",
+        "title": "Amendment Modification: Section 15.4",
+        "trigger_or_date": "ADD_COVERAGE",
+        "page": 3
+      }
+    ]
+  },
+  {
+    "document_id": "doc_13",
+    "filename": "Turtle Beach\u2013Foxconn MSA.pdf",
+    "page_count": 16,
+    "total_obligations_extracted": 130,
+    "total_lifecycle_events": 6,
+    "temporal_distribution": {
+      "UNSPECIFIED": 116,
+      "ONGOING": 4,
+      "CONDITIONAL": 5,
+      "RECURRING": 4,
+      "RELATIVE_OFFSET": 1
+    },
+    "top_actors": {
+      "unresolved": 112,
+      "The Parties": 8,
+      "Each Party": 4,
+      "Vendor": 3,
+      "Supplier": 2
+    },
+    "guarantees": {
+      "all_have_evidence_provenance": true,
+      "zero_fabricated_completion_status": true,
+      "unresolved_relative_anchors_intact": true
+    },
+    "sample_obligations": [
+      {
+        "id": "obl_doc_13_001",
+        "actor": "unresolved",
+        "action": "shall mean the possession, directly or indirectly",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "For the purpose of this definition, the term \u201ccontrol\u201d\n(including with correlative meanings, the terms \u201ccontrolling\u201d, \u201ccontrolled by\u201d and \u201cunder common control\nwith\u201d), as used with respect to any Person, shall mean the possession, directly or indirectly, of the power to\ndirect or cause the direction of the management and policies of such Person, whether through the\nownership of voting securities or by contract or otherwise.",
+        "page": 1,
+        "bbox": [
+          84.25,
+          253.45,
+          561.75,
+          312.62
+        ]
+      },
+      {
+        "id": "obl_doc_13_002",
+        "actor": "Supplier",
+        "action": "must",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Supplier details must",
+        "page": 3,
+        "bbox": [
+          34.5,
+          481.45,
+          561.74,
+          492.62
+        ]
+      },
+      {
+        "id": "obl_doc_13_003",
+        "actor": "unresolved",
+        "action": "shall be as may be agreed from",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "2.1\nGeneral Purchasing Terms: The prices for Services and Products shall be as may be agreed from time to",
+        "page": 3,
+        "bbox": [
+          34.5,
+          541.45,
+          561.75,
+          552.62
+        ]
+      },
+      {
+        "id": "obl_doc_13_004",
+        "actor": "unresolved",
+        "action": "shall not be liable for any amounts, fees",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "TB shall not be liable for any amounts, fees\nor costs to Foxconn except pursuant to a valid PO issued by TB and accepted by Foxconn on the terms and\nconditions of this Agreement, or as otherwise specified in this Agreement.",
+        "page": 3,
+        "bbox": [
+          84.25,
+          553.45,
+          561.74,
+          624.62
+        ]
+      },
+      {
+        "id": "obl_doc_13_005",
+        "actor": "unresolved",
+        "action": "shall be the total gross amount payable",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Unless otherwise specified in the\nPO, the price specified in such PO shall be the total gross amount payable in respect of the Products and\nServices ordered thereunder, inclusive of all charges and amounts whatsoever, including packaging, boxing\nand processing",
+        "page": 3,
+        "bbox": [
+          84.25,
+          553.45,
+          561.74,
+          624.62
+        ]
+      }
+    ],
+    "lifecycle_events_sample": [
+      {
+        "event_id": "evt_doc_13_001",
+        "event_type": "effective_date",
+        "title": "Contract Effective Date",
+        "trigger_or_date": "October 6, 2015",
+        "page": 1
+      },
+      {
+        "event_id": "evt_doc_13_002",
+        "event_type": "renewal",
+        "title": "Renewal Milestone / Notice Window",
+        "trigger_or_date": "9.2 Extension: This Agreement will automatically renew for an extended term of [*****] at the expira",
+        "page": 13
+      },
+      {
+        "event_id": "evt_doc_13_003",
+        "event_type": "recurring_obligation",
+        "title": "Recurring Obligation: shall submit an inventory reconciliation of all",
+        "trigger_or_date": "Foxconn assumes liability for\nConsigned Components in its possession against any non-manufacturing loss or damage Foxconn shall\nsubmit an inventory reconciliation of all Consigned Components on a monthly basis to TB.",
+        "page": 6
+      },
+      {
+        "event_id": "evt_doc_13_004",
+        "event_type": "recurring_obligation",
+        "title": "Recurring Obligation: shall provide reports regarding the status of",
+        "trigger_or_date": "Foxconn shall provide reports regarding the status of Production Materials\nmonthly. [*****] Foxconn shall not use TB-paid Production Materials or Consigned Components in the\nmanufacture of any non-TB products or for any purpose other than fulfilling its responsibilities under this\nAgreement.",
+        "page": 6
+      },
+      {
+        "event_id": "evt_doc_13_005",
+        "event_type": "recurring_obligation",
+        "title": "Recurring Obligation: shall invoice TB on a monthly basis",
+        "trigger_or_date": "Foxconn shall invoice TB\non a monthly basis for the inventory carrying costs with a detailed calculation of such carrying costs.",
+        "page": 7
+      }
+    ]
+  },
+  {
+    "document_id": "doc_01",
+    "filename": "AMX\u2013Best Circuit Boards Supply Agreement.pdf",
+    "page_count": 7,
+    "total_obligations_extracted": 46,
+    "total_lifecycle_events": 5,
+    "temporal_distribution": {
+      "UNSPECIFIED": 35,
+      "EVENT_RELATIVE": 1,
+      "RECURRING": 2,
+      "CONDITIONAL": 6,
+      "RELATIVE_OFFSET": 2
+    },
+    "top_actors": {
+      "unresolved": 18,
+      "Customer": 13,
+      "Supplier": 7,
+      "The Parties": 3,
+      "Either Party": 3
+    },
+    "guarantees": {
+      "all_have_evidence_provenance": true,
+      "zero_fabricated_completion_status": true,
+      "unresolved_relative_anchors_intact": true
+    },
+    "sample_obligations": [
+      {
+        "id": "obl_doc_01_001",
+        "actor": "Customer",
+        "action": "shall act as the exclusive supplier of",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "WHEREAS, the Customer and the Supplier desire that the Supplier shall act as the exclusive supplier of\nprinted circuit boards as more particularly described on Exhibit A (the \"Product\") for the Customer under the\nterms and conditions of this Agreement.",
+        "page": 1,
+        "bbox": [
+          34.5,
+          188.81,
+          561.75,
+          229.1
+        ]
+      },
+      {
+        "id": "obl_doc_01_002",
+        "actor": "unresolved",
+        "action": "shall commence on the Effective Date and",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "1.1 The term of this Agreement (the \"Term\") shall commence on the Effective Date and shall continue\nthrough the Original Termination Date as set forth on Exhibit A unless sooner terminated as provided herein.",
+        "page": 1,
+        "bbox": [
+          34.5,
+          449.81,
+          561.76,
+          476.6
+        ]
+      },
+      {
+        "id": "obl_doc_01_003",
+        "actor": "unresolved",
+        "action": "shall be automatically deemed renewed for successive",
+        "temporal_type": "EVENT_RELATIVE",
+        "raw_expression": "1.2 Notwithstanding anything to the contrary in Section 2.1, above, this Agreement shall be automatically\ndeemed renewed for successive Two (2) year term (each, a \"Termination Date\"), unless terminated by either\nparty by written notice to the other party at least thirty (30) days prior to the Original Termination Date or\neach succeeding Termination Date.",
+        "page": 1,
+        "bbox": [
+          34.5,
+          488.81,
+          561.76,
+          542.6
+        ]
+      },
+      {
+        "id": "obl_doc_01_004",
+        "actor": "Supplier",
+        "action": "agrees to manufacture or have manufactured Product for",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "2.1 The Supplier agrees to manufacture or have manufactured Product for and on behalf of the Customer\nwhich Product will be made according to the Customer's specifications and in accordance with the purchase\norders submitted by the Customer and/or Customer's contract manufacturer from time to time during the\nTerm of this Agreement.",
+        "page": 2,
+        "bbox": [
+          34.5,
+          53.81,
+          561.76,
+          107.6
+        ]
+      },
+      {
+        "id": "obl_doc_01_005",
+        "actor": "Customer",
+        "action": "shall be entitled to amend the specifications",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "2.2 The Customer shall be entitled to amend the specifications for Product as it develops improved or\nalternative Product",
+        "page": 2,
+        "bbox": [
+          34.5,
+          119.81,
+          561.76,
+          187.1
+        ]
+      }
+    ],
+    "lifecycle_events_sample": [
+      {
+        "event_id": "evt_doc_01_001",
+        "event_type": "notice_deadline",
+        "title": "Termination Notice Deadline Window",
+        "trigger_or_date": "30 days prior notice",
+        "page": 1
+      },
+      {
+        "event_id": "evt_doc_01_002",
+        "event_type": "payment_deadline",
+        "title": "Standard Payment Due Window",
+        "trigger_or_date": "Invoice received + 30 days",
+        "page": 3
+      },
+      {
+        "event_id": "evt_doc_01_003",
+        "event_type": "amendment_effective_date",
+        "title": "Amendment Modification: General",
+        "trigger_or_date": "CONFIRM_FULL_FORCE",
+        "page": 6
+      },
+      {
+        "event_id": "evt_doc_01_004",
+        "event_type": "recurring_obligation",
+        "title": "Recurring Obligation: shall submit periodic and estimated annual usage",
+        "trigger_or_date": "3.1 The Customer shall submit periodic and estimated annual usage of Product, which estimated annual\nusage may be reviewed quarterly and adjusted as necessary by the Customer and the Supplier.",
+        "page": 2
+      },
+      {
+        "event_id": "evt_doc_01_005",
+        "event_type": "recurring_obligation",
+        "title": "Recurring Obligation: shall accept purchase orders issued to it",
+        "trigger_or_date": "and (d) any other information that the Customer and/or Customer's contract\nmanufacturer deems necessary or desirable in light of the circumstances of the order. The Supplier shall\naccept purchase orders issued to it by the Customer and/or Customer's contract manufacturer by written\nnotification to the Customer within five (5) business days after receipt of each such order. All orders which\nare consistent with prior ordering patterns shall be deemed accepted five (5) business days after receipt,\nunless rejected for reasons permitted herein. Purchase orders for Product in excess of historic quarterly usage\nmay be accepted by the Supplier provided that the Customer and/or Customer's contract manufacturer agrees\nto pay expedited or premium prices for such Product if incurred by the Supplier. The Supplier will package\nand ship all quantities of Product ordered from it by the Customer and/or Customer's contract manufacturer\nhereunder in accordance with the Customer's and/or Customer's contract manufacturer instructions.",
+        "page": 2
+      }
+    ]
+  },
+  {
+    "document_id": "doc_15",
+    "filename": "Spare Backup \u2013 Hewlett-Packard Standard Services Agreement + SOW.pdf",
+    "page_count": 29,
+    "total_obligations_extracted": 137,
+    "total_lifecycle_events": 10,
+    "temporal_distribution": {
+      "UNSPECIFIED": 119,
+      "CONDITIONAL": 8,
+      "ONGOING": 2,
+      "RECURRING": 8
+    },
+    "top_actors": {
+      "Supplier": 80,
+      "unresolved": 49,
+      "The Parties": 6,
+      "Each Party": 1,
+      "Either Party": 1
+    },
+    "guarantees": {
+      "all_have_evidence_provenance": true,
+      "zero_fabricated_completion_status": true,
+      "unresolved_relative_anchors_intact": true
+    },
+    "sample_obligations": [
+      {
+        "id": "obl_doc_15_001",
+        "actor": "Supplier",
+        "action": "will provide Services to HP, as requested from",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "This Agreement specifies the terms and conditions under which Supplier will provide\nServices to HP, as requested from time to time and as further described in a Statement of Work\n(defined below).",
+        "page": 2,
+        "bbox": [
+          32.96,
+          123.33,
+          380.86,
+          185.06
+        ]
+      },
+      {
+        "id": "obl_doc_15_002",
+        "actor": "The Parties",
+        "action": "shall be governed by this Agreement, as",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Except as otherwise stated in this Agreement, the parties intend, and hereby agree,\nthat any such Statement of Work shall be governed by this Agreement, as though the provisions of\nthis Agreement were set forth in their entirety within such Statement of Work, and so that each\nStatement of Work and this Agreement shall be considered one, fully integrated document and\nagreement.",
+        "page": 2,
+        "bbox": [
+          32.96,
+          123.33,
+          380.86,
+          185.06
+        ]
+      },
+      {
+        "id": "obl_doc_15_003",
+        "actor": "unresolved",
+        "action": "shall have the option of renewing this",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "HP shall have the option of\nrenewing this Agreement for successive one (1) year terms, subject to HP providing notice no later\nthan 30 days prior to expiration of the then-current term.",
+        "page": 2,
+        "bbox": [
+          32.96,
+          266.06,
+          380.86,
+          301.03
+        ]
+      },
+      {
+        "id": "obl_doc_15_004",
+        "actor": "The Parties",
+        "action": "shall be written in the form of",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Except as otherwise agreed by the parties in writing, all\nStatement(s) of Work shall be written in the form of the Statement of Work template attached hereto\nas Exhibit A Statement of Work Template.",
+        "page": 3,
+        "bbox": [
+          32.96,
+          239.29,
+          380.86,
+          283.18
+        ]
+      },
+      {
+        "id": "obl_doc_15_005",
+        "actor": "Supplier",
+        "action": "will provide those Services described in the Statement",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Supplier will provide those Services described in the Statement of Work on a full-time\nbasis, unless otherwise provided in the Statement of Work, subject to and in compliance with the\nterms and conditions of this Agreement and all Applicable Laws.",
+        "page": 3,
+        "bbox": [
+          32.96,
+          364.18,
+          380.86,
+          416.99
+        ]
+      }
+    ],
+    "lifecycle_events_sample": [
+      {
+        "event_id": "evt_doc_15_001",
+        "event_type": "renewal",
+        "title": "Renewal Milestone / Notice Window",
+        "trigger_or_date": "1.1. Supplier will pay HP $6.95 for every sign-up, assuming a $6.95 one-time price to the customer f",
+        "page": 28
+      },
+      {
+        "event_id": "evt_doc_15_002",
+        "event_type": "payment_deadline",
+        "title": "Standard Payment Due Window",
+        "trigger_or_date": "Invoice received + 45 days",
+        "page": 5
+      },
+      {
+        "event_id": "evt_doc_15_003",
+        "event_type": "recurring_obligation",
+        "title": "Recurring Obligation: will provide weekly and monthly trial sign up",
+        "trigger_or_date": "4.6\nReporting: Supplier will provide weekly and monthly trial sign up volumes and revenues as well as\n\u201ctrial to subscription\u201d conversion volumes and revenues.",
+        "page": 24
+      },
+      {
+        "event_id": "evt_doc_15_004",
+        "event_type": "recurring_obligation",
+        "title": "Recurring Obligation: shall provide Revenue Share payments to HP",
+        "trigger_or_date": "4.9\nRevenue Share: Supplier shall provide Revenue Share payments to HP for the previous month by\n30th day of the current month.",
+        "page": 24
+      },
+      {
+        "event_id": "evt_doc_15_005",
+        "event_type": "recurring_obligation",
+        "title": "Recurring Obligation: will pay HP 35% of the monthly revenue",
+        "trigger_or_date": "6.2\nSupplier will pay HP 35% of the monthly revenue collected from users who convert to a monthly\nsubscription for 90 days after the conversion (or 3 months of bounty payments)\n\u00a0\n\u00a0\n6.3\nSupplier will pay HP 35% of the monthly revenue collected from users who convert to an annual\nsubscription for 1 year (or 12 months of bounty payments).",
+        "page": 25
+      }
+    ]
+  },
+  {
+    "document_id": "doc_16",
+    "filename": "The SEC filing for Square-Marqeta.pdf",
+    "page_count": 63,
+    "total_obligations_extracted": 242,
+    "total_lifecycle_events": 7,
+    "temporal_distribution": {
+      "CONDITIONAL": 28,
+      "UNSPECIFIED": 200,
+      "ONGOING": 10,
+      "RELATIVE_OFFSET": 1,
+      "RECURRING": 1,
+      "FIXED_DATE": 2
+    },
+    "top_actors": {
+      "unresolved": 142,
+      "Client": 59,
+      "The Parties": 25,
+      "Each Party": 6,
+      "Either Party": 5
+    },
+    "guarantees": {
+      "all_have_evidence_provenance": true,
+      "zero_fabricated_completion_status": true,
+      "unresolved_relative_anchors_intact": true
+    },
+    "sample_obligations": [
+      {
+        "id": "obl_doc_16_001",
+        "actor": "unresolved",
+        "action": "shall control",
+        "temporal_type": "CONDITIONAL",
+        "raw_expression": "In the event of any conflict between this Agreement and any schedule hereto (each, a \u201cSchedule\u201d), the applicable Schedule\nshall control.",
+        "page": 1,
+        "bbox": [
+          33.74,
+          378.69,
+          556.21,
+          398.82
+        ]
+      },
+      {
+        "id": "obl_doc_16_002",
+        "actor": "unresolved",
+        "action": "agrees to provide the following Services:",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "Commencing on the Effective Date, Marqeta agrees to provide the following Services:",
+        "page": 2,
+        "bbox": [
+          33.74,
+          67.19,
+          438.98,
+          121.91
+        ]
+      },
+      {
+        "id": "obl_doc_16_003",
+        "actor": "Client",
+        "action": "shall be entitled to rely upon, without",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "ii.\nAny services, functions and responsibilities of Marqeta that are otherwise agreed upon in writing by Client and Marqeta from time to time\nas being subject to this Agreement (\u201cNew Additional Service\u201d).\n\u00a0\nb.\nInstructions and Client Provided Information. In performing its obligations and responsibilities under this Agreement, Marqeta shall be entitled\nto rely upon, without additional inquiry, Client Data, Transaction Data and Instructions, as provided by Client to Marqeta,",
+        "page": 2,
+        "bbox": [
+          33.74,
+          148.99,
+          567.37,
+          505.77
+        ]
+      },
+      {
+        "id": "obl_doc_16_004",
+        "actor": "The Parties",
+        "action": "shall promptly provide notice to Client setting",
+        "temporal_type": "CONDITIONAL",
+        "raw_expression": "provided, however, that\nto the extent that Marqeta in good faith reasonably believes that any Instruction is contrary to the provisions of this Agreement, Applicable Law,\nCard Brand Rules, or requirements of the Issuing Bank, Marqeta shall promptly provide notice to Client setting forth in reasonable detail the\nreason for its belief, after which point the Parties agree to work together in good faith to resolve any issues resulting from such Instruction.\n\u00a0\nc.\nCustom Modifications. In the event that Client requests modifications to the Services, including modifications that are different from or in\naddition to the Services (the \u201cCustom Enhancements\u201d), and if Marqeta agrees to make such Custom Enhancements, then the Parties shall enter\ninto a mutually-agreed-upon and separately-written statement of work (\u201cSOW\u201d) covering the provision of such Custom Enhancements, the\nallocation of ownership of such Custom Enhancements (or components of Custom Enhancements), and, if applicable, the amount of any new Fee\npayable to Marqeta for any new Service resulting from such Custom Enhancements. Any new Service resulting from Custom Enhancements shall\na New Additional Service.\n\u00a0\nd.\nDocumentation. Marqeta shall provide Client with Documentation associated with the Services through the Developer Site or otherwise, which\nmay include policies and procedures regarding the Services. The Documentation may be modified from time to time by Marqeta, provided\nMarqeta shall give Client [***] to implement any material change made to the Documentation that would materially and adversely impact Client\u2019s\nability to receive Services or ability to perform Client\u2019s obligations under this Agreement. The Documentation, any derivatives of the\nDocumentation and any and all copies thereof, shall be and remain the property of Marqeta and shall be deemed Marqeta Confidential\nInformation.\n\u00a0\n2.\nIMPLEMENTATION PLAN. The Parties shall plan, prepare for and implement an implementation plan for the Accounts for which Marqeta will\nprovide Services in accordance with a written plan mutually agreed upon by the Parties (the \u201cImplementation Plan\u201d), which shall include: (i)\u00a0a\nschedule for implementing the Services",
+        "page": 2,
+        "bbox": [
+          33.74,
+          148.99,
+          567.37,
+          505.77
+        ]
+      },
+      {
+        "id": "obl_doc_16_005",
+        "actor": "The Parties",
+        "action": "shall not be unreasonably withheld. 3. TERM, TERMINATION",
+        "temporal_type": "UNSPECIFIED",
+        "raw_expression": "and (v)\u00a0such other information and plans designed to cause the launch of the Services to take place on schedule (Marqeta\u2019s\nresponsibilities under foregoing are defined as the \u201cImplementation Services\u201d). Each Implementation Plan may be revised from time to time by\nmutual agreement of the Parties, which agreement shall not be unreasonably withheld.\n\u00a0\n3.\nTERM, TERMINATION, SURVIVAL AND TRANSITION.\n\u00a0\na.\nTerm. The initial term of this Agreement shall begin on the Effective Date and shall expire at 11:59 p.m. (Pacific Time) on the last day of\nServicing Year Two (2), unless terminated earlier in accordance with this Agreement (the \u201cInitial Term\u201d). The Initial Term shall automatically\nrenew for an unlimited number of one",
+        "page": 2,
+        "bbox": [
+          33.74,
+          148.99,
+          567.37,
+          505.77
+        ]
+      }
+    ],
+    "lifecycle_events_sample": [
+      {
+        "event_id": "evt_doc_16_001",
+        "event_type": "renewal",
+        "title": "Renewal Milestone / Notice Window",
+        "trigger_or_date": "ii. Any services, functions and responsibilities of Marqeta that are otherwise agreed upon in writin",
+        "page": 2
+      },
+      {
+        "event_id": "evt_doc_16_002",
+        "event_type": "payment_deadline",
+        "title": "Standard Payment Due Window",
+        "trigger_or_date": "Invoice received + 30 days",
+        "page": 4
+      },
+      {
+        "event_id": "evt_doc_16_003",
+        "event_type": "amendment_effective_date",
+        "title": "Amendment Modification: General",
+        "trigger_or_date": "CONFIRM_FULL_FORCE",
+        "page": 18
+      },
+      {
+        "event_id": "evt_doc_16_004",
+        "event_type": "amendment_effective_date",
+        "title": "Amendment Modification: General",
+        "trigger_or_date": "CONFIRM_FULL_FORCE",
+        "page": 31
+      },
+      {
+        "event_id": "evt_doc_16_005",
+        "event_type": "amendment_effective_date",
+        "title": "Amendment Modification: General",
+        "trigger_or_date": "CONFIRM_FULL_FORCE",
+        "page": 33
+      }
+    ]
+  }
+]
