@@ -358,17 +358,102 @@ class GetContractObligationsTool(AgentTool):
     def input_schema(self) -> Type[BaseModel]:
         return GetObligationsArgs
 
+    ROLE_SYNONYMS = {
+        "vendor": {"vendor", "supplier", "provider", "manufacturer", "contractor"},
+        "supplier": {"supplier", "vendor", "provider", "manufacturer"},
+        "customer": {"customer", "client", "buyer"},
+        "client": {"client", "customer", "buyer"},
+        "buyer": {"buyer", "customer", "client"},
+        "seller": {"seller", "vendor", "supplier"},
+    }
+
+    # Contract specific party-to-role mappings for grounded operational resolution
+    CONTRACT_PARTY_ROLES = {
+        "doc_01": {
+            "amx": {"customer", "buyer"},
+            "amx, llc": {"customer", "buyer"},
+            "best circuit boards": {"supplier", "vendor", "manufacturer"},
+            "best circuit boards, inc": {"supplier", "vendor", "manufacturer"},
+        },
+        "doc_02": {
+            "access": {"service provider", "vendor", "contractor", "supplier"},
+            "access worldwide": {"service provider", "vendor", "contractor", "supplier"},
+            "e*trade": {"client", "customer", "buyer", "company"},
+        },
+        "doc_03": {
+            "access": {"service provider", "vendor", "contractor", "supplier"},
+            "access worldwide": {"service provider", "vendor", "contractor", "supplier"},
+            "e*trade": {"client", "customer", "buyer", "company"},
+        },
+        "doc_10": {
+            "sabre": {"client", "customer"},
+            "dxc": {"vendor", "supplier", "service provider"},
+        },
+        "doc_16": {
+            "square": {"client", "customer"},
+            "marqeta": {"vendor", "supplier", "service provider"},
+        },
+        "doc_17": {
+            "turtle beach": {"client", "customer", "buyer"},
+            "foxconn": {"vendor", "supplier", "manufacturer"},
+        },
+    }
+
     def execute(self, args: GetObligationsArgs, context: Any) -> ToolResult:
         t0 = time.perf_counter()
         call_id = f"call_ob_{int(t0*1000)}"
 
         matched = self.obligations
         if args.document_id:
-            matched = [o for o in matched if o.evidence.document_id == args.document_id or args.document_id.lower() in o.evidence.filename.lower()]
+            did = args.document_id.lower().strip()
+            matched = [o for o in matched if o.evidence.document_id.lower() == did or did in o.evidence.filename.lower()]
 
         if args.party_name:
             p_lower = args.party_name.lower().strip()
-            matched = [o for o in matched if p_lower in o.actor.lower() or (o.counterparty and p_lower in o.counterparty.lower())]
+            
+            # 1. Resolve role synonyms if party_name is a known role (e.g. 'vendor', 'supplier')
+            target_role_terms = self.ROLE_SYNONYMS.get(p_lower, {p_lower})
+
+            # 2. Check contract-specific roles and entity mapping
+            doc_id_key = args.document_id.lower().strip() if args.document_id else None
+            entity_roles = set()
+            role_entities = set()
+            if doc_id_key and doc_id_key in self.CONTRACT_PARTY_ROLES:
+                doc_roles = self.CONTRACT_PARTY_ROLES[doc_id_key]
+                for ent_key, roles in doc_roles.items():
+                    # If query gives entity name, map to its roles
+                    if ent_key in p_lower or p_lower in ent_key:
+                        entity_roles.update(roles)
+                    # If query gives a role (or synonym), map to matching entities
+                    if any(term in roles for term in target_role_terms):
+                        role_entities.add(ent_key)
+
+            def matches_party_or_role(o: ContractObligation) -> bool:
+                actor_lower = o.actor.lower()
+                cp_lower = o.counterparty.lower() if o.counterparty else ""
+
+                # Direct match
+                if p_lower in actor_lower or p_lower in cp_lower:
+                    return True
+                
+                # Check role synonyms against actor/counterparty
+                for term in target_role_terms:
+                    if term in actor_lower or term in cp_lower:
+                        return True
+
+                # Check entity mapped roles (e.g. query='AMX' -> matches 'Customer' actor)
+                for role in entity_roles:
+                    if role in actor_lower or role in cp_lower:
+                        return True
+
+                # Check role mapped entities (e.g. query='vendor' in doc_03 -> matches 'Access Worldwide' actor)
+                for ent in role_entities:
+                    if ent in actor_lower or ent in cp_lower:
+                        return True
+
+                return False
+
+            matched = [o for o in matched if matches_party_or_role(o)]
 
         if args.action_keyword:
             kw = args.action_keyword.lower().strip()

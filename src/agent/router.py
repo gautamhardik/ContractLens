@@ -43,8 +43,10 @@ class AgentRouter:
     OBLIGATION_TRIGGERS = [
         r'\bwhat obligations?\b',
         r'\bwhat duties\b',
-        r'\bwhat must the (?:vendor|supplier|client|party)\b',
-        r'\bwhat does the (?:vendor|supplier|client|party) have to\b',
+        r'\b(?:vendor|supplier|client|party|buyer|customer)[\'s]*\s+obligations?\b',
+        r'\bobligations?\s+of\s+(?:the\s+)?(?:vendor|supplier|client|party|buyer|customer)\b',
+        r'\bwhat must (?:the\s+)?(?:vendor|supplier|client|party|buyer|customer|[A-Za-z0-9\*\.\'\-]+)\b',
+        r'\bwhat does (?:the\s+)?(?:vendor|supplier|client|party|buyer|customer|[A-Za-z0-9\*\.\'\-]+)\s+have to\b',
         r'\breporting obligations?\b',
         r'\bcompliance obligations?\b',
         r'\bongoing covenant\b',
@@ -111,8 +113,19 @@ class AgentRouter:
         for pat in cls.OBLIGATION_TRIGGERS:
             if re.search(pat, q_lower):
                 doc_id = cls._extract_doc_candidate(q)
+                role = cls._extract_role_candidate(q)
                 party = cls._extract_party_candidate(q)
-                return AgentRouteCategory.OBLIGATION_QUERY, {"document_id": doc_id, "party": party}
+                # Check for explicit 'unknown' qualifiers (e.g. 'unknown vendor', 'unknown party')
+                # to avoid collapsing to known roles
+                if re.search(r'\bunknown\s+(?:vendor|supplier|party|entity|contractor)\b', q_lower):
+                    target_subject = "unknown"
+                elif role:
+                    # Conversational role is explicitly the subject of the obligation question
+                    target_subject = role
+                else:
+                    target_subject = party
+
+                return AgentRouteCategory.OBLIGATION_QUERY, {"document_id": doc_id, "party": target_subject}
 
         # 6. Check Direct Graph Relational queries
         for pat in cls.GRAPH_PARTY_TRIGGERS:
@@ -139,6 +152,29 @@ class AgentRouter:
 
         # 8. Default fallback: Unstructured Clause-Level Retrieval
         return AgentRouteCategory.DIRECT_RETRIEVAL, {"top_k": 5}
+
+    ROLE_ALIASES = {
+        "vendor": "vendor",
+        "supplier": "supplier",
+        "customer": "customer",
+        "client": "client",
+        "buyer": "buyer",
+        "seller": "seller",
+        "contractor": "contractor",
+        "service provider": "service provider",
+        "provider": "provider",
+        "counterparty": "counterparty",
+    }
+
+    @classmethod
+    def _extract_role_candidate(cls, query: str) -> Optional[str]:
+        """Extract conversational role mentioned in the question."""
+        q_lower = query.lower()
+        # Sort by length descending to match multi-word roles first
+        for role_cue, canonical_role in sorted(cls.ROLE_ALIASES.items(), key=lambda x: len(x[0]), reverse=True):
+            if re.search(rf'\b{re.escape(role_cue)}s?\b', q_lower):
+                return canonical_role
+        return None
 
     @classmethod
     def _extract_party_candidate(cls, query: str) -> Optional[str]:
