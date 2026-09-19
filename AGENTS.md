@@ -31,3 +31,4 @@ STOP
 1. `Data/raw/` is strictly immutable. Never edit, move, or delete original PDFs.
 2. Do not scan the entire repository recursively for routine tasks.
 3. Keep code changes small, verified, and well-bounded.
+4. Clean up transient files: Delete temporary scripts, intermediate generators, dead code, and caches (`__pycache__`, `.pytest_cache`) immediately after use to keep directories clean.

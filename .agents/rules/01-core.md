@@ -8,3 +8,4 @@
 6. **Smallest Correct Change**: Implement the minimal, robust change that satisfies requirements.
 7. **Targeted Validation**: Validate changes using focused tests or checks relevant only to modified code.
 8. **Clear Stop Condition**: Stop immediately once the acceptance criteria of the task are satisfied.
+9. **Transient Artifact Cleanup**: Always remove temporary helper scripts, dead code, intermediate scratch files, and execution caches (`__pycache__`, `.pytest_cache`) after their work is done to keep directories clean.
