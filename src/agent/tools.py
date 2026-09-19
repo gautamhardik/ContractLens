@@ -365,6 +365,7 @@ class GetContractObligationsTool(AgentTool):
     ROLE_SYNONYMS = {
         "vendor": {"vendor", "supplier", "provider", "manufacturer", "contractor"},
         "supplier": {"supplier", "vendor", "provider", "manufacturer"},
+        "manufacturer": {"manufacturer", "supplier", "vendor", "provider"},
         "customer": {"customer", "client", "buyer"},
         "client": {"client", "customer", "buyer"},
         "buyer": {"buyer", "customer", "client"},

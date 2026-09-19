@@ -33,6 +33,7 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `experiments/rag/`: Empirical Grounded RAG & claim verification benchmark (`run_rag_benchmark.py`, `README.md`, `rag_benchmark_results.json`).
 - `experiments/graph/`: Empirical knowledge graph corpus benchmark (`run_graph_benchmark.py`, `README.md`, `graph_benchmark_results.json`).
 - `experiments/agent/`: Empirical controlled contract agent benchmark (`run_agent_benchmark.py`, `README.md`, `agent_benchmark_results.json`).
+- `experiments/adversarial/`: Empirical adversarial stress benchmark & backend freeze evaluation (`adversarial_dataset.py`, `run_adversarial_benchmark.py`, `README.md`, `adversarial_benchmark_results.json`).
 
 ## Tests (`tests/`)
 - `tests/test_canonical_reconstruction.py`: Canonical document and reconstruction tests.

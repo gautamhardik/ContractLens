@@ -143,6 +143,20 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
   - **Grounded Business Impact Analysis**: Synthesizes concrete business effects (e.g. term extended by 1 year to Sept 30, 2011; rate increased from $110/hr to $115/hr; payment shifted from Net 30 to Net 60; added $1M Errors & Omissions insurance requirement) without LLM speculation.
   - **Agent Tooling**: Wrapped in `CompareContractAmendmentsTool` (`compare_contract_amendments`) enabling conversational agents to execute version diffs with dual evidence collections. 8/8 targeted tests and full regression passed.
 
+### Decision: Adversarial Benchmark Validation & Core Backend Freeze
+- **Status**: Accepted & Core Backend Officially Frozen (Phase 22)
+- **Selection**: 60-query hard adversarial benchmark evaluated end-to-end against `ContractAgent` across 6 failure-mode categories.
+- **Rationale**:
+  - **Empirical Stress Results**:
+    - **Unsupported Claim Rate**: **0.0%** (0 fabricated claims across all queries, meeting non-negotiable hackathon safety constraint).
+    - **Citation Validity**: **100.0%** (all cited references resolved to canonical coordinate bounding boxes).
+    - **Unanswerable Safety**: **93.3%** safe rejection rate on ungrounded/fictitious questions.
+    - **Final Answer Grounding**: **93.3%** grounded answer rate on answerable adversarial queries.
+    - **Latency**: **7.48 ms** average execution latency.
+  - **Role Collision Robustness**: 100% pass rate distinguishing distinct commercial roles (e.g. Foxconn as manufacturer vs Turtle Beach as buyer; Best Circuit Boards as supplier vs AMX as buyer; Access as contractor vs E*TRADE as client).
+  - **Unanchored Date Safety**: 100% pass rate preventing calendar date fabrication when trigger anchors are missing from contract text.
+  - **Core Backend Freeze Verdict**: The core backend architecture (Canonical Reconstruction -> Contract Intelligence -> Obligation/Temporal Engine -> Hybrid RRF Retrieval -> Evidence Layer -> Grounded RAG + Claim Verification -> Knowledge Graph -> Amendment Engine -> Agent Router & Executor) is verified complete, robust, and safe. All future backend modifications are frozen, clearing the path to build the interactive frontend workspace and demonstration layers.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)

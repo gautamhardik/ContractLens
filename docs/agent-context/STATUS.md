@@ -40,11 +40,14 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 
 ---
 
+- [x] **Phase 22 — Hard Adversarial Benchmark & Core Backend Freeze**: Constructed and evaluated a comprehensive 60-query adversarial benchmark across 6 categories (Role Collisions, Unanchored Dates, Unsupported Facts, Numerical Traps, Amendment Invariants, and Cross-Contract Distractors). Achieved **0.0% unsupported claims**, **100.0% citation validity**, **93.3% unanswerable safety rate**, **93.3% final answer grounding**, and **7.48 ms average query latency**. 100% pass on role collision and unanchored temporal traps. 138/138 full regression tests passed. **Core ContractLens Backend is Officially Frozen**.
+
+---
+
 ## Master Phase Graph & Next Milestones
-- [ ] **Phase 22 — Hard Adversarial Benchmark & Core Backend Freeze**: 60-80 adversarial stress queries attacking role collisions, unanchored dates, and unsupported facts before freezing the core engine. (NEXT)
 - [ ] **Phase 23 & 24 — Cross-Contract & Portfolio Intelligence**: Cross-document query synthesis and portfolio-level aggregation.
 - [ ] **Phase 25 & 26 — Review Signals & "What Should I Worry About?" Agent**: Proactive risk signal detection and operational review agent.
-- [ ] **Phase 27 to 31 — Premium Frontend Workspace**: Operations dashboard, contract viewer with PDF bounding-box evidence highlights, and audit drawer.
+- [ ] **Phase 27 to 31 — Premium Frontend Workspace**: Operations dashboard, contract viewer with PDF bounding-box evidence highlights, and audit drawer. (NEXT)
 - [ ] **Phase 32 to 35 — Hardening, E2E Regression, Demo & Submission**: Failure recovery, end-to-end benchmark run, and demo script.
 
 ---

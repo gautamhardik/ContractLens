@@ -74,7 +74,7 @@ class FakeLLMProvider(BaseLLMProvider):
                         best_eid = eid
                         best_line = line
 
-            if best_line:
+            if best_score > 0 and best_line:
                 # Truncate clean sentence
                 answer_sent = best_line.split(". ")[0].strip()
                 if not answer_sent.endswith("."):
