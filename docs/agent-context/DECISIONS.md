@@ -90,6 +90,17 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
   - **Benchmark Results**: Achieved **96.97%** Grounded Answer Rate, **96.97%** Claim Support Rate, **0.00%** Unsupported Claim Rate, **0.00%** Contradiction Rate, and **100.00%** Unanswerable Safety Rate on strictly unanswerable queries (safely emitting controlled insufficient-evidence states with zero fabricated citations).
   - **Latency Profile**: Average total pipeline latency is **7.81 ms** (Retrieval: 5.85 ms, Evidence Resolution: 1.03 ms, Structured Claim Generation: 0.73 ms, Deterministic Verification: 0.13 ms).
 
+### Decision: Provenance-Aware Contract Knowledge Graph & Cross-Contract Reasoning
+- **Status**: Accepted
+- **Selection**: In-memory, typed, provenance-aware Knowledge Graph (`KnowledgeGraph`, `GraphNode`, `GraphEdge`, `GraphFact`) with multi-attribute inverted index (`GraphIndex`) and deterministic cross-contract query engine (`ContractGraphQueryEngine`).
+- **Rationale**: Validated via Phase 17 empirical benchmark across all 18 contracts (696 pages) in the ContractLens corpus:
+  - **In-Memory & Lightweight**: No external graph database (e.g. Neo4j) required. Graph construction takes **488.28 ms** for 3,287 nodes and 4,359 edges; validation executes in **22.88 ms**; query latency averages **0.037 ms** across complex relationship traversals.
+  - **100% Provenance Coverage**: Every `GraphFact` and entity preserves an authoritative `EvidenceReference` pointing to physical page numbers, canonical block IDs, and native bounding box coordinates. Zero facts exist without provenance.
+  - **Zero Unsupported Fact & Zero Orphan Invariants**: Validation enforces 0.0% orphan edges and 0.0% invalid bounding box geometries.
+  - **Preservation of Precedence & Conflicts**: Base contracts and amendments exist as distinct nodes linked by `AMENDS` and `HAS_AMENDMENT` edges. Amendment facts do not destructively overwrite parent terms, enabling queries to audit both original and modified conditions.
+  - **Unknown != Negative**: Unknown or redacted attributes remain explicitly unasserted or marked `unresolved` rather than guessed or fabricated.
+  - **Cross-Contract Reasoning Benchmark**: Achieved **100.0%** accuracy (10/10 test queries passed) across direct entity lookups, party relationship graphs, cross-contract party networks, payment term filtering, renewal provisions, termination notice periods, and safe rejection of non-existent entities.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)
@@ -98,3 +109,4 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
 - **Vector Database / Dedicated Vector Store**: Intentionally deferred until scale warrants.
 - **Frontend Framework**: Undecided (e.g., React + Vite, Next.js, Streamlit).
 - **Database for Structured Metadata**: Undecided (e.g., SQLite, PostgreSQL).
+

@@ -19,6 +19,7 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `src/retrieval/`: Lexical BM25 (`lexical.py`), Dense LSA (`dense.py`), Hybrid RRF (`fusion.py`), Cross-Encoder Reranker (`reranker.py`), and evaluation harness (`evaluation.py`).
 - `src/evidence/`: Evidence models (`models.py`), citation validator (`validator.py`), and deterministic resolver (`resolver.py`).
 - `src/rag/`: Grounded RAG models (`models.py`), prompt formats (`prompts.py`), generators & providers (`generator.py`), claim verifier (`verifier.py`), and pipeline (`pipeline.py`).
+- `src/graph/`: Knowledge graph models (`models.py`), schema validator (`validator.py`), graph builder (`builder.py`), inverted index (`index.py`), and query engine (`query.py`).
 
 ## Experiments (`experiments/`)
 - `experiments/extraction/`: Empirical extraction benchmark and findings.
@@ -29,6 +30,7 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `experiments/reranking/`: Empirical cross-encoder reranking evaluation (`run_reranking_experiments.py`, `benchmark_report.md`, `failure_analysis.md`).
 - `experiments/evidence/`: Empirical evidence resolution & citation integrity benchmark (`run_evidence_benchmark.py`, `README.md`, `evidence_benchmark_results.json`).
 - `experiments/rag/`: Empirical Grounded RAG & claim verification benchmark (`run_rag_benchmark.py`, `README.md`, `rag_benchmark_results.json`).
+- `experiments/graph/`: Empirical knowledge graph corpus benchmark (`run_graph_benchmark.py`, `README.md`, `graph_benchmark_results.json`).
 
 ## Tests (`tests/`)
 - `tests/test_canonical_reconstruction.py`: Canonical document and reconstruction tests.
@@ -39,3 +41,5 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `tests/test_evidence.py`: Evidence resolution, citation validity, and bounding box tests.
 - `tests/test_claim_verification.py`: Deterministic claim verification, negation, modality, and numeric tests.
 - `tests/test_grounded_rag.py`: Grounded RAG pipeline, unanswerable handling, and recovery tests.
+- `tests/test_knowledge_graph.py`: Knowledge graph structure, provenance invariants, and validator tests.
+- `tests/test_graph_reasoning.py`: Cross-contract reasoning, party networks, payment queries, and amendment precedence tests.

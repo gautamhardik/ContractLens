@@ -1,0 +1,140 @@
+{
+  "graph_statistics": {
+    "total_nodes": 3287,
+    "nodes_by_type": {
+      "CONTRACT": 15,
+      "JURISDICTION": 9,
+      "PARTY": 29,
+      "PAYMENT_TERM": 12,
+      "OBLIGATION": 3118,
+      "EVENT": 101,
+      "AMENDMENT": 3
+    },
+    "total_edges": 4359,
+    "edges_by_type": {
+      "GOVERNED_BY": 10,
+      "HAS_PARTY": 31,
+      "COUNTERPARTY_TO": 31,
+      "HAS_PAYMENT_TERM": 12,
+      "HAS_OBLIGATION": 3118,
+      "HAS_EVENT": 101,
+      "OWNS_OBLIGATION": 1054,
+      "AMENDS": 1,
+      "HAS_AMENDMENT": 1
+    },
+    "total_contractual_facts": 61,
+    "facts_with_provenance": 61,
+    "provenance_coverage": 1.0,
+    "orphan_edges": 0,
+    "orphan_edge_rate": 0.0,
+    "unresolved_facts": 0,
+    "amendment_relationships": 1,
+    "contracts_indexed": 18,
+    "build_latency_ms": 488.28,
+    "validation_latency_ms": 22.88
+  },
+  "validation_report": {
+    "total_nodes": 3287,
+    "total_edges": 4359,
+    "total_facts": 61,
+    "facts_with_provenance": 61,
+    "provenance_coverage": 1.0,
+    "orphan_edges_count": 0,
+    "orphan_edge_rate": 0.0,
+    "invalid_bboxes_count": 0,
+    "is_valid": true,
+    "errors": [],
+    "warnings": []
+  },
+  "query_benchmark": {
+    "total_queries": 10,
+    "passed_queries": 10,
+    "reasoning_accuracy_pct": 100.0,
+    "average_query_latency_ms": 0.037,
+    "unsupported_graph_fact_rate": 0.0,
+    "orphan_edge_rate": 0.0,
+    "provenance_coverage_pct": 100.0,
+    "queries": [
+      {
+        "category": "GRAPH_DIRECT",
+        "query_type": "get_contract",
+        "description": "Fetch Access-E*TRADE contract node",
+        "passed": true,
+        "results_count": 1,
+        "latency_ms": 0.007
+      },
+      {
+        "category": "GRAPH_RELATIONSHIP",
+        "query_type": "get_parties_for_contract",
+        "description": "Fetch contracting parties for AMX Best Circuit Boards",
+        "passed": true,
+        "results_count": 2,
+        "latency_ms": 0.047
+      },
+      {
+        "category": "CROSS_CONTRACT",
+        "query_type": "get_contracts_for_party",
+        "description": "Which contracts involve E*TRADE?",
+        "passed": true,
+        "results_count": 2,
+        "latency_ms": 0.141
+      },
+      {
+        "category": "CROSS_CONTRACT",
+        "query_type": "get_contracts_with_payment_term",
+        "description": "Which contracts have 30-day payment terms?",
+        "passed": true,
+        "results_count": 7,
+        "latency_ms": 0.032
+      },
+      {
+        "category": "TEMPORAL",
+        "query_type": "get_contracts_with_renewal",
+        "description": "Which contracts contain renewal provisions?",
+        "passed": true,
+        "results_count": 2,
+        "latency_ms": 0.01
+      },
+      {
+        "category": "TEMPORAL",
+        "query_type": "get_contracts_with_termination_notice",
+        "description": "Which contracts specify termination notice periods?",
+        "passed": true,
+        "results_count": 6,
+        "latency_ms": 0.018
+      },
+      {
+        "category": "AMENDMENT",
+        "query_type": "get_amendments_for_contract",
+        "description": "Which amendments modify the Access-E*TRADE MSA?",
+        "passed": true,
+        "results_count": 1,
+        "latency_ms": 0.007
+      },
+      {
+        "category": "AMENDMENT",
+        "query_type": "amendment_precedence",
+        "description": "Verify Access-E*TRADE amendment modifies price, term, payment without deleting parent",
+        "passed": true,
+        "results_count": 5,
+        "latency_ms": 0.005
+      },
+      {
+        "category": "EVIDENCE_PROVENANCE",
+        "query_type": "provenance_audit",
+        "description": "Verify query results retain valid Document, Page, and BBox references",
+        "passed": true,
+        "results_count": 7,
+        "latency_ms": 0.016
+      },
+      {
+        "category": "NON_GRAPH / UNANSWERABLE_SAFETY",
+        "query_type": "safe_unanswerable",
+        "description": "Verify querying non-existent party returns empty results safely",
+        "passed": true,
+        "results_count": 0,
+        "latency_ms": 0.088
+      }
+    ]
+  }
+}

@@ -285,29 +285,60 @@ class ContractIntelligenceExtractor:
         parties: List[ContractParty] = []
         preamble_blocks = [b for b in blocks if b.page_number <= 2]
 
-        # Look for "between X and Y" or "by and among X and Y"
+        corp_suffix = r'(?:Inc|LLC|Corp|Corporation|Co|Ltd|Pty\s+Ltd|L\.P\.|N\.A\.)(?:\b|\.)'
+        noise_prefix = re.compile(r'^(?:(?:is\s+)?entered\s+into\s+)?(?:by\s+and\s+between|between|by\s+and\s+among|and|,)\s+', re.IGNORECASE)
+
         for b in preamble_blocks:
             t = b.normalized_text
-            m = re.search(r'(?:by\s+and\s+between|between|by\s+and\s+among)\s+([A-Z0-9\.,\s\(\)\'\-]+?)\s+(?:and|,)\s+([A-Z0-9\.,\s\(\)\'\-]+?)(?:\s*\(|\s+RECITALS|\s+WHEREAS|\.$)', t)
-            if m:
-                p1_raw = m.group(1).strip()
-                p2_raw = m.group(2).strip()
-                p1_clean = self._clean_party_name(p1_raw)
-                p2_clean = self._clean_party_name(p2_raw)
+            # Skip confidential treatment legends or SEC filing notices
+            if "confidential treatment" in t.lower() or "securities and exchange commission" in t.lower():
+                continue
 
-                if p1_clean:
+            # Only inspect blocks that exhibit contract preamble characteristics
+            if not any(cue in t.lower() for cue in ["entered into", "by and between", "by and among", "made as of", "agreement", "amendment"]):
+                continue
+
+            # Try corporate designation pattern first
+            cand_matches = re.findall(rf'([A-Za-z0-9\*\.\'\-]+(?:\s+[A-Za-z0-9\*\.\'\-]+)*?,\s*{corp_suffix}|[A-Za-z0-9\*\.\'\-]+(?:\s+[A-Za-z0-9\*\.\'\-]+)*?\s+{corp_suffix})', t, re.IGNORECASE)
+            found_names = []
+            for raw_cand in cand_matches:
+                cand = noise_prefix.sub('', raw_cand).strip()
+                if cand.lower().startswith(('a delaware', 'a texas', 'a california', 'a new york', 'the ', 'each a ', 'either a ')):
+                    continue
+                clean = self._clean_party_name(cand)
+                if clean and clean not in found_names and len(clean) > 3:
+                    found_names.append(clean)
                     parties.append(ContractParty(
-                        name=p1_clean,
-                        raw_text=p1_raw[:100],
+                        name=clean,
+                        raw_text=raw_cand[:100],
                         evidence=b.to_evidence_ref(doc.filename)
                     ))
-                if p2_clean:
-                    parties.append(ContractParty(
-                        name=p2_clean,
-                        raw_text=p2_raw[:100],
-                        evidence=b.to_evidence_ref(doc.filename)
-                    ))
+
+            if len(parties) >= 2:
                 break
+
+            # Fallback to standard between X and Y
+            if not parties:
+                m = re.search(r'(?:by\s+and\s+between|between|by\s+and\s+among)\s+([A-Z0-9\.,\s\(\)\'\-]+?)\s+(?:and|,)\s+([A-Z0-9\.,\s\(\)\'\-]+?)(?:\s*\(|\s+RECITALS|\s+WHEREAS|\.$)', t)
+                if m:
+                    p1_raw = m.group(1).strip()
+                    p2_raw = m.group(2).strip()
+                    p1_clean = self._clean_party_name(p1_raw)
+                    p2_clean = self._clean_party_name(p2_raw)
+
+                    if p1_clean:
+                        parties.append(ContractParty(
+                            name=p1_clean,
+                            raw_text=p1_raw[:100],
+                            evidence=b.to_evidence_ref(doc.filename)
+                        ))
+                    if p2_clean:
+                        parties.append(ContractParty(
+                            name=p2_clean,
+                            raw_text=p2_raw[:100],
+                            evidence=b.to_evidence_ref(doc.filename)
+                        ))
+                    break
 
         return parties
 
