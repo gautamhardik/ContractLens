@@ -1,0 +1,556 @@
+{
+  "benchmark_date": "2026-09-19",
+  "evaluated_documents": [
+    {
+      "document_id": "doc_03",
+      "filename": "Access\u2013E-TRADE MSA.pdf",
+      "page_count": 14,
+      "latency_sec": 0.991,
+      "contract_type": {
+        "found": true,
+        "value": "Master Services Agreement",
+        "provenance": {
+          "document_id": "doc_03",
+          "filename": "Access\u2013E-TRADE MSA.pdf",
+          "page_number": 1,
+          "block_id": "doc_03_p001_b03",
+          "bbox": {
+            "x0": 218.92,
+            "y0": 69.31,
+            "x1": 377.32,
+            "y1": 80.11
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "effective_date": {
+        "found": true,
+        "value": "June 1, 2005",
+        "provenance": {
+          "document_id": "doc_03",
+          "filename": "Access\u2013E-TRADE MSA.pdf",
+          "page_number": 1,
+          "block_id": "doc_03_p001_b04",
+          "bbox": {
+            "x0": 34.5,
+            "y0": 90.31,
+            "x1": 556.01,
+            "y1": 137.11
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "expiration_date": {
+        "found": false,
+        "value": null
+      },
+      "governing_law": {
+        "found": true,
+        "value": "Delaware as",
+        "provenance": {
+          "document_id": "doc_03",
+          "filename": "Access\u2013E-TRADE MSA.pdf",
+          "page_number": 12,
+          "block_id": "doc_03_p012_b08",
+          "bbox": {
+            "x0": 34.5,
+            "y0": 143.56,
+            "x1": 559.8,
+            "y1": 226.36
+          },
+          "section_number": "RECITALS",
+          "section_title": "Recitals",
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "payment_terms": {
+        "found": true,
+        "value": {
+          "payment_type": "Net 30",
+          "payment_days": 30,
+          "raw_text": "within thirty (30) days",
+          "evidence": {
+            "document_id": "doc_03",
+            "filename": "Access\u2013E-TRADE MSA.pdf",
+            "page_number": 4,
+            "block_id": "doc_03_p004_b12",
+            "bbox": {
+              "x0": 34.5,
+              "y0": 427.06,
+              "x1": 558.59,
+              "y1": 461.86
+            },
+            "section_number": "RECITALS",
+            "section_title": "Recitals",
+            "char_offset_start": null,
+            "char_offset_end": null
+          }
+        }
+      },
+      "termination_notice": {
+        "found": true,
+        "value": {
+          "notice_days": 30,
+          "termination_type": "Standard / Breach",
+          "raw_text": "at least thirty (30) days",
+          "evidence": {
+            "document_id": "doc_03",
+            "filename": "Access\u2013E-TRADE MSA.pdf",
+            "page_number": 2,
+            "block_id": "doc_03_p002_b06",
+            "bbox": {
+              "x0": 34.5,
+              "y0": 241.06,
+              "x1": 558.69,
+              "y1": 323.86
+            },
+            "section_number": "RECITALS",
+            "section_title": "Recitals",
+            "char_offset_start": null,
+            "char_offset_end": null
+          }
+        }
+      },
+      "parties_count": 0,
+      "amendment_facts_count": 0,
+      "referenced_schedules_count": 2
+    },
+    {
+      "document_id": "doc_02",
+      "filename": "Access\u2013E-TRADE Amendment.pdf",
+      "page_count": 3,
+      "latency_sec": 0.168,
+      "contract_type": {
+        "found": true,
+        "value": "Amendment",
+        "provenance": {
+          "document_id": "doc_02",
+          "filename": "Access\u2013E-TRADE Amendment.pdf",
+          "page_number": 1,
+          "block_id": "doc_02_p001_b04",
+          "bbox": {
+            "x0": 176.66,
+            "y0": 123.31,
+            "x1": 419.57,
+            "y1": 134.11
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "effective_date": {
+        "found": false,
+        "value": null,
+        "provenance": null
+      },
+      "expiration_date": {
+        "found": false,
+        "value": null
+      },
+      "governing_law": {
+        "found": false,
+        "value": null,
+        "provenance": null
+      },
+      "payment_terms": {
+        "found": true,
+        "value": {
+          "payment_type": "Net 30",
+          "payment_days": 30,
+          "raw_text": "within thirty days",
+          "evidence": {
+            "document_id": "doc_02",
+            "filename": "Access\u2013E-TRADE Amendment.pdf",
+            "page_number": 2,
+            "block_id": "doc_02_p002_b04",
+            "bbox": {
+              "x0": 55.58,
+              "y0": 119.56,
+              "x1": 550.17,
+              "y1": 166.36
+            },
+            "section_number": "RECITALS",
+            "section_title": "Recitals",
+            "char_offset_start": null,
+            "char_offset_end": null
+          }
+        }
+      },
+      "termination_notice": {
+        "found": false,
+        "value": null
+      },
+      "parties_count": 0,
+      "amendment_facts_count": 5,
+      "referenced_schedules_count": 3
+    },
+    {
+      "document_id": "doc_13",
+      "filename": "Spare Backup \u2013 Hewlett-Packard Standard Services Agreement + SOW.pdf",
+      "page_count": 29,
+      "latency_sec": 4.382,
+      "contract_type": {
+        "found": true,
+        "value": "Standard Services Agreement + SOW",
+        "provenance": {
+          "document_id": "doc_13",
+          "filename": "Spare Backup \u2013 Hewlett-Packard Standard Services Agreement + SOW.pdf",
+          "page_number": 1,
+          "block_id": "doc_13_p001_b04",
+          "bbox": {
+            "x0": 143.66,
+            "y0": 207.14,
+            "x1": 270.14,
+            "y1": 215.17
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "effective_date": {
+        "found": false,
+        "value": null,
+        "provenance": null
+      },
+      "expiration_date": {
+        "found": false,
+        "value": null
+      },
+      "governing_law": {
+        "found": false,
+        "value": null,
+        "provenance": null
+      },
+      "payment_terms": {
+        "found": true,
+        "value": {
+          "payment_type": "Net 45",
+          "payment_days": 45,
+          "raw_text": "within forty-five (45) days",
+          "evidence": {
+            "document_id": "doc_13",
+            "filename": "Spare Backup \u2013 Hewlett-Packard Standard Services Agreement + SOW.pdf",
+            "page_number": 5,
+            "block_id": "doc_13_p005_b11",
+            "bbox": {
+              "x0": 32.96,
+              "y0": 395.4,
+              "x1": 380.86,
+              "y1": 439.29
+            },
+            "section_number": null,
+            "section_title": null,
+            "char_offset_start": null,
+            "char_offset_end": null
+          }
+        }
+      },
+      "termination_notice": {
+        "found": false,
+        "value": null
+      },
+      "parties_count": 0,
+      "amendment_facts_count": 0,
+      "referenced_schedules_count": 10
+    },
+    {
+      "document_id": "doc_16",
+      "filename": "The SEC filing for Square-Marqeta.pdf",
+      "page_count": 63,
+      "latency_sec": 5.495,
+      "contract_type": {
+        "found": true,
+        "value": "Master Services Agreement",
+        "provenance": {
+          "document_id": "doc_16",
+          "filename": "The SEC filing for Square-Marqeta.pdf",
+          "page_number": 1,
+          "block_id": "doc_16_p001_b04",
+          "bbox": {
+            "x0": 239.72,
+            "y0": 108.42,
+            "x1": 361.74,
+            "y1": 118.08
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "effective_date": {
+        "found": false,
+        "value": null,
+        "provenance": null
+      },
+      "expiration_date": {
+        "found": false,
+        "value": null
+      },
+      "governing_law": {
+        "found": true,
+        "value": "California",
+        "provenance": {
+          "document_id": "doc_16",
+          "filename": "The SEC filing for Square-Marqeta.pdf",
+          "page_number": 18,
+          "block_id": "doc_16_p018_b01",
+          "bbox": {
+            "x0": 33.74,
+            "y0": 46.25,
+            "x1": 554.98,
+            "y1": 66.38
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "payment_terms": {
+        "found": true,
+        "value": {
+          "payment_type": "Net 30",
+          "payment_days": 30,
+          "raw_text": "Within 30 days",
+          "evidence": {
+            "document_id": "doc_16",
+            "filename": "The SEC filing for Square-Marqeta.pdf",
+            "page_number": 4,
+            "block_id": "doc_16_p004_b01",
+            "bbox": {
+              "x0": 33.74,
+              "y0": 46.25,
+              "x1": 566.91,
+              "y1": 267.94
+            },
+            "section_number": null,
+            "section_title": null,
+            "char_offset_start": null,
+            "char_offset_end": null
+          }
+        }
+      },
+      "termination_notice": {
+        "found": false,
+        "value": null
+      },
+      "parties_count": 0,
+      "amendment_facts_count": 4,
+      "referenced_schedules_count": 10
+    },
+    {
+      "document_id": "doc_09",
+      "filename": "SCYX \u2013 Data Processing Agreement provisions.pdf",
+      "page_count": 129,
+      "latency_sec": 35.261,
+      "contract_type": {
+        "found": true,
+        "value": "Exclusive License / DPA Provisions",
+        "provenance": {
+          "document_id": "doc_09",
+          "filename": "SCYX \u2013 Data Processing Agreement provisions.pdf",
+          "page_number": 1,
+          "block_id": "doc_09_p001_b05",
+          "bbox": {
+            "x0": 197.54,
+            "y0": 109.3,
+            "x1": 398.64,
+            "y1": 122.23
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "effective_date": {
+        "found": true,
+        "value": "March 30, 2023",
+        "provenance": {
+          "document_id": "doc_09",
+          "filename": "SCYX \u2013 Data Processing Agreement provisions.pdf",
+          "page_number": 1,
+          "block_id": "doc_09_p001_b11",
+          "bbox": {
+            "x0": 222.86,
+            "y0": 263.98,
+            "x1": 373.31,
+            "y1": 276.9
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "expiration_date": {
+        "found": false,
+        "value": null
+      },
+      "governing_law": {
+        "found": true,
+        "value": "Delaware",
+        "provenance": {
+          "document_id": "doc_09",
+          "filename": "SCYX \u2013 Data Processing Agreement provisions.pdf",
+          "page_number": 104,
+          "block_id": "doc_09_p104_b05",
+          "bbox": {
+            "x0": 34.34,
+            "y0": 363.93,
+            "x1": 564.76,
+            "y1": 495.06
+          },
+          "section_number": "ARTICLE 14",
+          "section_title": "MISCELLANEOUS PROVISIONS",
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "payment_terms": {
+        "found": false,
+        "value": null
+      },
+      "termination_notice": {
+        "found": false,
+        "value": null
+      },
+      "parties_count": 0,
+      "amendment_facts_count": 0,
+      "referenced_schedules_count": 10
+    },
+    {
+      "document_id": "doc_10",
+      "filename": "Sabre\u2013DXC Amended & Restated MSA.pdf",
+      "page_count": 176,
+      "latency_sec": 11.676,
+      "contract_type": {
+        "found": true,
+        "value": "Amended & Restated Master Services Agreement",
+        "provenance": {
+          "document_id": "doc_10",
+          "filename": "Sabre\u2013DXC Amended & Restated MSA.pdf",
+          "page_number": 1,
+          "block_id": "doc_10_p001_b06",
+          "bbox": {
+            "x0": 121.02,
+            "y0": 188.06,
+            "x1": 475.21,
+            "y1": 201.35
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "effective_date": {
+        "found": true,
+        "value": "August 1, 2020",
+        "provenance": {
+          "document_id": "doc_10",
+          "filename": "Sabre\u2013DXC Amended & Restated MSA.pdf",
+          "page_number": 1,
+          "block_id": "doc_10_p001_b09",
+          "bbox": {
+            "x0": 34.5,
+            "y0": 266.81,
+            "x1": 561.76,
+            "y1": 294.35
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "expiration_date": {
+        "found": false,
+        "value": null
+      },
+      "governing_law": {
+        "found": true,
+        "value": "Texas",
+        "provenance": {
+          "document_id": "doc_10",
+          "filename": "Sabre\u2013DXC Amended & Restated MSA.pdf",
+          "page_number": 105,
+          "block_id": "doc_10_p105_b07",
+          "bbox": {
+            "x0": 34.5,
+            "y0": 278.81,
+            "x1": 561.75,
+            "y1": 334.85
+          },
+          "section_number": null,
+          "section_title": null,
+          "char_offset_start": null,
+          "char_offset_end": null
+        }
+      },
+      "payment_terms": {
+        "found": true,
+        "value": {
+          "payment_type": "Net 60",
+          "payment_days": 60,
+          "raw_text": "within 60 days",
+          "evidence": {
+            "document_id": "doc_10",
+            "filename": "Sabre\u2013DXC Amended & Restated MSA.pdf",
+            "page_number": 32,
+            "block_id": "doc_10_p032_b05",
+            "bbox": {
+              "x0": 34.5,
+              "y0": 165.56,
+              "x1": 561.76,
+              "y1": 294.35
+            },
+            "section_number": null,
+            "section_title": null,
+            "char_offset_start": null,
+            "char_offset_end": null
+          }
+        }
+      },
+      "termination_notice": {
+        "found": true,
+        "value": {
+          "notice_days": 90,
+          "termination_type": "Convenience",
+          "raw_text": "at least 90 days",
+          "evidence": {
+            "document_id": "doc_10",
+            "filename": "Sabre\u2013DXC Amended & Restated MSA.pdf",
+            "page_number": 84,
+            "block_id": "doc_10_p084_b10",
+            "bbox": {
+              "x0": 70.5,
+              "y0": 401.06,
+              "x1": 561.75,
+              "y1": 428.6
+            },
+            "section_number": null,
+            "section_title": null,
+            "char_offset_start": null,
+            "char_offset_end": null
+          }
+        }
+      },
+      "parties_count": 0,
+      "amendment_facts_count": 0,
+      "referenced_schedules_count": 10
+    }
+  ]
+}

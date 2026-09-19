@@ -36,6 +36,11 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
 - **Selection**: Pydantic-based `CanonicalDocument` schema with `CanonicalPage`, `CanonicalBlock`, `CanonicalSection`, and `TableData`.
 - **Rationale**: Validated via Phase 3 & 4 benchmarks across representative contracts. The model preserves exact physical page numbers, geometric bounding boxes, reading order, table matrices, and clause hierarchies. Crucially, SEC filing noise (headers/URLs) is tagged (`is_sec_noise=True`) rather than destructively deleted, guaranteeing that original raw text remains 100% recoverable.
 
+### Decision: Contract Intelligence & Hybrid Extraction
+- **Status**: Accepted
+- **Selection**: Deterministic pattern extraction with typed normalization, mandatory `EvidenceReference` provenance, and explicit `is_found=False` for missing/redacted fields.
+- **Rationale**: Validated via Phase 5 & 6 benchmark on core agreements. Deterministic extraction reliably captures parties, effective dates, Net payment terms (Net 30, Net 60), termination notice days (30, 60), and amendment modifications (`DELETE_AND_REPLACE`, `ADD_COVERAGE`) without LLM cost or latency. Missing or redacted fields (`[*****]`) return explicit null states rather than hallucinations.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)

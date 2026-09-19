@@ -10,6 +10,17 @@ from src.models.canonical import (
     CanonicalSection,
     CanonicalDocument,
 )
+from src.models.intelligence import (
+    ExtractionMethod,
+    CandidateStatus,
+    ExtractedField,
+    ConflictedField,
+    ContractParty,
+    PaymentTerms,
+    TerminationNotice,
+    AmendmentFact,
+    ContractIntelligence,
+)
 
 __all__ = [
     "BlockType",
@@ -22,4 +33,13 @@ __all__ = [
     "CanonicalPage",
     "CanonicalSection",
     "CanonicalDocument",
+    "ExtractionMethod",
+    "CandidateStatus",
+    "ExtractedField",
+    "ConflictedField",
+    "ContractParty",
+    "PaymentTerms",
+    "TerminationNotice",
+    "AmendmentFact",
+    "ContractIntelligence",
 ]
