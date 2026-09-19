@@ -19,12 +19,12 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 - [x] Established root orientation files (`AGENTS.md`, `README.md`, `.gitignore`).
 - [x] Established Evaluation Framework & Benchmark criteria (`EVALUATION.md`).
 - [x] Aligned master architecture and phased roadmap with Master Directive.
+- [x] **Phase 1 — Corpus Audit**: Full structural audit of 18 documents, page counts (696 total), character counts (2.06M), table density, amendment pairs (`Access-E-TRADE`), complexity tiers. Output `Data/corpus_manifest.json` and `Data/corpus_report.md`.
 
 ---
 
 ## Master Phase Graph & Next Milestones
-- [ ] **Phase 1 — Corpus Audit**: Structured inventory of 18 documents, page counts, extractability, tables, signatures, amendment pairings. Output `corpus_manifest.json` and `corpus_report.md`. (NEXT)
-- [ ] **Phase 2 — PDF Extraction Benchmark**: Empirical comparison of parsers (PyMuPDF, pdfplumber, layout-aware) for table/reading order/provenance.
+- [ ] **Phase 2 — PDF Extraction Benchmark**: Empirical comparison of parsers (PyMuPDF vs. pdfplumber vs. pypdf) for table extraction, reading order, header stripping, and page coordinate retention. (NEXT)
 - [ ] **Phase 3 & 4 — Canonical Document Model & Structural Reconstruction**: Unified JSON schema for pages, blocks, sections, headings, tables with strict provenance.
 - [ ] **Phase 5 & 6 — Contract Intelligence & Hybrid Extraction**: Structured entity, term, and clause extraction (deterministic rules + LLM reasoning).
 - [ ] **Phase 7, 8 & 9 — Obligation, Temporal & Event Engine**: Structured obligation objects, deterministic date/trigger calculators, contract lifecycle.
