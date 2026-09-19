@@ -1,6 +1,6 @@
 {
   "total_queries_evaluated": 16,
-  "tool_selection_accuracy_pct": 100.0,
+  "tool_selection_accuracy_pct": 93.75,
   "tool_execution_success_pct": 100.0,
   "task_completion_rate_pct": 100.0,
   "final_answer_grounding_pct": 100.0,
@@ -8,7 +8,7 @@
   "unsupported_claim_rate_pct": 0.0,
   "unanswerable_safety_pct": 100.0,
   "average_tool_calls_per_query": 1.94,
-  "average_latency_ms": 10.83,
+  "average_latency_ms": 23.13,
   "results": [
     {
       "id": "agent_q01",
@@ -25,7 +25,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 19.15,
+      "latency_ms": 5.14,
       "answer_preview": "E*TRADE Financial Corporation: party = E*TRADE Financial Corporation. [E1]."
     },
     {
@@ -43,7 +43,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 1.33,
+      "latency_ms": 2.23,
       "answer_preview": "Payment Terms: Net 30: payment_terms = Net 30. [E1]."
     },
     {
@@ -61,7 +61,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 3.37,
+      "latency_ms": 1.74,
       "answer_preview": "Automatic Renewal Clause: auto_renewal = 9.2 Extension: This Agreement will automatically renew for an extended term of "
     },
     {
@@ -79,7 +79,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 91.96,
+      "latency_ms": 188.67,
       "answer_preview": "detail the basis for such amount. [E31]."
     },
     {
@@ -87,18 +87,18 @@
       "category": "DIRECT_RETRIEVAL",
       "query": "What is the confidentiality obligation in the agreement?",
       "expected_route": "DIRECT_RETRIEVAL",
-      "actual_route": "DIRECT_RETRIEVAL",
-      "route_correct": true,
+      "actual_route": "OBLIGATION_QUERY",
+      "route_correct": false,
       "steps_count": 2,
       "tool_calls": [
-        "search_contract_evidence",
+        "get_contract_obligations",
         "build_grounded_answer"
       ],
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 30.91,
-      "answer_preview": "Survival. [E12]."
+      "latency_ms": 88.92,
+      "answer_preview": "Contractual obligation or milestone in Access\u2013E-TRADE Amendment.pdf. [E51]."
     },
     {
       "id": "agent_q06",
@@ -115,7 +115,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 0.37,
+      "latency_ms": 0.79,
       "answer_preview": "Master Services Agreement: Payment terms Net 30, Governing law Delaware as in Access\u2013E-TRADE MSA.pdf. [E1]."
     },
     {
@@ -133,7 +133,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 0.61,
+      "latency_ms": 0.65,
       "answer_preview": "Master Services Agreement: Payment terms Net 30, Governing law Delaware as in Access\u2013E-TRADE MSA.pdf. [E1]."
     },
     {
@@ -151,7 +151,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 1.35,
+      "latency_ms": 28.91,
       "answer_preview": "agrees to manufacture or have manufactured Product for in AMX\u2013Best Circuit Boards Supply Agreement.pdf. [E1]."
     },
     {
@@ -169,7 +169,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 0.9,
+      "latency_ms": 7.86,
       "answer_preview": "shall be referred to individually as the in Access\u2013E-TRADE MSA.pdf. [E1]."
     },
     {
@@ -187,7 +187,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 2.36,
+      "latency_ms": 7.17,
       "answer_preview": "Agreement takes legal effect on June 1, 2005. [E1]."
     },
     {
@@ -205,7 +205,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 2.94,
+      "latency_ms": 1.27,
       "answer_preview": "Client shall shall meet for the purposes of review (quarterly). [E23]."
     },
     {
@@ -224,7 +224,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 17.38,
+      "latency_ms": 35.56,
       "answer_preview": "Amendment is executed (\u201cAmendment Effective Date\u201d) is entered into by and between ACCESS WORLDWIDE. [E3]."
     },
     {
@@ -243,7 +243,7 @@
       "grounding_status": "supported",
       "is_insufficient_evidence": false,
       "citations_count": 1,
-      "latency_ms": 0.31,
+      "latency_ms": 0.72,
       "answer_preview": "Payment Terms: Net 30: payment_terms = Net 30. [E3]."
     },
     {
@@ -260,7 +260,7 @@
       "grounding_status": "insufficient_evidence",
       "is_insufficient_evidence": true,
       "citations_count": 0,
-      "latency_ms": 0.05,
+      "latency_ms": 0.09,
       "answer_preview": "The available contract evidence does not establish this."
     },
     {
@@ -277,7 +277,7 @@
       "grounding_status": "insufficient_evidence",
       "is_insufficient_evidence": true,
       "citations_count": 0,
-      "latency_ms": 0.04,
+      "latency_ms": 0.06,
       "answer_preview": "The available contract evidence does not establish this."
     },
     {
@@ -294,7 +294,7 @@
       "grounding_status": "insufficient_evidence",
       "is_insufficient_evidence": true,
       "citations_count": 0,
-      "latency_ms": 0.04,
+      "latency_ms": 0.06,
       "answer_preview": "The available contract evidence does not establish this."
     }
   ]

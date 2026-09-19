@@ -15,6 +15,12 @@ import re
 from typing import Tuple, Dict, Any, Optional
 
 from src.agent.models import AgentRouteCategory
+from src.agent.understanding import (
+    ContractQueryUnderstander,
+    QueryUnderstanding,
+    QueryIntent,
+    RoleResolutionStatus,
+)
 
 
 class AgentRouter:
@@ -81,77 +87,123 @@ class AgentRouter:
     ]
 
     @classmethod
-    def route_query(cls, query: str) -> Tuple[AgentRouteCategory, Dict[str, Any]]:
-        """Determine route category and extract parameters deterministically."""
+    def route_query(
+        cls,
+        query: str,
+        understanding: Optional[QueryUnderstanding] = None
+    ) -> Tuple[AgentRouteCategory, Dict[str, Any]]:
+        """Determine route category and extract parameters deterministically.
+        
+        Leverages structured QueryUnderstanding when provided or computed.
+        """
         q = query.strip()
         q_lower = q.lower()
 
-        # 1. Check Unanswerable / Safety triggers
+        # Compute semantic understanding if not provided
+        und = understanding or ContractQueryUnderstander.analyze_query(q)
+
+        # 1. Check Unanswerable / Safety
+        if und.is_unanswerable or und.intent == QueryIntent.UNANSWERABLE:
+            return AgentRouteCategory.UNANSWERABLE, {}
+
         for pat in cls.UNANSWERABLE_TRIGGERS:
             if re.search(pat, q_lower):
                 return AgentRouteCategory.UNANSWERABLE, {}
 
         # 2. Check Hybrid Multi-Condition queries (e.g. "Which contracts involving E*TRADE have Net 30?")
+        if und.intent == QueryIntent.CROSS_CONTRACT and ("net" in q_lower or "payment" in q_lower):
+            party = cls._extract_party_candidate(q)
+            term = cls._extract_payment_term_candidate(q)
+            if party and term:
+                return AgentRouteCategory.HYBRID_REASONING, {"party": party, "payment_term": term, "understanding": und}
+
         if ("involving" in q_lower or "with" in q_lower) and ("net" in q_lower or "payment" in q_lower) and "which contracts" in q_lower:
             party = cls._extract_party_candidate(q)
             term = cls._extract_payment_term_candidate(q)
-            return AgentRouteCategory.HYBRID_REASONING, {"party": party, "payment_term": term}
+            if party and term:
+                return AgentRouteCategory.HYBRID_REASONING, {"party": party, "payment_term": term, "understanding": und}
 
         # 3. Check Amendment queries
+        if und.intent == QueryIntent.AMENDMENT:
+            doc_id = und.target_document_id or cls._extract_doc_candidate(q)
+            return AgentRouteCategory.AMENDMENT_QUERY, {"document_id": doc_id, "understanding": und}
+
         for pat in cls.AMENDMENT_TRIGGERS:
             if re.search(pat, q_lower):
                 doc_id = cls._extract_doc_candidate(q)
-                return AgentRouteCategory.AMENDMENT_QUERY, {"document_id": doc_id}
+                return AgentRouteCategory.AMENDMENT_QUERY, {"document_id": doc_id, "understanding": und}
 
         # 4. Check Timeline / Lifecycle queries
+        if und.intent == QueryIntent.TIMELINE:
+            doc_id = und.target_document_id or cls._extract_doc_candidate(q)
+            return AgentRouteCategory.TIMELINE_QUERY, {"document_id": doc_id, "understanding": und}
+
         for pat in cls.TIMELINE_TRIGGERS:
             if re.search(pat, q_lower):
                 doc_id = cls._extract_doc_candidate(q)
-                return AgentRouteCategory.TIMELINE_QUERY, {"document_id": doc_id}
+                return AgentRouteCategory.TIMELINE_QUERY, {"document_id": doc_id, "understanding": und}
 
         # 5. Check Obligation queries
-        for pat in cls.OBLIGATION_TRIGGERS:
-            if re.search(pat, q_lower):
-                doc_id = cls._extract_doc_candidate(q)
+        if und.intent == QueryIntent.OBLIGATION or any(re.search(pat, q_lower) for pat in cls.OBLIGATION_TRIGGERS):
+            doc_id = und.target_document_id or cls._extract_doc_candidate(q)
+            
+            # Extract target subject using QueryUnderstanding
+            target_subject = None
+            resolved_party = None
+            canonical_role = None
+            if und.role_candidates:
+                rc = und.role_candidates[0]
+                if rc.surface_form == "unknown vendor":
+                    target_subject = "unknown"
+                else:
+                    target_subject = rc.surface_form
+                    if rc.status == RoleResolutionStatus.RESOLVED and rc.resolved_party:
+                        resolved_party = rc.resolved_party
+                    if rc.canonical_role:
+                        canonical_role = rc.canonical_role.value
+            
+            if not target_subject:
                 role = cls._extract_role_candidate(q)
                 party = cls._extract_party_candidate(q)
-                # Check for explicit 'unknown' qualifiers (e.g. 'unknown vendor', 'unknown party')
-                # to avoid collapsing to known roles
                 if re.search(r'\bunknown\s+(?:vendor|supplier|party|entity|contractor)\b', q_lower):
                     target_subject = "unknown"
                 elif role:
-                    # Conversational role is explicitly the subject of the obligation question
                     target_subject = role
                 else:
                     target_subject = party
 
-                return AgentRouteCategory.OBLIGATION_QUERY, {"document_id": doc_id, "party": target_subject}
+            params = {"document_id": doc_id, "party": target_subject, "understanding": und}
+            if resolved_party:
+                params["resolved_party"] = resolved_party
+            if canonical_role:
+                params["role"] = canonical_role
+            return AgentRouteCategory.OBLIGATION_QUERY, params
 
         # 6. Check Direct Graph Relational queries
         for pat in cls.GRAPH_PARTY_TRIGGERS:
             if re.search(pat, q_lower):
                 party = cls._extract_party_candidate(q)
-                return AgentRouteCategory.DIRECT_GRAPH, {"query_type": "contracts_for_party", "param": party}
+                return AgentRouteCategory.DIRECT_GRAPH, {"query_type": "contracts_for_party", "param": party, "understanding": und}
 
         for pat in cls.GRAPH_TERM_TRIGGERS:
             if re.search(pat, q_lower):
                 if "renewal" in q_lower:
-                    return AgentRouteCategory.DIRECT_GRAPH, {"query_type": "contracts_with_renewal", "param": None}
+                    return AgentRouteCategory.DIRECT_GRAPH, {"query_type": "contracts_with_renewal", "param": None, "understanding": und}
                 elif "termination" in q_lower:
                     days = cls._extract_number(q)
-                    return AgentRouteCategory.DIRECT_GRAPH, {"query_type": "contracts_with_termination_notice", "param": str(days) if days else None}
+                    return AgentRouteCategory.DIRECT_GRAPH, {"query_type": "contracts_with_termination_notice", "param": str(days) if days else None, "understanding": und}
                 else:
                     term = cls._extract_payment_term_candidate(q)
-                    return AgentRouteCategory.DIRECT_GRAPH, {"query_type": "contracts_with_payment_term", "param": term}
+                    return AgentRouteCategory.DIRECT_GRAPH, {"query_type": "contracts_with_payment_term", "param": term, "understanding": und}
 
         # 7. Check Contract Details / Overview
         if (("payment terms in" in q_lower or "governing law of" in q_lower or "details of" in q_lower) 
             and ("agreement" in q_lower or "contract" in q_lower or "msa" in q_lower)):
-            doc_id = cls._extract_doc_candidate(q)
-            return AgentRouteCategory.CONTRACT_DETAILS, {"document_id": doc_id}
+            doc_id = und.target_document_id or cls._extract_doc_candidate(q)
+            return AgentRouteCategory.CONTRACT_DETAILS, {"document_id": doc_id, "understanding": und}
 
         # 8. Default fallback: Unstructured Clause-Level Retrieval
-        return AgentRouteCategory.DIRECT_RETRIEVAL, {"top_k": 5}
+        return AgentRouteCategory.DIRECT_RETRIEVAL, {"top_k": 5, "understanding": und}
 
     ROLE_ALIASES = {
         "vendor": "vendor",

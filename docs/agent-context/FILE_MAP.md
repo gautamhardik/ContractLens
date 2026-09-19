@@ -20,7 +20,7 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `src/evidence/`: Evidence models (`models.py`), citation validator (`validator.py`), and deterministic resolver (`resolver.py`).
 - `src/rag/`: Grounded RAG models (`models.py`), prompt formats (`prompts.py`), generators & providers (`generator.py`), claim verifier (`verifier.py`), and pipeline (`pipeline.py`).
 - `src/graph/`: Knowledge graph models (`models.py`), schema validator (`validator.py`), graph builder (`builder.py`), inverted index (`index.py`), and query engine (`query.py`).
-- `src/agent/`: Agent models (`models.py`), typed tools & registry (`tools.py`), deterministic router (`router.py`), planner (`planner.py`), bounded executor (`executor.py`), and agent facade (`agent.py`).
+- `src/agent/`: Agent models (`models.py`), semantic understanding & role ontology (`understanding.py`), typed tools & registry (`tools.py`), deterministic router (`router.py`), planner (`planner.py`), bounded executor (`executor.py`), and agent facade (`agent.py`).
 
 ## Experiments (`experiments/`)
 - `experiments/extraction/`: Empirical extraction benchmark and findings.
@@ -48,3 +48,5 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `tests/test_agent_tools.py`: Agent tool registry, argument validation, and individual tool execution tests.
 - `tests/test_agent_routing.py`: Rule-first intent router and parameter extraction tests.
 - `tests/test_agent_execution.py`: Multi-step agent execution, limit enforcement, trace generation, and unanswerable safety tests.
+- `tests/test_role_alias_resolution.py`: Conversational role-alias resolution and party mapping tests.
+- `tests/test_query_understanding.py`: Semantic query understanding, canonical role ontology, temporal cue, comparison intent, and query expansion tests.

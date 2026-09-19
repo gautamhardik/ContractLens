@@ -38,6 +38,19 @@ from src.agent.planner import (
 )
 from src.agent.executor import AgentExecutor
 from src.agent.agent import ContractAgent
+from src.agent.understanding import (
+    QueryIntent,
+    CanonicalRole,
+    RoleResolutionStatus,
+    RoleCandidate,
+    EntityReference,
+    TemporalCue,
+    ComparisonCue,
+    ExpandedQuery,
+    QueryUnderstanding,
+    ContractRoleOntology,
+    ContractQueryUnderstander,
+)
 
 __all__ = [
     "ToolStatus",
@@ -63,4 +76,15 @@ __all__ = [
     "FakeAgentPlanner",
     "AgentExecutor",
     "ContractAgent",
+    "QueryIntent",
+    "CanonicalRole",
+    "RoleResolutionStatus",
+    "RoleCandidate",
+    "EntityReference",
+    "TemporalCue",
+    "ComparisonCue",
+    "ExpandedQuery",
+    "QueryUnderstanding",
+    "ContractRoleOntology",
+    "ContractQueryUnderstander",
 ]

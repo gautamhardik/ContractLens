@@ -28,6 +28,7 @@ from src.agent.tools import (
 from src.agent.router import AgentRouter
 from src.agent.planner import BaseAgentPlanner, DeterministicPlanner
 from src.agent.executor import AgentExecutor
+from src.agent.understanding import ContractQueryUnderstander
 
 
 class ContractAgent:
@@ -80,16 +81,32 @@ class ContractAgent:
 
     def process_query(self, query: str) -> AgentResponse:
         """Process a natural language user query through the controlled agent pipeline."""
-        # 1. Deterministic Rule-First Routing
-        route, route_params = AgentRouter.route_query(query)
+        # 1. Deterministic Query Understanding
+        understanding = ContractQueryUnderstander.analyze_query(query)
 
-        # 2. Plan Tool Invocations
+        # 2. Deterministic Rule-First Routing
+        route, route_params = AgentRouter.route_query(query, understanding=understanding)
+
+        # 3. Plan Tool Invocations
         plan_calls = self.planner.plan(query, route, route_params)
 
-        # 3. Controlled Execution with Guardrails & Verification
-        return self.executor.execute_plan(
+        # 4. Controlled Execution with Guardrails & Verification
+        response = self.executor.execute_plan(
             query=query,
             route=route,
             plan_calls=plan_calls,
             context=self.context
         )
+
+        # Attach understanding summary to response metadata for traceability
+        response.metadata["understanding"] = {
+            "intent": understanding.intent.value,
+            "target_document_id": understanding.target_document_id,
+            "roles": [r.model_dump() for r in understanding.role_candidates],
+            "entities": [e.model_dump() for e in understanding.entity_references],
+            "temporal_cues": [t.model_dump() for t in understanding.temporal_cues],
+            "comparison": understanding.comparison_cue.model_dump() if understanding.comparison_cue else None,
+            "expanded_query": understanding.expanded_query.expanded_query,
+        }
+
+        return response
