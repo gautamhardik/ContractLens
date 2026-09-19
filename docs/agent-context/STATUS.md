@@ -5,7 +5,7 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 ---
 
 ## Current Milestone
-**Milestone 0: Agent Memory & Repository Setup** (Completed)
+**Phase 0: Agent/Project Context & Master Plan Alignment** (Completed)
 
 ---
 
@@ -16,22 +16,29 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 - [x] Established persistent agent memory and context system (`docs/agent-context/`).
 - [x] Established behavioral agent rules (`.agents/rules/`).
 - [x] Established domain task skills (`.agents/skills/`).
+- [x] Established root orientation files (`AGENTS.md`, `README.md`, `.gitignore`).
+- [x] Established Evaluation Framework & Benchmark criteria (`EVALUATION.md`).
+- [x] Aligned master architecture and phased roadmap with Master Directive.
 
 ---
 
-## In Progress
-- None (Memory setup completed).
-
----
-
-## Next Planned Milestones
-1. **Corpus Audit**: Dedicated inspection of document categories, page counts, layout complexities, and amendment pairings.
-2. **Ingestion & Extraction Strategy**: Select and benchmark PDF parser; implement layout- and page-preserving text extraction.
-3. **Structured Entity & Obligation Pipeline**: Build extractors for contract parties, effective dates, obligations, and deadlines.
-4. **Retrieval & Indexing Baseline**: Implement chunking, vector embeddings, and hybrid retrieval with page provenance.
-5. **Agent Core & Tooling**: Build agent tools for deterministic lookup (dates, obligations, definitions) and grounded answering.
-6. **User Interface**: Develop dashboard for document browsing, obligation calendars, and verifiable evidence display.
-7. **Evaluation & Demo Preparation**: Benchmark on realistic contract queries; verify citation accuracy and risk detection.
+## Master Phase Graph & Next Milestones
+- [ ] **Phase 1 — Corpus Audit**: Structured inventory of 18 documents, page counts, extractability, tables, signatures, amendment pairings. Output `corpus_manifest.json` and `corpus_report.md`. (NEXT)
+- [ ] **Phase 2 — PDF Extraction Benchmark**: Empirical comparison of parsers (PyMuPDF, pdfplumber, layout-aware) for table/reading order/provenance.
+- [ ] **Phase 3 & 4 — Canonical Document Model & Structural Reconstruction**: Unified JSON schema for pages, blocks, sections, headings, tables with strict provenance.
+- [ ] **Phase 5 & 6 — Contract Intelligence & Hybrid Extraction**: Structured entity, term, and clause extraction (deterministic rules + LLM reasoning).
+- [ ] **Phase 7, 8 & 9 — Obligation, Temporal & Event Engine**: Structured obligation objects, deterministic date/trigger calculators, contract lifecycle.
+- [ ] **Phase 10, 11 & 12 — Chunking & Evaluation Dataset**: 40-question benchmark across 8 categories; section-aware vs. hierarchical chunking experiments.
+- [ ] **Phase 13, 14, 15 & 16 — Retrieval Stack**: Embedding model evaluation, lexical BM25, hybrid RRF, and reranker benchmarking.
+- [ ] **Phase 17, 18 & 19 — Evidence Layer & Grounded RAG with Verification**: Verifiable citation pipeline and answer verification engine.
+- [ ] **Phase 20 — Contract Knowledge Graph Evaluation**: Empirically assess graph value for amendment and cross-contract dependency tracking.
+- [ ] **Phase 21, 22, 23 & 24 — Agent Tool Layer, Router & Planner**: Typed tools, task router, multi-step planner, and session state.
+- [ ] **Phase 25 & 26 — Version Intelligence & Change Impact Analysis**: Semantic section diffing, change classification, and impact mapping on obligations.
+- [ ] **Phase 27 & 28 — Cross-Contract & Portfolio Intelligence**: Natural language portfolio queries and aggregate dashboards.
+- [ ] **Phase 29 & 30 — Review Signals & "What Should I Worry About?" Agent**: Proactive risk flags and flagship operational review agent.
+- [ ] **Phase 31 to 35 — Premium Frontend**: Operations dashboard, contract workspace, agent investigation panel, evidence drawer, timeline, and comparison UI.
+- [ ] **Phase 36, 37 & 38 — Hardening, Security, Regression Suite & End-to-End Optimization**: Failure handling, controlled tools, full benchmark run.
+- [ ] **Phase 39 & 40 — Demo & Submission Preparation**: 3-minute coherent demo script, README, presentation, and repository cleanup.
 
 ---
 
@@ -40,3 +47,4 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 - **Do NOT re-gather or re-download the raw corpus**: 18 documents already exist in `Data/raw/`.
 - **Do NOT modify or delete raw documents in `Data/raw/`**: The folder is strictly immutable.
 - **Do NOT re-scan the entire repository for general context**: Use `docs/agent-context/` instead.
+- **Do NOT build application components out of sequence**: Execute in bounded phases adhering to the stop-condition policy.
