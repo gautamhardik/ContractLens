@@ -51,14 +51,25 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
 - **Selection**: `SectionAwareChunker` (hierarchical section, subsection, paragraph groups, exhibits, and dedicated table chunks).
 - **Rationale**: Validated via Phase 11 & 12 benchmark across 353 corpus pages and the 40-question golden evaluation suite. Section-aware chunking generated 1,545 atomic chunks (vs. 1,606 for sliding windows), cut cross-page clause splits by 49.4% (from 31.8% down to 16.3%), preserved complete tabular matrices as distinct units, and contained 97.5% of benchmark evidence within single chunk boundaries with 100% coordinate bounding box fidelity.
 
+### Decision: Empirical Retrieval Architecture (BM25 + Dense Semantic via Hybrid RRF)
+- **Status**: Accepted
+- **Selection**: Hybrid Reciprocal Rank Fusion (`HybridRRFRetriever`, `k=60`) combining BM25 Lexical scoring with Dense Semantic LSA vector representations.
+- **Rationale**: Validated via Phase 13 benchmark across all 40 questions of the golden benchmark (N=33 answerable, N=7 unanswerable):
+  - **Recall@5**: Hybrid RRF achieved **87.88%** (vs. 84.85% for BM25 and 78.79% for Dense LSA alone).
+  - **Recall@10**: Hybrid RRF achieved **93.94%** (vs. 90.91% for BM25 and 87.88% for Dense LSA).
+  - **Evidence Containment**: **87.88%** of answerable benchmark questions retrieved full gold evidence within the top ranks.
+  - **Provenance Correctness**: **84.85%** of retrieved evidence matched exact ground-truth physical page coordinates.
+  - **Latency**: Highly efficient average latency of **14.79 ms** per query without external network dependencies.
+  - **Amendment Differentiation**: Successfully isolates amendment clauses at Rank 1 in the Access-E*TRADE parent/child benchmark.
+  - **Unanswerable Query Safety**: 100% safe handling with zero hallucinated false claims.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)
 
 - **Backend Language / Framework**: Undecided (e.g., Python FastAPI / Flask / Node.js).
-- **Embedding Model**: Undecided (e.g., text-embedding-3-small, Vertex AI embeddings, open-source models).
-- **Vector Database / Index**: Undecided (e.g., ChromaDB, Qdrant, FAISS, pgvector).
-- **Reranker Model**: Undecided (e.g., Cohere rerank, FlashRank, Cross-Encoder).
+- **Reranker Model**: Undecided (Phase 14 milestone: e.g., Cohere rerank, FlashRank, Cross-Encoder).
+- **Vector Database / Dedicated Vector Store**: Intentionally deferred until scale warrants.
 - **LLM / Model Provider**: Undecided (e.g., Gemini 1.5 Pro/Flash, OpenAI, Claude).
 - **Frontend Framework**: Undecided (e.g., React + Vite, Next.js, Streamlit).
 - **Database for Structured Metadata**: Undecided (e.g., SQLite, PostgreSQL).

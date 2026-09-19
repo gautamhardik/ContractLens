@@ -25,11 +25,13 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 - [x] **Phase 5 & 6 — Contract Intelligence & Hybrid Extraction**: Strongly-typed intelligence models (`src/models/intelligence.py`) and hybrid extractor (`src/ingestion/extractor.py`). Extracts parties, dates, Net payment terms, governing laws, termination notice periods, and amendment modifications with mandatory clause provenance. 100% test pass (`tests/test_intelligence_extraction.py`).
 - [x] **Phase 7, 8 & 9 — Obligation, Temporal & Event Engine**: Strongly-typed `ContractObligation` model, deterministic `TemporalEngine` with 7 temporal types, recurrence rules, non-fabricating date calculator, and `LifecycleEventEngine`. 100% test pass (`tests/test_obligation_temporal.py`). Benchmark documented in `experiments/obligations/`.
 - [x] **Phase 10, 11 & 12 — Evaluation Dataset & Contract-Aware Chunking Experiments**: Created reproducible 40-question benchmark with 7 unanswerable questions, acceptable variants, and exact physical provenance. Implemented `FixedSlidingWindowChunker` and `SectionAwareChunker` preserving 100% bounding box provenance. Demonstrated 49.4% reduction in cross-page fragmentation and 97.5% single-chunk containment. Documented in `experiments/chunking/` and `docs/agent-context/EVALUATION.md`.
+- [x] **Phase 13 — Empirical Retrieval Benchmark (Lexical, Dense, Hybrid RRF)**: Evaluated BM25, Dense Semantic LSA, and Hybrid RRF against all 40 questions of the golden benchmark across 1,545 chunks. Hybrid RRF established clear superiority with 87.88% Recall@5, 93.94% Recall@10, 87.88% evidence containment, and 14.79 ms average latency. Documented in `experiments/retrieval/` and `docs/agent-context/DECISIONS.md`.
 
 ---
 
 ## Master Phase Graph & Next Milestones
-- [ ] **Phase 13, 14, 15 & 16 — Retrieval Stack**: Embedding model evaluation, lexical BM25, hybrid RRF, and reranker benchmarking. (NEXT)
+- [ ] **Phase 14 — Reranking Experiments**: Benchmark cross-encoder rerankers (e.g. FlashRank, cross-encoder models) against Top-10 retrieved candidate pools to maximize precision at Top-3. (NEXT)
+- [ ] **Phase 15 & 16 — Retrieval Optimization & Index Packaging**: Finalize unified retrieval service and provenance packaging.
 - [ ] **Phase 17, 18 & 19 — Evidence Layer & Grounded RAG with Verification**: Verifiable citation pipeline and answer verification engine.
 - [ ] **Phase 20 — Contract Knowledge Graph Evaluation**: Empirically assess graph value for amendment and cross-contract dependency tracking.
 - [ ] **Phase 21, 22, 23 & 24 — Agent Tool Layer, Router & Planner**: Typed tools, task router, multi-step planner, and session state.
