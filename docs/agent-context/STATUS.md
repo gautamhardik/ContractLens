@@ -31,16 +31,17 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 ---
 
 ## Master Phase Graph & Next Milestones
-- [ ] **Phase 15 & 16 — Retrieval Optimization & Index Packaging**: Finalize unified retrieval service and provenance packaging. (NEXT)
-- [ ] **Phase 17, 18 & 19 — Evidence Layer & Grounded RAG with Verification**: Verifiable citation pipeline and answer verification engine.
-- [ ] **Phase 20 — Contract Knowledge Graph Evaluation**: Empirically assess graph value for amendment and cross-contract dependency tracking.
-- [ ] **Phase 21, 22, 23 & 24 — Agent Tool Layer, Router & Planner**: Typed tools, task router, multi-step planner, and session state.
-- [ ] **Phase 25 & 26 — Version Intelligence & Change Impact Analysis**: Semantic section diffing, change classification, and impact mapping on obligations.
-- [ ] **Phase 27 & 28 — Cross-Contract & Portfolio Intelligence**: Natural language portfolio queries and aggregate dashboards.
-- [ ] **Phase 29 & 30 — Review Signals & "What Should I Worry About?" Agent**: Proactive risk flags and flagship operational review agent.
-- [ ] **Phase 31 to 35 — Premium Frontend**: Operations dashboard, contract workspace, agent investigation panel, evidence drawer, timeline, and comparison UI.
-- [ ] **Phase 36, 37 & 38 — Hardening, Security, Regression Suite & End-to-End Optimization**: Failure handling, controlled tools, full benchmark run.
-- [ ] **Phase 39 & 40 — Demo & Submission Preparation**: 3-minute coherent demo script, README, presentation, and repository cleanup.
+- [ ] **Phase 15 — Evidence Layer & Citation Integrity**: Chunk-to-canonical block evidence resolution, source citation validation against original PDFs, precise evidence span identification, structured `EvidenceBundle`, and benchmark citation evaluation. (NEXT)
+- [ ] **Phase 16 — Grounded RAG & Verification Engine**: Evidence-grounded response generation and anti-hallucination citation verification.
+- [ ] **Phase 17 — Contract Knowledge Graph Evaluation**: Empirically assess graph value for amendment and cross-contract dependency tracking.
+- [ ] **Phase 18 — Agent Tool Layer**: Deterministic typed tools and evidence-retrieval tool contracts.
+- [ ] **Phase 19 — Agent Routing & Task Classification**: Rule-first task classifier and tool invocation router.
+- [ ] **Phase 20 — Agent Planning & Session Orchestration**: Multi-step planner, execution loop, and memory state.
+- [ ] **Phase 21 & 22 — Version Intelligence & Change Impact Analysis**: Semantic section diffing, change classification, and obligation impact mapping.
+- [ ] **Phase 23 & 24 — Cross-Contract & Portfolio Intelligence**: Cross-document query synthesis and portfolio-level aggregation.
+- [ ] **Phase 25 & 26 — Review Signals & "What Should I Worry About?" Agent**: Proactive risk signal detection and operational review agent.
+- [ ] **Phase 27 to 31 — Premium Frontend Workspace**: Operations dashboard, contract viewer with PDF bounding-box evidence highlights, and audit drawer.
+- [ ] **Phase 32 to 35 — Hardening, E2E Regression, Demo & Submission**: Failure recovery, end-to-end benchmark run, and demo script.
 
 ---
 
