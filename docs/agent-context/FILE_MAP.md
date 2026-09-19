@@ -17,6 +17,7 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `src/ingestion/`: Structural reconstructor (`reconstructor.py`), intelligence extractor (`extractor.py`), and chunking strategies (`chunker.py`).
 - `src/temporal/`: Temporal constraints, recurrence rules, and date calculators (`temporal_engine.py`, `lifecycle_engine.py`).
 - `src/retrieval/`: Lexical BM25 (`lexical.py`), Dense LSA (`dense.py`), Hybrid RRF (`fusion.py`), Cross-Encoder Reranker (`reranker.py`), and evaluation harness (`evaluation.py`).
+- `src/evidence/`: Evidence models (`models.py`), citation validator (`validator.py`), and deterministic resolver (`resolver.py`).
 
 ## Experiments (`experiments/`)
 - `experiments/extraction/`: Empirical extraction benchmark and findings.
@@ -25,6 +26,7 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `experiments/chunking/`: Empirical sliding-window vs section-aware chunking benchmark.
 - `experiments/retrieval/`: Empirical BM25 vs Dense vs Hybrid RRF benchmark.
 - `experiments/reranking/`: Empirical cross-encoder reranking evaluation (`run_reranking_experiments.py`, `benchmark_report.md`, `failure_analysis.md`).
+- `experiments/evidence/`: Empirical evidence resolution & citation integrity benchmark (`run_evidence_benchmark.py`, `README.md`, `evidence_benchmark_results.json`).
 
 ## Tests (`tests/`)
 - `tests/test_canonical_reconstruction.py`: Canonical document and reconstruction tests.
@@ -32,3 +34,4 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `tests/test_obligation_temporal.py`: Obligation and temporal engine tests.
 - `tests/test_chunking_evaluation.py`: Benchmark dataset integrity and chunking tests.
 - `tests/test_retrieval.py`: Retrieval and cross-encoder reranking tests.
+- `tests/test_evidence.py`: Evidence resolution, citation validity, and bounding box tests.
