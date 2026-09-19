@@ -44,10 +44,9 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 
 ---
 
-## Master Phase Graph & Next Milestones
-- [ ] **Phase 23 & 24 — Cross-Contract & Portfolio Intelligence**: Cross-document query synthesis and portfolio-level aggregation.
-- [ ] **Phase 25 & 26 — Review Signals & "What Should I Worry About?" Agent**: Proactive risk signal detection and operational review agent.
-- [ ] **Phase 27 to 31 — Premium Frontend Workspace**: Operations dashboard, contract viewer with PDF bounding-box evidence highlights, and audit drawer. (NEXT)
+- [x] **Phase 23 & 24 — Cross-Contract & Portfolio Intelligence**: Implemented `PortfolioAggregator` (`src/portfolio/aggregator.py`) computing portfolio-level KPIs, governing law distributions, payment term distributions, counterparty network matrices, and cross-contract milestone timelines with 100% citation traceability.
+- [x] **Phase 25 & 26 — Review Signals & "What Should I Worry About?" Agent**: Implemented `RiskDetector` (`src/risk/detector.py`) analyzing contracts across 6 high-impact risk signals (`AUTO_RENEWAL_TRAP`, `AGGRESSIVE_PAYMENT_PENALTY`, `SHORT_CURE_PERIOD`, `ASYMMETRIC_TERMINATION`, `UNLIMITED_OR_UNCAPPED_LIABILITY`, late payment interest surcharges). Generates actionable remediation recommendations and scores (0–100) rooted in contract evidence. 3/3 targeted tests passed (`tests/test_portfolio_and_risk.py`).
+- [ ] **Phase 27 to 31 — Production FastAPI Backend & Premium Frontend Workspace**: Operations dashboard, contract viewer with PDF bounding-box evidence highlights, grounded chat drawer, and version diff viewer. (NEXT)
 - [ ] **Phase 32 to 35 — Hardening, E2E Regression, Demo & Submission**: Failure recovery, end-to-end benchmark run, and demo script.
 
 ---
