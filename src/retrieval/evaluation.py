@@ -31,6 +31,7 @@ class QuestionRetrievalResult(BaseModel):
     latency_ms: float
     
     # Metrics
+    hit_at_1: bool = False
     hit_at_3: bool = False
     hit_at_5: bool = False
     hit_at_10: bool = False
@@ -49,6 +50,7 @@ class BenchmarkSummary(BaseModel):
     unanswerable_count: int
     
     # Answerable Metrics
+    recall_at_1: float = 0.0
     recall_at_3: float
     recall_at_5: float
     recall_at_10: float
@@ -136,6 +138,7 @@ def evaluate_retrieval_strategy(
 
         # Calculate metrics
         first_gold_rank = min(gold_ranks) if gold_ranks else 0
+        hit_at_1 = (first_gold_rank == 1)
         hit_at_3 = (first_gold_rank > 0 and first_gold_rank <= 3)
         hit_at_5 = (first_gold_rank > 0 and first_gold_rank <= 5)
         hit_at_10 = (first_gold_rank > 0 and first_gold_rank <= 10)
@@ -161,6 +164,7 @@ def evaluate_retrieval_strategy(
                 retrieved_pages=pages,
                 scores=scores,
                 latency_ms=latency_ms,
+                hit_at_1=hit_at_1,
                 hit_at_3=hit_at_3,
                 hit_at_5=hit_at_5,
                 hit_at_10=hit_at_10,
@@ -177,6 +181,7 @@ def evaluate_retrieval_strategy(
     unanswerable_res = [r for r in question_results if not r.is_answerable]
     ans_count = len(answerable_res) or 1
 
+    recall_at_1 = sum(1 for r in answerable_res if r.hit_at_1) / ans_count
     recall_at_3 = sum(1 for r in answerable_res if r.hit_at_3) / ans_count
     recall_at_5 = sum(1 for r in answerable_res if r.hit_at_5) / ans_count
     recall_at_10 = sum(1 for r in answerable_res if r.hit_at_10) / ans_count
@@ -209,6 +214,7 @@ def evaluate_retrieval_strategy(
         total_questions=len(questions),
         answerable_count=len(answerable_res),
         unanswerable_count=len(unanswerable_res),
+        recall_at_1=round(recall_at_1, 4),
         recall_at_3=round(recall_at_3, 4),
         recall_at_5=round(recall_at_5, 4),
         recall_at_10=round(recall_at_10, 4),

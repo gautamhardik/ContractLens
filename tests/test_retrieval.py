@@ -228,3 +228,32 @@ def test_retrieval_evaluation_metrics():
     assert summary.evidence_containment_rate == 1.0
     assert summary.provenance_correctness_rate == 1.0
     assert summary.unanswerable_safe_rate == 1.0
+
+
+def test_flashrank_reranker_provenance_and_scoring():
+    """Verify FlashRank reranks candidates while preserving 100% provenance."""
+    from src.retrieval.reranker import FlashRankReranker
+    
+    chunks = create_sample_chunks()
+    bm25 = BM25Retriever(chunks)
+    candidates = bm25.retrieve("When does termination occur?", top_k=3)
+    assert len(candidates) > 0
+    
+    reranker = FlashRankReranker()
+    reranked = reranker.rerank(
+        query="When does termination occur upon breach?",
+        candidates=candidates,
+        top_k=3
+    )
+    
+    assert len(reranked) == len(candidates)
+    # Check that scores are assigned and descending
+    for i in range(len(reranked) - 1):
+        assert reranked[i][1] >= reranked[i+1][1]
+        
+    # Check 100% provenance retention
+    for chunk, score in reranked:
+        assert chunk.chunk_id is not None
+        assert chunk.provenance.document_id is not None
+        assert chunk.provenance.page_start >= 1
+        assert len(chunk.provenance.bounding_boxes) > 0

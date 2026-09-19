@@ -62,13 +62,20 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
   - **Latency**: Highly efficient average latency of **14.79 ms** per query without external network dependencies.
   - **Amendment Differentiation**: Successfully isolates amendment clauses at Rank 1 in the Access-E*TRADE parent/child benchmark.
   - **Unanswerable Query Safety**: 100% safe handling with zero hallucinated false claims.
+### Decision: Empirical Reranking Evaluation (Justify vs. Defer Architecture)
+- **Status**: Accepted
+- **Selection**: Defer mandatory cross-encoder reranking from the default retrieval loop; retain Hybrid RRF ($k=60$) as the primary retrieval baseline; preserve `FlashRankReranker` (`ms-marco-TinyBERT-L-2-v2`) as an optional precision-tier pass for high-ambiguity or deep-audit queries.
+- **Rationale**: Validated via Phase 14 empirical evaluation across 1,545 chunks on the 40-question golden benchmark:
+  - **Marginal Precision Gain**: On Hybrid RRF, FlashRank improves `Recall@1` from **51.52% to 66.67%** (+15.15%) and `MRR` from **0.6646 to 0.7631** (+0.0985). `Recall@3` reaches **84.85%** (matching un-reranked BM25), while `Recall@5` (**87.88%**) and `Recall@10` (**93.94%**) remain identical because reranking re-orders rather than expands candidates.
+  - **Latency Trade-Off**: Baseline Hybrid RRF executes in **7.26 ms** (and BM25 in **2.13 ms**). Adding cross-encoder inference over 10 candidates increases query latency to **29.06 ms** (a ~4x increase) and up to **500 ms** under full cold-cache CPU inference.
+  - **Boilerplate Legal Language Penalty**: In legal contracts where parent agreements and amendments share identical clause titles (e.g. Section 3 Term and Termination), the generic pre-trained cross-encoder slightly penalized amendment-specific modifications (`Q36` dropped from Rank 1 to Rank 2, `Q37` dropped from Rank 2 to Rank 3).
+  - **Defensible Conclusion**: In a latency-sensitive legal RAG system targeting sub-50ms tool execution, Hybrid RRF provides 93.94% Recall@10 and 87.88% containment at 7 ms. Forcing a mandatory reranker multiplies latency for minor top-1 gains. Therefore, the reranker is **deferred** from default single-turn retrieval and retained as a configurable module.
 
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)
 
 - **Backend Language / Framework**: Undecided (e.g., Python FastAPI / Flask / Node.js).
-- **Reranker Model**: Undecided (Phase 14 milestone: e.g., Cohere rerank, FlashRank, Cross-Encoder).
 - **Vector Database / Dedicated Vector Store**: Intentionally deferred until scale warrants.
 - **LLM / Model Provider**: Undecided (e.g., Gemini 1.5 Pro/Flash, OpenAI, Claude).
 - **Frontend Framework**: Undecided (e.g., React + Vite, Next.js, Streamlit).

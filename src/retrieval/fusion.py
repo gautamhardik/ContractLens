@@ -1,4 +1,4 @@
-"""Reciprocal Rank Fusion (RRF) Hybrid Retrieval for ContractLens (Phase 13).
+r"""Reciprocal Rank Fusion (RRF) Hybrid Retrieval for ContractLens (Phase 13).
 
 Combines rankings from BM25 (lexical) and Dense (semantic) retrievers using
 the standard Reciprocal Rank Fusion formula:
