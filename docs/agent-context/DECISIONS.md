@@ -26,12 +26,16 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
 - **Selection**: 3-layer hierarchy (Always-on Rules in `.agents/rules/`, Compact Project Memory in `docs/agent-context/`, Task Skills in `.agents/skills/`).
 - **Context**: Minimizes repetitive repository audits and token spend across agent turns.
 
+### Decision: PDF Parsing Engine
+- **Status**: Accepted
+- **Selection**: PyMuPDF (`fitz`).
+- **Rationale**: Validated via Phase 2 benchmark against `pdfplumber` across short, medium, and 176-page stress test documents. PyMuPDF delivered 1.2x to 2.3x lower extraction latency, native geometric bounding boxes (`[x0, y0, x1, y1]`), clean table boundary detection without over-segmenting horizontal rules, and 100% digital vector character capture across all 696 corpus pages.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)
 
 - **Backend Language / Framework**: Undecided (e.g., Python FastAPI / Flask / Node.js).
-- **PDF Parsing Engine**: Undecided (e.g., PyMuPDF, pdfplumber, LlamaParse, unstructured).
 - **Chunking Strategy**: Undecided (e.g., section-aware semantic splitting vs. token-based sliding window).
 - **Embedding Model**: Undecided (e.g., text-embedding-3-small, Vertex AI embeddings, open-source models).
 - **Vector Database / Index**: Undecided (e.g., ChromaDB, Qdrant, FAISS, pgvector).

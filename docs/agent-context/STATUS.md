@@ -20,12 +20,12 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 - [x] Established Evaluation Framework & Benchmark criteria (`EVALUATION.md`).
 - [x] Aligned master architecture and phased roadmap with Master Directive.
 - [x] **Phase 1 — Corpus Audit**: Full structural audit of 18 documents, page counts (696 total), character counts (2.06M), table density, amendment pairs (`Access-E-TRADE`), complexity tiers. Output `Data/corpus_manifest.json` and `Data/corpus_report.md`.
+- [x] **Phase 2 — PDF Extraction Benchmark**: Head-to-head empirical benchmark between `PyMuPDF` and `pdfplumber`. PyMuPDF selected for 1.2x–2.3x speedup, native coordinate bounding boxes (`[x0, y0, x1, y1]`), and cleaner table boundary handling. Documented in `experiments/extraction/README.md` and `DECISIONS.md`.
 
 ---
 
 ## Master Phase Graph & Next Milestones
-- [ ] **Phase 2 — PDF Extraction Benchmark**: Empirical comparison of parsers (PyMuPDF vs. pdfplumber vs. pypdf) for table extraction, reading order, header stripping, and page coordinate retention. (NEXT)
-- [ ] **Phase 3 & 4 — Canonical Document Model & Structural Reconstruction**: Unified JSON schema for pages, blocks, sections, headings, tables with strict provenance.
+- [ ] **Phase 3 & 4 — Canonical Document Model & Structural Reconstruction**: Unified JSON schema for pages, blocks, sections, headings, tables with strict provenance and SEC noise tagging. (NEXT)
 - [ ] **Phase 5 & 6 — Contract Intelligence & Hybrid Extraction**: Structured entity, term, and clause extraction (deterministic rules + LLM reasoning).
 - [ ] **Phase 7, 8 & 9 — Obligation, Temporal & Event Engine**: Structured obligation objects, deterministic date/trigger calculators, contract lifecycle.
 - [ ] **Phase 10, 11 & 12 — Chunking & Evaluation Dataset**: 40-question benchmark across 8 categories; section-aware vs. hierarchical chunking experiments.
