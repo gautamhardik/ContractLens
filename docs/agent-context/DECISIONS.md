@@ -123,6 +123,7 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
   - **Zero Date Fabrication**: Conversational temporal expressions (`within 30 days`, `after termination`) are parsed into structured offsets and anchor event types. If the anchor date is unknown or ungrounded, `anchor_status` remains `UNRESOLVED` with `computed_target_date=None`.
   - **Controlled Query Expansion & Exact Query Preservation**: The original user query is strictly preserved. Expansion terms and resolved counterparties are appended only through `ExpandedQuery` with non-fabricating domain synonyms and contract-grounded metadata.
   - **100% Final Answer Grounding**: Solves conversational counterparty obligation queries (such as AMX vendor queries) cleanly, achieving 100.0% Final Answer Grounding, 100.0% Tool Execution, 100.0% Citation Validity, 0.0% Unsupported Claims, and 100.0% Unanswerable Safety on the benchmark.
+  - **Ontology Granularity & Adversarial Hardening (Phase 22 Backlog)**: Current mapping groups common terms (e.g., `buyer` -> `CUSTOMER`, `manufacturer` -> `SUPPLIER`). While safe and deterministic for current contracts, contracts may differentiate `supplier ≠ manufacturer`, `vendor ≠ service provider`, or `buyer ≠ customer`. This distinction is recorded for testing in the Phase 22 adversarial evaluation suite rather than prematurely complicating the Phase 19 ontology.
 
 ---
 
