@@ -31,6 +31,11 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
 - **Selection**: PyMuPDF (`fitz`).
 - **Rationale**: Validated via Phase 2 benchmark against `pdfplumber` across short, medium, and 176-page stress test documents. PyMuPDF delivered 1.2x to 2.3x lower extraction latency, native geometric bounding boxes (`[x0, y0, x1, y1]`), clean table boundary detection without over-segmenting horizontal rules, and 100% digital vector character capture across all 696 corpus pages.
 
+### Decision: Canonical Document Model & Structural Reconstruction
+- **Status**: Accepted
+- **Selection**: Pydantic-based `CanonicalDocument` schema with `CanonicalPage`, `CanonicalBlock`, `CanonicalSection`, and `TableData`.
+- **Rationale**: Validated via Phase 3 & 4 benchmarks across representative contracts. The model preserves exact physical page numbers, geometric bounding boxes, reading order, table matrices, and clause hierarchies. Crucially, SEC filing noise (headers/URLs) is tagged (`is_sec_noise=True`) rather than destructively deleted, guaranteeing that original raw text remains 100% recoverable.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)
