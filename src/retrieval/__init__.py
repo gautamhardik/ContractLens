@@ -9,6 +9,13 @@ from src.retrieval.fusion import HybridRRFRetriever
 from src.retrieval.evaluation import evaluate_retrieval_strategy, BenchmarkSummary, QuestionRetrievalResult
 
 from src.retrieval.reranker import BaseReranker, FlashRankReranker
+from src.retrieval.adaptive import (
+    RetrievalQuery,
+    RetrievalDifficulty,
+    DifficultySignals,
+    DifficultyDetector,
+    AdaptiveRetriever,
+)
 
 __all__ = [
     "BaseChunker",
@@ -23,4 +30,9 @@ __all__ = [
     "evaluate_retrieval_strategy",
     "BenchmarkSummary",
     "QuestionRetrievalResult",
+    "RetrievalQuery",
+    "RetrievalDifficulty",
+    "DifficultySignals",
+    "DifficultyDetector",
+    "AdaptiveRetriever",
 ]

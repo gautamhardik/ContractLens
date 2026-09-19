@@ -125,6 +125,14 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
   - **100% Final Answer Grounding**: Solves conversational counterparty obligation queries (such as AMX vendor queries) cleanly, achieving 100.0% Final Answer Grounding, 100.0% Tool Execution, 100.0% Citation Validity, 0.0% Unsupported Claims, and 100.0% Unanswerable Safety on the benchmark.
   - **Ontology Granularity & Adversarial Hardening (Phase 22 Backlog)**: Current mapping groups common terms (e.g., `buyer` -> `CUSTOMER`, `manufacturer` -> `SUPPLIER`). While safe and deterministic for current contracts, contracts may differentiate `supplier ≠ manufacturer`, `vendor ≠ service provider`, or `buyer ≠ customer`. This distinction is recorded for testing in the Phase 22 adversarial evaluation suite rather than prematurely complicating the Phase 19 ontology.
 
+### Decision: Empirical Evaluation of Query-Adaptive Retrieval & Baseline Retention
+- **Status**: Evaluated & Retained Hybrid RRF Baseline as Default (Phase 20)
+- **Selection**: Implemented `AdaptiveRetriever` supporting intent-aware candidate generation, query expansion, difficulty detection, and FlashRank reranking (`src/retrieval/adaptive.py`). Empirical evaluation across the 40-question benchmark showed:
+  - **Baseline Retained**: `Hybrid_RRF_Baseline` achieved the highest top-5 recall (**87.88%** R@5, **93.94%** R@10, **87.88%** Evidence Containment) at **12.27 ms** average latency.
+  - **Expansion Tradeoff**: Unconditional semantic query expansion broadened candidate pools on legal terminology, reducing R@5 to 78.79%.
+  - **Cross-Encoder Precision vs Latency**: FlashRank cross-encoder boosts Top-1 precision (R@1: 51.52% -> 66.67%, MRR: 0.6646 -> 0.7508) but introduces a 3x-5x latency overhead (40-60 ms).
+  - **Architecture Decision**: Retain `HybridRRFRetriever` as the primary production retrieval engine for fast single-turn RAG, while providing `AdaptiveRetriever` with selective FlashRank reranking as an opt-in precision configuration for complex, multi-candidate queries. 100% citation validity, 0% unsupported claims, and 100% unanswerable safety preserved across all configurations.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)

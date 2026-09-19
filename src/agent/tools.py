@@ -112,7 +112,7 @@ class AgentTool(ABC):
 class SearchContractEvidenceTool(AgentTool):
     """Tool retrieving unstructured contractual evidence via Hybrid RRF + EvidenceResolver."""
 
-    def __init__(self, retriever: HybridRRFRetriever, resolver: EvidenceResolver):
+    def __init__(self, retriever: Any, resolver: EvidenceResolver):
         self.retriever = retriever
         self.resolver = resolver
 
@@ -133,11 +133,15 @@ class SearchContractEvidenceTool(AgentTool):
         call_id = f"call_search_{int(t0*1000)}"
 
         try:
-            candidates = self.retriever.retrieve(
-                query=args.query,
-                top_k=args.top_k,
-                filter_doc_ids=args.filter_doc_ids
-            )
+            # Check if retriever accepts retrieval_query from understanding context
+            retrieval_kwargs = {"query": args.query, "top_k": args.top_k, "filter_doc_ids": args.filter_doc_ids}
+            if hasattr(self.retriever, "retrieve") and hasattr(context, "metadata"):
+                und = context.metadata.get("understanding") if isinstance(context.metadata, dict) else None
+                if und is not None and hasattr(self.retriever, "enable_adaptive_weights"):
+                    from src.retrieval.adaptive import RetrievalQuery
+                    retrieval_kwargs["retrieval_query"] = RetrievalQuery.from_understanding(und, target_document_ids=args.filter_doc_ids)
+
+            candidates = self.retriever.retrieve(**retrieval_kwargs)
             chunks = [c for c, _ in candidates]
             bundle = self.resolver.create_evidence_bundle(query=args.query, retrieved_chunks=chunks)
 
