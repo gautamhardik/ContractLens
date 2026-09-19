@@ -21,6 +21,10 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `src/rag/`: Grounded RAG models (`models.py`), prompt formats (`prompts.py`), generators & providers (`generator.py`), claim verifier (`verifier.py`), and pipeline (`pipeline.py`).
 - `src/graph/`: Knowledge graph models (`models.py`), schema validator (`validator.py`), graph builder (`builder.py`), inverted index (`index.py`), and query engine (`query.py`).
 - `src/agent/`: Agent models (`models.py`), semantic understanding & role ontology (`understanding.py`), typed tools & registry (`tools.py`), deterministic router (`router.py`), planner (`planner.py`), bounded executor (`executor.py`), and agent facade (`agent.py`).
+- `src/portfolio/`: Portfolio aggregator and KPI models (`aggregator.py`).
+- `src/risk/`: Operational risk detector, signal models, and severity ratings (`detector.py`).
+- `src/api/`: Production FastAPI REST server (`server.py`).
+- `frontend/`: React + Vite interactive workspace (`src/App.jsx`, `src/index.css`).
 
 ## Experiments (`experiments/`)
 - `experiments/extraction/`: Empirical extraction benchmark and findings.
@@ -52,3 +56,5 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `tests/test_role_alias_resolution.py`: Conversational role-alias resolution and party mapping tests.
 - `tests/test_query_understanding.py`: Semantic query understanding, canonical role ontology, temporal cue, comparison intent, and query expansion tests.
 - `tests/test_adaptive_retrieval.py`: Query-adaptive retrieval, difficulty detection, and selective FlashRank reranking tests.
+- `tests/test_portfolio_and_risk.py`: Portfolio aggregator and operational risk detector tests.
+- `tests/test_api_server.py`: FastAPI server endpoints and agent integration tests.
