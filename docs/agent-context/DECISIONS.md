@@ -46,12 +46,16 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
 - **Selection**: Strongly-typed `ContractObligation`, `TemporalConstraint`, and `LifecycleEvent` representations.
 - **Rationale**: Validated via Phase 7–9 benchmark across 779 obligations. Distinguishes 7 temporal categories (`FIXED_DATE`, `RELATIVE_OFFSET`, `EVENT_RELATIVE`, `RECURRING`, `CONDITIONAL`, `ONGOING`, `UNSPECIFIED`). Decouples relative offsets (e.g., Net 30, 10 days post-breach) from calendar dates; unknown anchors remain explicitly `unresolved` rather than fabricated. Recurrence is captured via rules (`RecurrenceRule`) without premature infinite materialization. Real-world completion status remains strictly `UNKNOWN` in the absence of external ERP data.
 
+### Decision: Contract-Aware Chunking Strategy
+- **Status**: Accepted
+- **Selection**: `SectionAwareChunker` (hierarchical section, subsection, paragraph groups, exhibits, and dedicated table chunks).
+- **Rationale**: Validated via Phase 11 & 12 benchmark across 353 corpus pages and the 40-question golden evaluation suite. Section-aware chunking generated 1,545 atomic chunks (vs. 1,606 for sliding windows), cut cross-page clause splits by 49.4% (from 31.8% down to 16.3%), preserved complete tabular matrices as distinct units, and contained 97.5% of benchmark evidence within single chunk boundaries with 100% coordinate bounding box fidelity.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)
 
 - **Backend Language / Framework**: Undecided (e.g., Python FastAPI / Flask / Node.js).
-- **Chunking Strategy**: Undecided (e.g., section-aware semantic splitting vs. token-based sliding window).
 - **Embedding Model**: Undecided (e.g., text-embedding-3-small, Vertex AI embeddings, open-source models).
 - **Vector Database / Index**: Undecided (e.g., ChromaDB, Qdrant, FAISS, pgvector).
 - **Reranker Model**: Undecided (e.g., Cohere rerank, FlashRank, Cross-Encoder).

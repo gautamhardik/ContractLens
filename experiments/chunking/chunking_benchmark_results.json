@@ -1,0 +1,537 @@
+{
+  "benchmark_question_count": 40,
+  "target_documents_analyzed": [
+    "doc_09",
+    "doc_18",
+    "doc_02",
+    "doc_01",
+    "doc_16",
+    "doc_10",
+    "doc_13",
+    "doc_03",
+    "doc_17"
+  ],
+  "structural_statistics": {
+    "fixed_sliding_window": {
+      "total_chunks": 1606,
+      "mean_char_length": 1605.2,
+      "median_char_length": 1349.5,
+      "min_char_length": 294,
+      "max_char_length": 8459,
+      "std_dev_char_length": 779.2,
+      "cross_page_chunks": 510,
+      "provenance_retained_100_percent": true
+    },
+    "section_aware": {
+      "total_chunks": 1545,
+      "mean_char_length": 745.3,
+      "median_char_length": 274,
+      "min_char_length": 1,
+      "max_char_length": 5122,
+      "std_dev_char_length": 910.0,
+      "cross_page_chunks": 252,
+      "provenance_retained_100_percent": true
+    }
+  },
+  "evidence_containment_summary": {
+    "fixed_sliding_window": {
+      "single_chunk_contained": 39,
+      "multi_chunk_split": 1,
+      "not_found": 0
+    },
+    "section_aware": {
+      "single_chunk_contained": 39,
+      "multi_chunk_split": 1,
+      "not_found": 0
+    }
+  },
+  "per_question_breakdown": [
+    {
+      "question_id": "Q01_meta_law_access",
+      "category": "metadata",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q02_meta_law_sabre",
+      "category": "metadata",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_10"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q03_meta_term_amx",
+      "category": "metadata",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_01"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q04_meta_order_precedence_access",
+      "category": "metadata",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q05_meta_unanswerable_arbitration_seat",
+      "category": "metadata",
+      "is_answerable": false,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q06_parties_access_identity",
+      "category": "parties",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q07_parties_marqeta_role",
+      "category": "parties",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_16"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q08_parties_viac_nda",
+      "category": "parties",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_18"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q09_parties_foxconn_turtle_beach",
+      "category": "parties",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_17"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q10_parties_unanswerable_guarantor",
+      "category": "parties",
+      "is_answerable": false,
+      "target_documents": [
+        "doc_01"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q11_date_effective_access_msa",
+      "category": "dates_lifecycle",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q12_date_initial_expiration_access_msa",
+      "category": "dates_lifecycle",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q13_date_renewal_window_access",
+      "category": "dates_lifecycle",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q14_date_scyx_gsk_effective",
+      "category": "dates_lifecycle",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_09"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q15_date_unanswerable_amendment_exact_expiration",
+      "category": "dates_lifecycle",
+      "is_answerable": false,
+      "target_documents": [
+        "doc_02"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q16_pay_net_terms_access_msa",
+      "category": "payment",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q17_pay_invoicing_cycle_access",
+      "category": "payment",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q18_pay_marqeta_interchange_statement",
+      "category": "payment",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_16"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q19_pay_square_marqeta_fees_schedule",
+      "category": "payment",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_16"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q20_pay_unanswerable_cryptocurrency",
+      "category": "payment",
+      "is_answerable": false,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q21_term_convenience_access_msa",
+      "category": "termination",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q22_term_breach_cure_period_access",
+      "category": "termination",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q23_term_amx_notice_period",
+      "category": "termination",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_01"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q24_term_foxconn_redacted_notice",
+      "category": "termination",
+      "is_answerable": false,
+      "target_documents": [
+        "doc_17"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q25_term_effects_return_materials_access",
+      "category": "termination",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q26_ob_insurance_minimum_access_msa",
+      "category": "obligations",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q27_ob_insurance_eo_amendment",
+      "category": "obligations",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_02"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q28_ob_confidentiality_duration_access",
+      "category": "obligations",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q29_ob_audit_rights_access",
+      "category": "obligations",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q30_ob_preexisting_rights_access",
+      "category": "obligations",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q31_cross_governing_law_comparison",
+      "category": "cross_document",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03",
+        "doc_10"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q32_cross_payment_terms_access_vs_amx",
+      "category": "cross_document",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03",
+        "doc_01"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "multi_chunk_split",
+        "section_aware": "multi_chunk_split"
+      }
+    },
+    {
+      "question_id": "Q33_cross_spare_backup_hp_sow_linkage",
+      "category": "cross_document",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_13"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q34_cross_notice_windows_access_vs_amx",
+      "category": "cross_document",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_03",
+        "doc_01"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q35_cross_unanswerable_shared_indemnity_fund",
+      "category": "cross_document",
+      "is_answerable": false,
+      "target_documents": [
+        "doc_03",
+        "doc_01"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q36_amend_term_replacement_access",
+      "category": "amendments_versions",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_02",
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q37_amend_price_replacement_access",
+      "category": "amendments_versions",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_02",
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q38_amend_payment_amendment_access",
+      "category": "amendments_versions",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_02",
+        "doc_03"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q39_amend_full_force_confirmation_access",
+      "category": "amendments_versions",
+      "is_answerable": true,
+      "target_documents": [
+        "doc_02"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    },
+    {
+      "question_id": "Q40_amend_unanswerable_governing_law_override",
+      "category": "amendments_versions",
+      "is_answerable": false,
+      "target_documents": [
+        "doc_02"
+      ],
+      "strategies": {
+        "fixed_sliding_window": "single_chunk_contained",
+        "section_aware": "single_chunk_contained"
+      }
+    }
+  ]
+}

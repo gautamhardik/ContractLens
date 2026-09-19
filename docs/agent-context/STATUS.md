@@ -24,13 +24,12 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 - [x] **Phase 3 & 4 — Canonical Document Model & Structural Reconstruction**: Provenance-first Pydantic schemas (`src/models/canonical.py`) and deterministic reconstructor (`src/ingestion/reconstructor.py`). Preserves bounding boxes, reading order, table matrices, signatures, exhibit markers, and non-destructive SEC noise tags. 100% test pass (`tests/test_canonical_reconstruction.py`).
 - [x] **Phase 5 & 6 — Contract Intelligence & Hybrid Extraction**: Strongly-typed intelligence models (`src/models/intelligence.py`) and hybrid extractor (`src/ingestion/extractor.py`). Extracts parties, dates, Net payment terms, governing laws, termination notice periods, and amendment modifications with mandatory clause provenance. 100% test pass (`tests/test_intelligence_extraction.py`).
 - [x] **Phase 7, 8 & 9 — Obligation, Temporal & Event Engine**: Strongly-typed `ContractObligation` model, deterministic `TemporalEngine` with 7 temporal types, recurrence rules, non-fabricating date calculator, and `LifecycleEventEngine`. 100% test pass (`tests/test_obligation_temporal.py`). Benchmark documented in `experiments/obligations/`.
+- [x] **Phase 10, 11 & 12 — Evaluation Dataset & Contract-Aware Chunking Experiments**: Created reproducible 40-question benchmark with 7 unanswerable questions, acceptable variants, and exact physical provenance. Implemented `FixedSlidingWindowChunker` and `SectionAwareChunker` preserving 100% bounding box provenance. Demonstrated 49.4% reduction in cross-page fragmentation and 97.5% single-chunk containment. Documented in `experiments/chunking/` and `docs/agent-context/EVALUATION.md`.
 
 ---
 
 ## Master Phase Graph & Next Milestones
-- [ ] **Phase 10, 11 & 12 — Chunking & Evaluation Dataset**: 40-question benchmark across 8 categories; section-aware vs. hierarchical chunking experiments. (NEXT)
-- [ ] **Phase 10, 11 & 12 — Chunking & Evaluation Dataset**: 40-question benchmark across 8 categories; section-aware vs. hierarchical chunking experiments.
-- [ ] **Phase 13, 14, 15 & 16 — Retrieval Stack**: Embedding model evaluation, lexical BM25, hybrid RRF, and reranker benchmarking.
+- [ ] **Phase 13, 14, 15 & 16 — Retrieval Stack**: Embedding model evaluation, lexical BM25, hybrid RRF, and reranker benchmarking. (NEXT)
 - [ ] **Phase 17, 18 & 19 — Evidence Layer & Grounded RAG with Verification**: Verifiable citation pipeline and answer verification engine.
 - [ ] **Phase 20 — Contract Knowledge Graph Evaluation**: Empirically assess graph value for amendment and cross-contract dependency tracking.
 - [ ] **Phase 21, 22, 23 & 24 — Agent Tool Layer, Router & Planner**: Typed tools, task router, multi-step planner, and session state.

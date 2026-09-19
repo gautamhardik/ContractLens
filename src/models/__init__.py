@@ -50,6 +50,9 @@ __all__ = [
     "ContractObligation",
     "LifecycleEventType",
     "LifecycleEvent",
+    "ChunkType",
+    "ChunkProvenance",
+    "RetrievalChunk",
 ]
 from src.models.obligation import (
     TemporalType,
@@ -60,4 +63,9 @@ from src.models.obligation import (
     ContractObligation,
     LifecycleEventType,
     LifecycleEvent,
+)
+from src.models.chunk import (
+    ChunkType,
+    ChunkProvenance,
+    RetrievalChunk,
 )
