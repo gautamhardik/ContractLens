@@ -133,6 +133,16 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
   - **Cross-Encoder Precision vs Latency**: FlashRank cross-encoder boosts Top-1 precision (R@1: 51.52% -> 66.67%, MRR: 0.6646 -> 0.7508) but introduces a 3x-5x latency overhead (40-60 ms).
   - **Architecture Decision**: Retain `HybridRRFRetriever` as the primary production retrieval engine for fast single-turn RAG, while providing `AdaptiveRetriever` with selective FlashRank reranking as an opt-in precision configuration for complex, multi-candidate queries. 100% citation validity, 0% unsupported claims, and 100% unanswerable safety preserved across all configurations.
 
+### Decision: Structured Amendment & Version Intelligence Architecture
+- **Status**: Accepted (Phase 21)
+- **Selection**: Deterministic `AmendmentIntelligenceEngine` (`src/temporal/amendment_engine.py`) and strongly typed models (`src/models/amendment.py`).
+- **Rationale**:
+  - **Parent-Amendment Resolution**: Resolves amendment references (e.g. `doc_02` amends `doc_03` Access Master Services Agreement) through structured title analysis, entity correlation, and recitals verification with fallback to explicit corpus mappings.
+  - **Section Alignment & Before/After Modeling**: Aligns specific modified clauses (§1.2 Price, §3 Term, §6 Payment, §15.4 Insurance, and General Full Force confirmation) into structured `StructuredAmendmentChange` records with dual citation provenance linking both parent and amendment page/block citations.
+  - **Explicit Preservation of Unmodified Terms**: Conforms strictly to legal reality: an amendment does not replace the entire contract. The system emits `CONFIRM_FULL_FORCE` change records stating that all other terms remain in full force and effect.
+  - **Grounded Business Impact Analysis**: Synthesizes concrete business effects (e.g. term extended by 1 year to Sept 30, 2011; rate increased from $110/hr to $115/hr; payment shifted from Net 30 to Net 60; added $1M Errors & Omissions insurance requirement) without LLM speculation.
+  - **Agent Tooling**: Wrapped in `CompareContractAmendmentsTool` (`compare_contract_amendments`) enabling conversational agents to execute version diffs with dual evidence collections. 8/8 targeted tests and full regression passed.
+
 ---
 
 ## Intentionally Undecided Decisions (Pending Future Milestones)

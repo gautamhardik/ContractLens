@@ -27,6 +27,7 @@ from src.agent.tools import (
     GetContractObligationsTool,
     GetContractTimelineTool,
     GetContractAmendmentsTool,
+    CompareContractAmendmentsTool,
     BuildGroundedAnswerTool,
     AgentContext,
 )
@@ -68,6 +69,7 @@ __all__ = [
     "GetContractObligationsTool",
     "GetContractTimelineTool",
     "GetContractAmendmentsTool",
+    "CompareContractAmendmentsTool",
     "BuildGroundedAnswerTool",
     "AgentContext",
     "AgentRouter",

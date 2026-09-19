@@ -611,7 +611,101 @@ class GetContractAmendmentsTool(AgentTool):
             output=results,
             evidence=ev_refs,
             latency_ms=(time.perf_counter() - t0) * 1000.0,
-            metadata={"total_modifications": len(results)}
+            metadata={"total_modifications": len(results)},
+        )
+
+
+class CompareAmendmentsArgs(BaseModel):
+    amendment_document_id: str
+    parent_document_id: Optional[str] = None
+
+
+class CompareContractAmendmentsTool(AgentTool):
+    """Tool executing Phase 21 structured parent <-> amendment comparison."""
+
+    def __init__(self, engine: Any):
+        self.engine = engine
+
+    @property
+    def name(self) -> str:
+        return "compare_contract_amendments"
+
+    @property
+    def description(self) -> str:
+        return "Execute structured before/after amendment comparison, section alignment, and business impact analysis."
+
+    @property
+    def input_schema(self) -> Type[BaseModel]:
+        return CompareAmendmentsArgs
+
+    def execute(self, args: CompareAmendmentsArgs, context: Any) -> ToolResult:
+        t0 = time.perf_counter()
+        call_id = f"call_compare_amend_{int(t0*1000)}"
+
+        report = self.engine.compare_versions(
+            amendment_doc_id=args.amendment_document_id,
+            parent_doc_id=args.parent_document_id,
+        )
+
+        if not report:
+            return ToolResult(
+                call_id=call_id,
+                tool_name=self.name,
+                status=ToolStatus.NO_RESULTS,
+                error_message=f"Could not resolve parent contract for amendment: '{args.amendment_document_id}'",
+                latency_ms=(time.perf_counter() - t0) * 1000.0,
+            )
+
+        ev_refs: List[EvidenceReference] = [report.resolution.evidence]
+        for c in report.changes:
+            ev_refs.append(c.amendment_evidence)
+            if c.parent_evidence:
+                ev_refs.append(c.parent_evidence)
+        if report.full_force_evidence:
+            ev_refs.append(report.full_force_evidence)
+
+        # Deduplicate evidence refs
+        dedup_refs = []
+        seen = set()
+        for e in ev_refs:
+            key = (e.document_id, e.page_number, e.block_id)
+            if key not in seen:
+                seen.add(key)
+                dedup_refs.append(e)
+
+        data = {
+            "parent_document_id": report.parent_doc_id,
+            "parent_filename": report.parent_filename,
+            "amendment_document_id": report.amendment_doc_id,
+            "amendment_filename": report.amendment_filename,
+            "resolution_confidence": report.resolution.resolution_confidence,
+            "resolution_basis": report.resolution.resolution_basis,
+            "total_modifications": report.total_modifications,
+            "full_force_confirmed": report.full_force_confirmed,
+            "preserved_provisions_summary": report.preserved_provisions_summary,
+            "business_impact_items": report.business_impact_items,
+            "changes": [
+                {
+                    "change_id": c.change_id,
+                    "section_number": c.section_number,
+                    "section_title": c.section_title,
+                    "change_type": c.change_type.value,
+                    "before_text": c.before_text,
+                    "after_text": c.after_text,
+                    "impact_summary": c.impact_summary,
+                }
+                for c in report.changes
+            ],
+        }
+
+        return ToolResult(
+            call_id=call_id,
+            tool_name=self.name,
+            status=ToolStatus.SUCCESS,
+            output=data,
+            evidence=dedup_refs,
+            latency_ms=(time.perf_counter() - t0) * 1000.0,
+            metadata={"modifications_count": len(report.changes)},
         )
 
 

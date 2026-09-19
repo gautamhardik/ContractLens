@@ -103,16 +103,16 @@ class AgentExecutor:
                             is_table=False
                         )
                         accumulated_spans.append(span)
-            elif res.tool_name in ("get_contract_obligations", "get_contract_timeline", "get_contract_details") and res.evidence:
+            elif res.tool_name in ("get_contract_obligations", "get_contract_timeline", "get_contract_details", "get_contract_amendments", "compare_contract_amendments") and res.evidence:
                 # Convert structured facts and commitments into evidence spans
                 for idx, ev in enumerate(res.evidence):
                     if isinstance(res.output, list) and idx < len(res.output):
                         item_dict = res.output[idx]
-                        desc = item_dict.get("action") or item_dict.get("description") or item_dict.get("title") or str(item_dict)
+                        desc = item_dict.get("action") or item_dict.get("summary") or item_dict.get("description") or item_dict.get("title") or str(item_dict)
                     elif isinstance(res.output, dict):
-                        desc = f"{res.output.get('contract_type')}: Payment terms {res.output.get('payment_terms')}, Governing law {res.output.get('governing_law')}"
+                        desc = res.output.get("preserved_provisions_summary") or f"{res.output.get('contract_type')}: Payment terms {res.output.get('payment_terms')}, Governing law {res.output.get('governing_law')}"
                     else:
-                        desc = "Contractual obligation or milestone"
+                        desc = "Contractual obligation or amendment modification"
                     
                     span = EvidenceSpan(
                         document_id=ev.document_id,

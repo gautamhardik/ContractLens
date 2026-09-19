@@ -13,9 +13,9 @@ Quick orientation map for the ContractLens repository. Consult this map to deter
 - `Data/corpus_report.md`: Detailed structural audit of the contract corpus.
 
 ## Source Code (`src/`)
-- `src/models/`: Canonical document (`canonical.py`), contract intelligence (`intelligence.py`), obligations & temporal models (`obligation.py`), and chunk models (`chunk.py`).
+- `src/models/`: Canonical document (`canonical.py`), contract intelligence (`intelligence.py`), obligations & temporal models (`obligation.py`), chunk models (`chunk.py`), and amendment models (`amendment.py`).
 - `src/ingestion/`: Structural reconstructor (`reconstructor.py`), intelligence extractor (`extractor.py`), and chunking strategies (`chunker.py`).
-- `src/temporal/`: Temporal constraints, recurrence rules, and date calculators (`temporal_engine.py`, `lifecycle_engine.py`).
+- `src/temporal/`: Temporal constraints, recurrence rules, date calculators (`temporal_engine.py`, `lifecycle_engine.py`), and amendment intelligence engine (`amendment_engine.py`).
 - `src/retrieval/`: Lexical BM25 (`lexical.py`), Dense LSA (`dense.py`), Hybrid RRF (`fusion.py`), Cross-Encoder Reranker (`reranker.py`), Adaptive Retriever (`adaptive.py`), and evaluation harness (`evaluation.py`).
 - `src/evidence/`: Evidence models (`models.py`), citation validator (`validator.py`), and deterministic resolver (`resolver.py`).
 - `src/rag/`: Grounded RAG models (`models.py`), prompt formats (`prompts.py`), generators & providers (`generator.py`), claim verifier (`verifier.py`), and pipeline (`pipeline.py`).

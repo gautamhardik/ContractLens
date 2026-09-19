@@ -36,9 +36,12 @@ Tracks milestone progress, active work, and anti-patterns ("Do Not Redo").
 
 ---
 
+- [x] **Phase 21 — Structured Amendment & Version Intelligence**: Implemented `AmendmentIntelligenceEngine` (`src/temporal/amendment_engine.py`), strongly-typed models (`AmendmentResolution`, `StructuredAmendmentChange`, `VersionComparisonReport` in `src/models/amendment.py`), and `CompareContractAmendmentsTool` (`src/agent/tools.py`). Resolves parent-amendment pairs (`doc_02` amends `doc_03`), aligns modified sections (§1.2 Price, §3 Term, §6 Payment, §15.4 Insurance, and General Confirmation), models before/after structured diffs with dual provenance, confirms unamended terms remain in full force and effect, and computes grounded business impacts. 8/8 targeted tests passed; 138/138 full regression tests passed.
+
+---
+
 ## Master Phase Graph & Next Milestones
-- [ ] **Phase 21 — Structured Amendment & Version Intelligence**: Parent/amendment resolution, section alignment, before/after structured change modeling, full-force clause handling, and grounded impact synthesis. (NEXT)
-- [ ] **Phase 22 — Hard Adversarial Benchmark & Core Backend Freeze**: 60-80 adversarial stress queries attacking role collisions, unanchored dates, and unsupported facts before freezing the core engine.
+- [ ] **Phase 22 — Hard Adversarial Benchmark & Core Backend Freeze**: 60-80 adversarial stress queries attacking role collisions, unanchored dates, and unsupported facts before freezing the core engine. (NEXT)
 - [ ] **Phase 23 & 24 — Cross-Contract & Portfolio Intelligence**: Cross-document query synthesis and portfolio-level aggregation.
 - [ ] **Phase 25 & 26 — Review Signals & "What Should I Worry About?" Agent**: Proactive risk signal detection and operational review agent.
 - [ ] **Phase 27 to 31 — Premium Frontend Workspace**: Operations dashboard, contract viewer with PDF bounding-box evidence highlights, and audit drawer.
