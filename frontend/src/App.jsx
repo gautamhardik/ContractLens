@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   FileText, Layers, 
-  MessageSquare, Plus, Search, Sun, Moon, RotateCcw
+  MessageSquare, Plus, Search, Sun, Moon, RotateCcw, Trash2
 } from 'lucide-react';
 
 import { API_BASE } from './config/api';
@@ -211,7 +211,8 @@ export default function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           query: promptText,
-          document_id: scopedDocId
+          document_id: scopedDocId,
+          document_ids: scopedContractIds.length > 0 ? scopedContractIds : null
         }),
       });
 
@@ -358,6 +359,28 @@ export default function App() {
       }
     } catch (err) {
       console.error("Failed to reset workspace:", err);
+    }
+  };
+
+  const handleDeleteContract = async (docId, e) => {
+    if (e) e.stopPropagation();
+    if (!window.confirm(`Are you sure you want to remove this contract from the workspace?`)) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/contracts/${docId}`, { method: 'DELETE' });
+      if (res.ok) {
+        setContracts(prev => prev.filter(c => c.document_id !== docId));
+        setScopedContractIds(prev => prev.filter(id => id !== docId));
+        if (selectedDocId === docId) {
+          const remaining = contracts.filter(c => c.document_id !== docId);
+          setSelectedDocId(remaining.length > 0 ? remaining[0].document_id : null);
+          setContractDetail(null);
+        }
+        // Refresh portfolio & risks overview
+        fetchInitialData();
+      }
+    } catch (err) {
+      console.error(`Failed to delete contract ${docId}:`, err);
     }
   };
 
@@ -618,14 +641,43 @@ export default function App() {
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
-                        <span style={{ fontSize: '0.8rem', fontWeight: isSelected ? 600 : 500, color: isSelected ? 'var(--accent-terracotta)' : 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <span style={{ fontSize: '0.8rem', fontWeight: isSelected ? 600 : 500, color: isSelected ? 'var(--accent-terracotta)' : 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, marginRight: '8px' }}>
                           {c.filename}
                         </span>
-                        {isAmendment ? (
-                          <span className="badge badge-amber" style={{ fontSize: '0.65rem' }}>AMEND</span>
-                        ) : (
-                          <span className="badge badge-terracotta" style={{ fontSize: '0.65rem' }}>{c.document_id}</span>
-                        )}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          {isAmendment ? (
+                            <span className="badge badge-amber" style={{ fontSize: '0.65rem' }}>AMEND</span>
+                          ) : (
+                            <span className="badge badge-terracotta" style={{ fontSize: '0.65rem' }}>{c.document_id}</span>
+                          )}
+                          <button
+                            type="button"
+                            title="Remove contract"
+                            onClick={(e) => handleDeleteContract(c.document_id, e)}
+                            style={{
+                              background: 'transparent',
+                              border: 'none',
+                              color: 'var(--text-muted)',
+                              cursor: 'pointer',
+                              padding: '2px 4px',
+                              borderRadius: '4px',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              opacity: 0.7,
+                              transition: 'all 0.15s ease'
+                            }}
+                            onMouseEnter={e => {
+                              e.currentTarget.style.opacity = '1';
+                              e.currentTarget.style.color = 'var(--accent-ruby, #ef4444)';
+                            }}
+                            onMouseLeave={e => {
+                              e.currentTarget.style.opacity = '0.7';
+                              e.currentTarget.style.color = 'var(--text-muted)';
+                            }}
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
                       </div>
                       <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>
                         {c.contract_type} • {c.page_count} pages
@@ -659,6 +711,7 @@ export default function App() {
                   highlightedBlockId={highlightedBlockId}
                   amendmentData={amendmentData}
                   onCompareAmendment={loadAmendmentComparison}
+                  onDeleteContract={handleDeleteContract}
                 />
               )}
             </main>

@@ -38,14 +38,16 @@ class DeterministicPlanner(BaseAgentPlanner):
 
         elif route == AgentRouteCategory.DIRECT_RETRIEVAL:
             top_k = route_params.get("top_k", 5)
+            filter_doc_ids = route_params.get("filter_doc_ids")
             calls.append(ToolCall(
                 tool_name="search_contract_evidence",
-                arguments={"query": query, "top_k": top_k},
+                arguments={"query": query, "top_k": top_k, "filter_doc_ids": filter_doc_ids},
                 call_id="call_search_1"
             ))
 
         elif route == AgentRouteCategory.CONTRACT_DETAILS:
             doc_id = route_params.get("document_id")
+            filter_doc_ids = route_params.get("filter_doc_ids") or ([doc_id] if doc_id else None)
             calls.append(ToolCall(
                 tool_name="get_contract_details",
                 arguments={"document_id": doc_id} if doc_id else {},
@@ -54,7 +56,7 @@ class DeterministicPlanner(BaseAgentPlanner):
             # Also retrieve substantive clause text (recitals, purpose, scope) for rich answers
             calls.append(ToolCall(
                 tool_name="search_contract_evidence",
-                arguments={"query": query, "top_k": 3, "filter_doc_ids": [doc_id] if doc_id else None},
+                arguments={"query": query, "top_k": 3, "filter_doc_ids": filter_doc_ids},
                 call_id="call_details_search_2"
             ))
 

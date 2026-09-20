@@ -86,6 +86,7 @@ class ContractAgent:
         query: str,
         catalog: Optional[Any] = None,
         document_id: Optional[str] = None,
+        document_ids: Optional[List[str]] = None,
         step_callback: Optional[Any] = None
     ) -> AgentResponse:
         # If catalog not provided explicitly, derive it from agent runtime context
@@ -100,10 +101,11 @@ class ContractAgent:
                 catalog = None
 
         # 1. Deterministic Query Understanding
+        target_doc = document_id or (document_ids[0] if document_ids and len(document_ids) == 1 else None)
         understanding = ContractQueryUnderstander.analyze_query(
             query=query,
             catalog=catalog,
-            target_document_id=document_id
+            target_document_id=target_doc
         )
 
         # 2. Deterministic Rule-First Routing
@@ -113,9 +115,14 @@ class ContractAgent:
             understanding=understanding
         )
 
-        # If user explicitly scoped a document_id, ensure route_params respects it
-        if document_id and "document_id" in route_params and not route_params["document_id"]:
-            route_params["document_id"] = document_id
+        # If user explicitly scoped document_id(s), ensure route_params respects it
+        if target_doc and "document_id" in route_params and not route_params["document_id"]:
+            route_params["document_id"] = target_doc
+
+        if document_ids:
+            route_params["filter_doc_ids"] = document_ids
+        elif document_id:
+            route_params["filter_doc_ids"] = [document_id]
 
         # 3. Plan Tool Invocations
         plan_calls = self.planner.plan(query, route, route_params)

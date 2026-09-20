@@ -293,6 +293,7 @@ def clear_corpus_state() -> None:
 class QueryRequest(BaseModel):
     query: str
     document_id: Optional[str] = None
+    document_ids: Optional[List[str]] = None
     conversation_id: Optional[str] = None
 
 
@@ -547,6 +548,37 @@ async def clear_contracts() -> Dict[str, Any]:
         }
 
 
+@app.delete("/api/contracts/{document_id}")
+async def delete_contract(document_id: str) -> Dict[str, Any]:
+    """Remove a specific contract from in-memory state and recompute indices dynamically."""
+    async with state.lock:
+        if document_id not in state.documents:
+            raise HTTPException(status_code=404, detail=f"Document '{document_id}' not found in active corpus.")
+
+        removed_doc = state.documents.pop(document_id)
+        state.intelligence.pop(document_id, None)
+        state.obligations = [ob for ob in state.obligations if ob.evidence.document_id != document_id]
+        state.lifecycle_events = [ev for ev in state.lifecycle_events if ev.evidence.document_id != document_id]
+
+        # Clean file from Data/uploads/ if it exists there
+        uploads_dir = Path("Data/uploads")
+        if uploads_dir.exists():
+            for f in uploads_dir.glob(f"*{removed_doc.filename}*"):
+                try:
+                    f.unlink()
+                except Exception:
+                    pass
+
+        # Rebuild live indices
+        rebuild_corpus_indices()
+
+        return {
+            "status": "success",
+            "message": f"Successfully removed contract '{removed_doc.filename}' ({document_id}).",
+            "remaining_documents": len(state.documents)
+        }
+
+
 @app.get("/api/risks")
 def get_portfolio_risks() -> Response:
     """Return precomputed portfolio-wide risk flags and high-impact warnings in <0.5ms."""
@@ -664,6 +696,7 @@ async def process_agent_query(
         query=req.query,
         catalog=catalog,
         document_id=req.document_id,
+        document_ids=req.document_ids,
     )
     dumped = response.model_dump()
 
@@ -707,6 +740,7 @@ async def stream_agent_query(req: QueryRequest):
                 query=req.query,
                 catalog=catalog,
                 document_id=req.document_id,
+                document_ids=req.document_ids,
                 step_callback=capture_step,
             )
 
