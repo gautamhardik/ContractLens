@@ -111,8 +111,6 @@ app.add_middleware(
 )
 
 
-def load_corpus_state(data_raw_dir: str = "Data/raw", max_docs: Optional[int] = None):
-    """Load canonical documents, run extractors, and initialize the ContractAgent."""
 def rebuild_corpus_indices() -> None:
     """Rebuild retrieval indices, knowledge graph, agent, and precomputed caches."""
     chunker = SectionAwareChunker()
@@ -208,7 +206,7 @@ def rebuild_corpus_indices() -> None:
     state.query_cache.clear()
 
 
-def load_corpus_state(data_raw_dir: str = "Data/raw") -> None:
+def load_corpus_state(data_raw_dir: str = "Data/raw", max_docs: Optional[int] = None) -> None:
     """Reconstruct canonical documents and build retrieval / intelligence caches.
 
     Scans in priority order:
@@ -226,6 +224,8 @@ def load_corpus_state(data_raw_dir: str = "Data/raw") -> None:
     raw_pdfs = sorted(raw_dir.glob("*.pdf")) if raw_dir.exists() else []
 
     pdf_paths = list(uploaded_pdfs) if uploaded_pdfs else list(raw_pdfs)
+    if max_docs is not None:
+        pdf_paths = pdf_paths[:max_docs]
 
     if not pdf_paths:
         logger.info("No PDF files found in Data/uploads or Data/raw — starting with empty corpus.")

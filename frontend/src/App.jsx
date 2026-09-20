@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  FileText, ShieldAlert, GitCommit, Layers, 
+  FileText, Layers, 
   MessageSquare, Plus, Search, Sun, Moon, RotateCcw
 } from 'lucide-react';
 
@@ -10,9 +10,6 @@ import AmbientField from './components/spatial/AmbientField';
 import ChatView from './features/chat/ChatView';
 import CanonicalViewer from './features/viewer/CanonicalViewer';
 import PortfolioView from './features/portfolio/PortfolioView';
-import AmendmentsView from './features/amendments/AmendmentsView';
-import RisksView from './features/risks/RisksView';
-import ContractsRegistryView from './features/contracts/ContractsRegistryView';
 
 export default function App() {
   // Synchronize initial state from URL query parameters (Deep Linking)
