@@ -16,6 +16,11 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
 - **Selection**: 18 real-world, publicly available commercial contract and amendment PDFs placed in `Data/raw/`.
 - **Context**: Real-world documents ensure rigorous testing of real-world layout, boilerplate clauses, amendments, and definitions.
 
+### Decision: Runtime ContractCatalog Snapshot & Zero-Hardcoded Entity Architecture (Phase 46)
+- **Status**: LOCKED
+- **Selection**: Per-request, deeply immutable `ContractCatalog` snapshot (`MappingProxyType`) replacing all static registries (`KNOWN_ENTITIES`, `CONTRACT_PARTY_ROLES`, `_DYNAMIC_ENTITIES`).
+- **Rationale**: Truly contract-agnostic RAG. Clean room boots with 0 contracts without crashing. Novel or uploaded contracts immediately register counterparties, 6-tier deterministic role resolution, and composite multi-signal amendment linkage (conservative threshold `top_score >= 0.75` and `margin >= 0.20`). Audited with 0 hardcoded document IDs in production logic.
+
 ### Decision: Raw Data Immutability
 - **Status**: Accepted
 - **Selection**: Files inside `Data/raw/` are strictly read-only and immutable.
@@ -159,10 +164,37 @@ Log of accepted decisions and intentionally undecided choices. Update this docum
 
 ---
 
+## Performance Optimization Roadmap (Future Scale)
+
+The current in-memory architecture delivers sub-17ms read operations and sub-50ms conversational RAG queries. For production scaling and multi-tenant workloads, the following optimizations have been identified and accepted for future deployment:
+
+1. **In-Memory Precomputed Aggregation Caching**:
+   - Precompute and serialize `/api/portfolio` and `/api/risks` on corpus load.
+   - Eliminates redundant Pydantic `.model_dump()` passes across 3,118 obligations on every incoming HTTP request.
+   - Projected latency improvement: from 6–17 ms down to **< 1.0 ms**.
+
+2. **Artifact Disk Caching for Canonical Document Reconstruction**:
+   - Cache serialized canonical documents (`Data/processed/canonical_cache.json` or `.parquet`) keyed by PDF content SHA-256 hashes.
+   - Avoids repetitive PyMuPDF OCR and coordinate bounding-box extraction on cold startup.
+   - Projected cold startup improvement: from ~40 seconds down to **< 1.5 seconds** (~25x speedup).
+
+3. **Query & Evidence Result LRU Caching**:
+   - Implement normalized query hash caching for identical or high-frequency questions routed to `/api/query`.
+   - Repeated queries return verified answers and citations in **< 1.0 ms** instead of 40–50 ms.
+
+4. **Payload Compression & Selective Pagination**:
+   - Add `GZipMiddleware` to the FastAPI pipeline, reducing large canonical document payloads (pages + bounding boxes) by **~75–80%**.
+   - Paginate canonical page retrieval for large 100+ page agreements.
+
+5. **Multi-Worker Server Scaling**:
+   - Scale Uvicorn deployment using process workers (`uvicorn --workers 4` or Gunicorn workers) to support concurrent multi-user analysis without blocking the event loop.
+
+---
+
 ## Intentionally Undecided Decisions (Pending Future Milestones)
 
-- **Backend Language / Framework**: Undecided (e.g., Python FastAPI / Flask / Node.js).
-- **Vector Database / Dedicated Vector Store**: Intentionally deferred until scale warrants.
-- **Frontend Framework**: Undecided (e.g., React + Vite, Next.js, Streamlit).
-- **Database for Structured Metadata**: Undecided (e.g., SQLite, PostgreSQL).
+- **Vector Database / Dedicated Vector Store**: Intentionally deferred until scale warrants (in-memory LSA + BM25 hybrid RRF provides 93.94% R@10 at 12ms).
+- **Database for Structured Metadata**: In-memory dictionary + KnowledgeGraph satisfies requirements; persist to PostgreSQL/SQLite when write/mutation features are introduced.
+- **Frontend Framework**: Standardized on React 19 + Vite.
+
 

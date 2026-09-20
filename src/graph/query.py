@@ -61,7 +61,7 @@ class ContractGraphQueryEngine:
         self.index = GraphIndex(graph)
 
     def get_contract(self, doc_id: str) -> Optional[GraphNode]:
-        """Fetch contract node by doc_id (e.g. 'doc_03' or 'contract_doc_03')."""
+        """Fetch contract node by doc_id (e.g. 'doc_id' or 'contract_doc_id')."""
         nid = doc_id if doc_id.startswith("contract_") else f"contract_{doc_id}"
         return self.graph.nodes.get(nid)
 

@@ -79,3 +79,16 @@ def test_query_endpoint(client):
     assert "answer" in data
     assert len(data["citations"]) >= 1
     assert data["grounding_status"].lower() in ["supported", "partially_supported"]
+
+
+def test_clear_contracts_endpoint(client):
+    res = client.post("/api/contracts/clear")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["status"] == "success"
+    assert data["loaded_documents"] == 0
+
+    # Verify health endpoint returns 0 loaded documents
+    h_res = client.get("/api/health")
+    assert h_res.status_code == 200
+    assert h_res.json()["loaded_documents"] == 0

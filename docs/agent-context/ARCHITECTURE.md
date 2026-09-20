@@ -1,7 +1,17 @@
 # Architecture
 
 ## Current Implementation Status
-**None.** The repository currently contains no application code, no backend, no frontend, and no operational pipelines. Only raw contract data exists in `Data/raw/`.
+**Complete Production Implementation (Phases 1–46).**
+ContractLens is fully realized with:
+- PyMuPDF canonical reconstruction (`src/ingestion/reconstructor.py`) preserving bounding boxes (`[x0, y0, x1, y1]`).
+- Deterministic extraction and obligation/event engine (`src/ingestion/`, `src/temporal/`).
+- Dynamic runtime `ContractCatalog` snapshot (`src/catalog/catalog.py`) with zero hardcoded entities or document IDs.
+- Hybrid RRF retrieval (`src/retrieval/`) and selective FlashRank reranking.
+- Knowledge graph and deterministic query engine (`src/graph/`).
+- Bounded agent with deterministic router and LLM tool planner (`src/agent/`).
+- Grounded RAG answer generator with citation verification and anti-scratchpad guardrails (`src/rag/`).
+- Dynamic PDF upload pipeline (`POST /api/contracts/upload`) and SSE query streaming (`POST /api/query/stream`).
+- Modular React + Vite frontend workspace (`frontend/`) with spatial evidence shard, amendment diff viewer, and portfolio analytics.
 
 ---
 

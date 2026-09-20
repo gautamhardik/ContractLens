@@ -38,6 +38,7 @@ class AgentRouteCategory(str, Enum):
     OBLIGATION_QUERY = "OBLIGATION_QUERY"
     TIMELINE_QUERY = "TIMELINE_QUERY"
     AMENDMENT_QUERY = "AMENDMENT_QUERY"
+    COMPARISON_QUERY = "COMPARISON_QUERY"
     HYBRID_REASONING = "HYBRID_REASONING"
     UNANSWERABLE = "UNANSWERABLE"
 
@@ -67,6 +68,7 @@ class AgentStep(BaseModel):
     step_number: int
     tool_call: ToolCall
     result: ToolResult
+    action_summary: str = ""
 
 
 class AgentTrace(BaseModel):

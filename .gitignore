@@ -9,7 +9,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.egg-info/
-dist/
 build/
 
 # Node / Frontend
@@ -20,17 +19,19 @@ yarn-error.log*
 .next/
 out/
 .vite/
+frontend/dist/
 
 # Intermediate / Generated Data (Processed chunks, embeddings cache, vector DBs)
 Data/processed/
 Data/cache/
 Data/indices/
+Data/uploads/
 *.chroma/
 *.faiss
 *.sqlite
 *.db
 
-# Environment & Credentials
+# Environment & Credentials — NEVER commit these
 .env
 .env.local
 .env.*.local
@@ -49,3 +50,13 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Generated / Scratch Artifacts
+Data/corpus_cache.pkl
+*.pkl
+dom_*.png
+shard_*.png
+test_*.png
+test_frontend_dom.py
+DESIGN_RESEARCH.md
+experiments/

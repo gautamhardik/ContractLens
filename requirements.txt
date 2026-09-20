@@ -1,0 +1,28 @@
+# ContractLens Backend — Production Requirements
+# Python 3.11+
+
+# Web Framework
+fastapi==0.136.3
+uvicorn[standard]==0.40.0
+python-multipart==0.0.22
+orjson==3.11.9
+
+# Data Validation
+pydantic==2.13.4
+
+# PDF Parsing & Document Intelligence
+pymupdf==1.28.0
+
+# Retrieval & ML
+scikit-learn==1.7.2
+numpy==2.3.5
+rank-bm25==0.2.2
+
+# HTTP Client (NVIDIA NIM calls)
+httpx==0.28.1
+
+# Environment
+python-dotenv==1.1.0
+
+# Testing (dev only — Railway will skip these via --no-dev if using pip)
+pytest==8.4.2

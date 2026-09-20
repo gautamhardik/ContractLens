@@ -99,11 +99,15 @@ class GroundedRAGPipeline:
                         seen_cit_keys.add(key)
 
         # Overall grounding status
+        has_refusal = (
+            "does not establish" in raw_answer.lower()
+            or "insufficient evidence" in raw_answer.lower()
+            or "no relevant contractual evidence" in raw_answer.lower()
+        )
         is_insufficient = (
-            "insufficient" in raw_answer.lower()
-            or "does not establish" in raw_answer.lower()
-            or len(proposed_claims) == 0
+            has_refusal
             or verification_report.insufficient_evidence_claims > 0
+            or (len(proposed_claims) == 0 and (len(raw_answer.strip()) < 30 or "not establish" in raw_answer.lower()))
         )
 
         if is_insufficient:

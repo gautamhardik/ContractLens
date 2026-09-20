@@ -20,6 +20,18 @@ from src.ingestion.extractor import ContractIntelligenceExtractor
 from src.ingestion.obligation_extractor import ObligationExtractor
 from src.rag.generator import GroundedAnswerGenerator, FakeLLMProvider
 from tests.test_canonical_reconstruction import get_raw_path
+from src.agent.understanding import ContractRoleOntology, CanonicalRole
+from src.catalog.catalog import ContractCatalog
+from src.models.canonical import CanonicalDocument
+
+
+@pytest.fixture(autouse=True)
+def setup_test_catalog():
+    ContractRoleOntology._TEST_ROLE_PROVENANCE = {
+        "doc_01": {CanonicalRole.SUPPLIER: ["BEST CIRCUIT BOARDS, INC."], CanonicalRole.CUSTOMER: ["AMX, LLC"]},
+    }
+    yield
+    ContractRoleOntology._TEST_ROLE_PROVENANCE = {}
 
 
 @pytest.fixture(scope="module")

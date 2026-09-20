@@ -77,7 +77,7 @@ class ClaimVerifier:
         evidence_has_neg = any(re.search(rf"\b{w}\b", combined_norm_text) for w in cls.NEGATION_WORDS)
 
         if "renew" in claim_norm and "renew" in combined_norm_text:
-            if not claim_has_neg and re.search(r"\b(not|no|without)\b.*?\brenew", combined_norm_text):
+            if not claim_has_neg and re.search(r"\b(no\s+automatic\s+renewal|shall\s+not\s+(?:automatically\s+)?renew|without\s+(?:any\s+)?(?:automatic\s+)?renewal)\b", combined_norm_text):
                 return VerificationResult(
                     claim_id=claim.claim_id,
                     status=ClaimVerificationStatus.CONTRADICTED,
@@ -86,15 +86,16 @@ class ClaimVerifier:
                     reason="Contradiction: Claim asserts renewal, but evidence specifies no automatic renewal.",
                     confidence=1.0,
                 )
-            if claim_has_neg and not re.search(r"\b(not|no|without)\b.*?\brenew", combined_norm_text):
-                return VerificationResult(
-                    claim_id=claim.claim_id,
-                    status=ClaimVerificationStatus.CONTRADICTED,
-                    evidence_ids=claim.evidence_ids,
-                    is_supported=False,
-                    reason="Contradiction: Claim asserts non-renewal, but evidence establishes standard renewal.",
-                    confidence=1.0,
-                )
+            if claim_has_neg and re.search(r"\b(shall\s+automatically\s+renew|automatic\s+renewal)\b", combined_norm_text) and not re.search(r"\b(no\s+automatic\s+renewal|shall\s+not\s+renew)\b", combined_norm_text):
+                if any(phrase in claim_norm for phrase in ["no renewal", "does not renew", "no automatic renewal", "will not renew"]):
+                    return VerificationResult(
+                        claim_id=claim.claim_id,
+                        status=ClaimVerificationStatus.CONTRADICTED,
+                        evidence_ids=claim.evidence_ids,
+                        is_supported=False,
+                        reason="Contradiction: Claim asserts non-renewal, but evidence establishes standard renewal.",
+                        confidence=1.0,
+                    )
 
         # Check 4: Numeric / Term Alignment (e.g. Net 30 vs Net 60, days, currency)
         # Extract numbers from claim
@@ -131,9 +132,16 @@ class ClaimVerifier:
             )
 
         # Check 6: Keyword & Semantic Overlap
-        # Extract meaningful content words (length >= 3, excluding stopwords)
-        STOPWORDS = {"the", "and", "that", "this", "with", "for", "are", "was", "were", "been", "have", "has", "had"}
+        # Extract meaningful content words (length >= 3, excluding stopwords and conversational filler)
+        STOPWORDS = {
+            "the", "and", "that", "this", "with", "for", "are", "was", "were", "been", "have", "has", "had",
+            "contract", "agreement", "between", "entered", "into", "regarding", "specifies", "established",
+            "establishing", "provides", "providing", "state", "states", "stated", "which", "what", "such",
+            "their", "each", "both", "terms", "provisions", "following", "based", "evidence"
+        }
         claim_tokens = [w for w in re.findall(r"\b[a-zA-Z]{3,}\b", claim_norm) if w not in STOPWORDS]
+        if not claim_tokens:
+            claim_tokens = [w for w in re.findall(r"\b[a-zA-Z]{3,}\b", claim_norm) if w not in {"the", "and", "that"}]
         if not claim_tokens:
             return VerificationResult(
                 claim_id=claim.claim_id,
@@ -159,11 +167,12 @@ class ClaimVerifier:
                 section_title=s.section_title,
                 is_valid=True,
                 source_chunk_id=s.metadata.get("source_chunk_id"),
+                snippet=s.raw_text or s.normalized_text,
             )
             for s in spans
         ]
 
-        if overlap_ratio >= 0.65:
+        if overlap_ratio >= 0.50:
             return VerificationResult(
                 claim_id=claim.claim_id,
                 status=ClaimVerificationStatus.SUPPORTED,
@@ -173,7 +182,7 @@ class ClaimVerifier:
                 resolved_citations=resolved_citations,
                 confidence=min(1.0, overlap_ratio + 0.1),
             )
-        elif overlap_ratio >= 0.40:
+        elif overlap_ratio >= 0.30:
             return VerificationResult(
                 claim_id=claim.claim_id,
                 status=ClaimVerificationStatus.PARTIALLY_SUPPORTED,

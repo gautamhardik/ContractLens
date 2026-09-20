@@ -34,6 +34,7 @@ class AgentContext(BaseModel):
     intelligences: Dict[str, ContractIntelligence] = Field(default_factory=dict)
     obligations: List[ContractObligation] = Field(default_factory=list)
     events: List[LifecycleEvent] = Field(default_factory=list)
+    catalog: Optional[Any] = None
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
@@ -70,6 +71,10 @@ class GetTimelineArgs(BaseModel):
 class GetAmendmentsArgs(BaseModel):
     parent_document_id: Optional[str] = None
     amendment_document_id: Optional[str] = None
+
+
+class CompareDocumentsArgs(BaseModel):
+    pass  # No args needed; tool operates over full intel_map in context
 
 
 class BuildGroundedAnswerArgs(BaseModel):
@@ -372,38 +377,6 @@ class GetContractObligationsTool(AgentTool):
         "seller": {"seller", "vendor", "supplier"},
     }
 
-    # Contract specific party-to-role mappings for grounded operational resolution
-    CONTRACT_PARTY_ROLES = {
-        "doc_01": {
-            "amx": {"customer", "buyer"},
-            "amx, llc": {"customer", "buyer"},
-            "best circuit boards": {"supplier", "vendor", "manufacturer"},
-            "best circuit boards, inc": {"supplier", "vendor", "manufacturer"},
-        },
-        "doc_02": {
-            "access": {"service provider", "vendor", "contractor", "supplier"},
-            "access worldwide": {"service provider", "vendor", "contractor", "supplier"},
-            "e*trade": {"client", "customer", "buyer", "company"},
-        },
-        "doc_03": {
-            "access": {"service provider", "vendor", "contractor", "supplier"},
-            "access worldwide": {"service provider", "vendor", "contractor", "supplier"},
-            "e*trade": {"client", "customer", "buyer", "company"},
-        },
-        "doc_10": {
-            "sabre": {"client", "customer"},
-            "dxc": {"vendor", "supplier", "service provider"},
-        },
-        "doc_16": {
-            "square": {"client", "customer"},
-            "marqeta": {"vendor", "supplier", "service provider"},
-        },
-        "doc_17": {
-            "turtle beach": {"client", "customer", "buyer"},
-            "foxconn": {"vendor", "supplier", "manufacturer"},
-        },
-    }
-
     def execute(self, args: GetObligationsArgs, context: Any) -> ToolResult:
         t0 = time.perf_counter()
         call_id = f"call_ob_{int(t0*1000)}"
@@ -419,19 +392,31 @@ class GetContractObligationsTool(AgentTool):
             # 1. Resolve role synonyms if party_name is a known role (e.g. 'vendor', 'supplier')
             target_role_terms = self.ROLE_SYNONYMS.get(p_lower, {p_lower})
 
-            # 2. Check contract-specific roles and entity mapping
+            # 2. Derive dynamic party-to-role mappings from catalog or context intelligences
+            entity_roles: Set[str] = set()
+            role_entities: Set[str] = set()
+
             doc_id_key = args.document_id.lower().strip() if args.document_id else None
-            entity_roles = set()
-            role_entities = set()
-            if doc_id_key and doc_id_key in self.CONTRACT_PARTY_ROLES:
-                doc_roles = self.CONTRACT_PARTY_ROLES[doc_id_key]
-                for ent_key, roles in doc_roles.items():
-                    # If query gives entity name, map to its roles
+            
+            # Check context catalog if available
+            catalog = getattr(context, "catalog", None)
+            if catalog and doc_id_key and hasattr(catalog, "roles") and doc_id_key in catalog.roles:
+                doc_roles = catalog.roles[doc_id_key]
+                for ent_name, canonical_role in doc_roles.items():
+                    ent_key = ent_name.lower().strip()
+                    role_str = canonical_role.value.lower()
+                    syns = self.ROLE_SYNONYMS.get(role_str, {role_str})
                     if ent_key in p_lower or p_lower in ent_key:
-                        entity_roles.update(roles)
-                    # If query gives a role (or synonym), map to matching entities
-                    if any(term in roles for term in target_role_terms):
+                        entity_roles.update(syns)
+                    if any(term in syns or term == role_str for term in target_role_terms):
                         role_entities.add(ent_key)
+            elif context and hasattr(context, "intelligences") and doc_id_key:
+                intel = context.intelligences.get(doc_id_key)
+                if intel and intel.parties:
+                    for p in intel.parties:
+                        ent_key = p.name.lower().strip()
+                        if ent_key in p_lower or p_lower in ent_key:
+                            entity_roles.add(p_lower)
 
             def matches_party_or_role(o: ContractObligation) -> bool:
                 actor_lower = o.actor.lower()
@@ -446,12 +431,12 @@ class GetContractObligationsTool(AgentTool):
                     if term in actor_lower or term in cp_lower:
                         return True
 
-                # Check entity mapped roles (e.g. query='AMX' -> matches 'Customer' actor)
+                # Check entity mapped roles
                 for role in entity_roles:
                     if role in actor_lower or role in cp_lower:
                         return True
 
-                # Check role mapped entities (e.g. query='vendor' in doc_03 -> matches 'Access Worldwide' actor)
+                # Check role mapped entities
                 for ent in role_entities:
                     if ent in actor_lower or ent in cp_lower:
                         return True
@@ -593,10 +578,14 @@ class GetContractAmendmentsTool(AgentTool):
 
         if args.parent_document_id:
             pid = args.parent_document_id.lower()
-            # In corpus, doc_02 amends doc_03
-            if "doc_03" in pid or "access" in pid:
-                results = [r for r in results if r["amendment_doc_id"] == "doc_02"]
-                ev_refs = [e for e in ev_refs if e.document_id == "doc_02"]
+            matching_amend_ids = set()
+            if self.context and self.context.catalog and self.context.catalog.amendments:
+                for a_id, p_res in self.context.catalog.amendments.items():
+                    if p_res.parent_doc_id and p_res.parent_doc_id.lower() == pid:
+                        matching_amend_ids.add(a_id)
+            if matching_amend_ids:
+                results = [r for r in results if r["amendment_doc_id"] in matching_amend_ids]
+                ev_refs = [e for e in ev_refs if e.document_id in matching_amend_ids]
 
         if args.amendment_document_id:
             aid = args.amendment_document_id.lower()
@@ -710,6 +699,175 @@ class CompareContractAmendmentsTool(AgentTool):
         )
 
 
+
+class CompareDocumentsTool(AgentTool):
+    """Tool 8: Cross-document intelligence comparison.
+
+    Builds a structured markdown difference table from ContractIntelligence
+    metadata (parties, contract type, governing law, payment terms, dates,
+    obligations, amendments). Bypasses RAG — uses pre-extracted structured data.
+    """
+
+    def __init__(self, intel_map: Dict[str, Any], obligations: List[Any]):
+        self.intel_map = intel_map
+        self.obligations = obligations
+
+    @property
+    def name(self) -> str:
+        return "compare_documents"
+
+    @property
+    def description(self) -> str:
+        return "Build a structured comparison / difference table across all loaded contracts using extracted intelligence."
+
+    @property
+    def input_schema(self) -> Type[BaseModel]:
+        return CompareDocumentsArgs
+
+    def execute(self, args: CompareDocumentsArgs, context: Any) -> ToolResult:
+        t0 = time.perf_counter()
+        call_id = f"call_compare_{int(t0*1000)}"
+
+        intel_map = self.intel_map
+        # Prefer context's live intel if available
+        if context and hasattr(context, "intelligences") and context.intelligences:
+            intel_map = context.intelligences
+
+        obligations = self.obligations
+        if context and hasattr(context, "obligations") and context.obligations is not None:
+            obligations = context.obligations
+
+        if len(intel_map) < 2:
+            return ToolResult(
+                call_id=call_id,
+                tool_name=self.name,
+                status=ToolStatus.NO_RESULTS,
+                output={"answer": "Only one contract is loaded. Upload at least two contracts to compare them."},
+                latency_ms=(time.perf_counter() - t0) * 1000.0,
+            )
+
+        rows: List[Dict[str, str]] = []
+        ev_refs: List[EvidenceReference] = []
+
+        for doc_id, intel in intel_map.items():
+            # Count obligations per document
+            ob_count = sum(1 for ob in obligations if ob.evidence.document_id == doc_id)
+
+            # Is this an amendment doc (has amendment_facts)?
+            is_amendment = bool(intel.amendment_facts)
+
+            # Resolve parties
+            parties_str = ", ".join(p.name for p in intel.parties) if intel.parties else "—"
+
+            # Resolve contract type
+            ctype = intel.contract_type.raw_value if intel.contract_type.is_found else "—"
+
+            # Resolve governing law
+            gov = intel.governing_law.normalized_value if intel.governing_law.is_found else "—"
+
+            # Resolve payment terms
+            pay = intel.payment_terms.raw_value if intel.payment_terms.is_found else "—"
+
+            # Resolve effective date
+            eff = intel.effective_date.normalized_value if intel.effective_date.is_found else "—"
+
+            # Resolve expiration date
+            exp = intel.expiration_date.normalized_value if intel.expiration_date.is_found else "—"
+
+            # Resolve amendment count
+            amend_count = len(intel.amendment_facts) if intel.amendment_facts else 0
+            doc_nature = "Amendment" if is_amendment else "Base Agreement"
+
+            rows.append({
+                "doc_id": doc_id,
+                "filename": intel.filename or doc_id,
+                "nature": doc_nature,
+                "contract_type": ctype,
+                "parties": parties_str,
+                "governing_law": gov,
+                "payment_terms": pay,
+                "effective_date": eff,
+                "expiration_date": exp,
+                "obligations": str(ob_count),
+                "amendment_modifications": str(amend_count) if amend_count else "—",
+            })
+
+            # Collect any intelligence-level evidence refs for provenance
+            for field_val in [intel.contract_type, intel.governing_law, intel.payment_terms,
+                               intel.effective_date, intel.expiration_date]:
+                if hasattr(field_val, "is_found") and field_val.is_found and hasattr(field_val, "evidence") and field_val.evidence:
+                    ev_refs.append(field_val.evidence)
+
+        # Build markdown comparison table
+        attrs = [
+            ("Filename", "filename"),
+            ("Document Nature", "nature"),
+            ("Contract Type", "contract_type"),
+            ("Parties", "parties"),
+            ("Governing Law", "governing_law"),
+            ("Payment Terms", "payment_terms"),
+            ("Effective Date", "effective_date"),
+            ("Expiration Date", "expiration_date"),
+            ("Obligations Extracted", "obligations"),
+            ("Amendment Modifications", "amendment_modifications"),
+        ]
+
+        # Header row
+        header_cols = ["Attribute"] + [r["filename"] for r in rows]
+        header = "| " + " | ".join(header_cols) + " |"
+        separator = "| " + " | ".join(["---"] * len(header_cols)) + " |"
+
+        table_lines = [header, separator]
+        diff_flags = []
+        for label, key in attrs:
+            values = [r[key] for r in rows]
+            has_diff = len(set(v.lower() for v in values)) > 1
+            diff_flags.append(has_diff)
+            diff_marker = " ⬅ differs" if has_diff else ""
+            row_line = f"| **{label}**{diff_marker} | " + " | ".join(values) + " |"
+            table_lines.append(row_line)
+
+        table_md = "\n".join(table_lines)
+
+        # Summary sentence
+        diff_count = sum(diff_flags)
+        total_attrs = len(attrs)
+        summary_parts = []
+        for (label, key), is_diff in zip(attrs, diff_flags):
+            if is_diff:
+                vals = " vs. ".join(f"*{r[key]}*" for r in rows)
+                summary_parts.append(f"**{label}**: {vals}")
+
+        if summary_parts:
+            summary = (
+                f"Comparing {len(rows)} contracts: **{diff_count} of {total_attrs} attributes differ**.\n\n"
+                + "\n".join(f"- {p}" for p in summary_parts)
+            )
+        else:
+            summary = f"Comparing {len(rows)} contracts: all {total_attrs} extracted attributes are identical across documents."
+
+        answer = f"{summary}\n\n{table_md}"
+
+        # Deduplicate ev_refs
+        dedup = []
+        seen: Set = set()
+        for e in ev_refs:
+            k = (e.document_id, e.page_number, e.block_id)
+            if k not in seen:
+                seen.add(k)
+                dedup.append(e)
+
+        return ToolResult(
+            call_id=call_id,
+            tool_name=self.name,
+            status=ToolStatus.SUCCESS,
+            output={"answer": answer, "rows": rows, "diff_count": diff_count},
+            evidence=dedup,
+            latency_ms=(time.perf_counter() - t0) * 1000.0,
+            metadata={"documents_compared": len(rows), "attributes_differing": diff_count},
+        )
+
+
 class BuildGroundedAnswerTool(AgentTool):
     """Tool executing Phase 16 Grounded RAG + Claim Verification."""
 
@@ -766,11 +924,19 @@ class BuildGroundedAnswerTool(AgentTool):
                         active_citations.append(cit)
                         seen.add(k)
 
+        # Check for insufficient evidence refusal
+        has_refusal_phrase = (
+            "does not establish" in raw_answer.lower()
+            or "insufficient evidence" in raw_answer.lower()
+            or "no relevant contractual evidence" in raw_answer.lower()
+        )
+        # An answer is insufficient if it explicitly refused, had claims that failed verification,
+        # or had 0 claims AND either has a refusal phrase or an empty/short answer.
+        # Informative answers explaining general contractual terms/concepts (len(claims) == 0 with substantive answer) are valid.
         is_insufficient = (
-            "insufficient" in raw_answer.lower()
-            or "does not establish" in raw_answer.lower()
-            or len(claims) == 0
+            has_refusal_phrase
             or report.insufficient_evidence_claims > 0
+            or (len(claims) == 0 and (len(raw_answer.strip()) < 30 or "not establish" in raw_answer.lower()))
         )
 
         if is_insufficient:

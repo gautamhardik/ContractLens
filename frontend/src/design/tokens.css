@@ -1,0 +1,113 @@
+/* ContractLens Authentic Claude Light Mode Design Tokens */
+:root {
+  /* Claude Light Mode Surfaces */
+  --bg-canvas: #fbf9f5;             /* Claude signature warm cream / eggshell canvas */
+  --bg-sidebar: #f5f1eb;            /* Claude warm parchment sidebar/header */
+  --bg-surface: #ffffff;            /* Pure clean card surface */
+  --bg-surface-elevated: #ffffff;   /* Elevated card surface */
+  --bg-surface-hover: #f0eae1;      /* Hover surface */
+  --bg-input: #ffffff;              /* Crisp white input box */
+
+  /* Claude Signature Terracotta Accent */
+  --accent-terracotta: #cc785c;      /* Claude primary warm terracotta */
+  --accent-terracotta-hover: #b8674c;
+  --accent-terracotta-dim: rgba(204, 120, 92, 0.10);
+  --accent-terracotta-glow: rgba(204, 120, 92, 0.20);
+  --accent-terracotta-border: rgba(204, 120, 92, 0.30);
+
+  /* Warm Claude Muted Tones */
+  --accent-amber: #c87640;
+  --accent-sand: #7b746d;
+
+  /* Typography Colors (High-legibility charcoal and soft sepia) */
+  --text-primary: #1f1e1d;          /* Deep warm espresso/charcoal */
+  --text-secondary: #3f3c38;        /* Deep readable warm slate */
+  --text-muted: #5c5750;            /* Dark readable warm stone (high contrast) */
+  --text-faint: #787168;            /* Legible tertiary tone */
+
+  /* Hairline Borders */
+  --border-subtle: #e8e2d8;         /* Claude delicate border */
+  --border-medium: #dad3c7;         /* Balanced border */
+  --border-bright: #c8c0b2;         /* Focus border */
+
+  /* Forensic State Semantics (Soft and refined) */
+  --signal-success: #2e7d32;
+  --signal-success-dim: rgba(46, 125, 50, 0.10);
+  --signal-warning: #d97706;
+  --signal-warning-dim: rgba(217, 119, 6, 0.10);
+  --signal-danger: #c53030;
+  --signal-danger-dim: rgba(197, 48, 48, 0.10);
+  --signal-cyan: #0284c7;
+  --signal-cyan-dim: rgba(2, 132, 199, 0.10);
+
+  /* Refined Editorial Typography Stacks */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, Monaco, monospace;
+
+  /* Elevation Shadows (Soft Natural Claude Light Shadows) */
+  --shadow-ambient: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-panel: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.12);
+  --shadow-terracotta-glow: 0 0 16px -2px rgba(204, 120, 92, 0.25);
+  --shadow-floating: 0 12px 36px -4px rgba(0, 0, 0, 0.10), 0 0 1px rgba(0, 0, 0, 0.15);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Claude Dark Mode Theme Palette */
+[data-theme='dark'] {
+  /* Warm Charcoal / Obsidian Surfaces */
+  --bg-canvas: #181716;             /* Signature Claude Dark deep warm canvas */
+  --bg-sidebar: #1e1d1b;            /* Slightly elevated dark sidebar */
+  --bg-surface: #262422;            /* Clean card surface */
+  --bg-surface-elevated: #2d2b28;   /* Elevated card surface */
+  --bg-surface-hover: #35322e;      /* Hover state */
+  --bg-input: #262422;              /* Input background */
+
+  /* Claude Signature Terracotta Accent in Dark Mode */
+  --accent-terracotta: #da8a6e;      /* Slightly brighter terracotta for dark contrast */
+  --accent-terracotta-hover: #e69d84;
+  --accent-terracotta-dim: rgba(218, 138, 110, 0.16);
+  --accent-terracotta-glow: rgba(218, 138, 110, 0.28);
+  --accent-terracotta-border: rgba(218, 138, 110, 0.38);
+
+  /* Warm Muted Tones */
+  --accent-amber: #e08b52;
+  --accent-sand: #a89f94;
+
+  /* Typography Colors (Soft, glare-free high legibility) */
+  --text-primary: #ede8e1;          /* Warm soft parchment white */
+  --text-secondary: #c4bcb0;        /* Readable warm muted cream */
+  --text-muted: #968e82;            /* Clear tertiary label */
+  --text-faint: #6e675e;            /* Subtle details */
+
+  /* Hairline Borders */
+  --border-subtle: #383531;         /* Faint dark border */
+  --border-medium: #48433e;         /* Distinct container border */
+  --border-bright: #605952;         /* Focus border */
+
+  /* Forensic State Semantics (Luminous dark variants) */
+  --signal-success: #4ade80;
+  --signal-success-dim: rgba(74, 222, 128, 0.14);
+  --signal-warning: #fbbf24;
+  --signal-warning-dim: rgba(251, 191, 36, 0.14);
+  --signal-danger: #f87171;
+  --signal-danger-dim: rgba(248, 113, 113, 0.14);
+  --signal-cyan: #38bdf8;
+  --signal-cyan-dim: rgba(56, 189, 248, 0.14);
+
+  /* Dark Mode Elevation Shadows */
+  --shadow-ambient: 0 1px 3px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-panel: 0 4px 20px -2px rgba(0, 0, 0, 0.50), 0 0 1px rgba(255, 255, 255, 0.08);
+  --shadow-terracotta-glow: 0 0 16px -2px rgba(218, 138, 110, 0.35);
+  --shadow-floating: 0 12px 36px -4px rgba(0, 0, 0, 0.60), 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms !important;
+    --transition-smooth: 0ms !important;
+  }
+}

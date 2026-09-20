@@ -45,11 +45,17 @@ class DeterministicPlanner(BaseAgentPlanner):
             ))
 
         elif route == AgentRouteCategory.CONTRACT_DETAILS:
-            doc_id = route_params.get("document_id", "doc_03")
+            doc_id = route_params.get("document_id")
             calls.append(ToolCall(
                 tool_name="get_contract_details",
-                arguments={"document_id": doc_id},
+                arguments={"document_id": doc_id} if doc_id else {},
                 call_id="call_details_1"
+            ))
+            # Also retrieve substantive clause text (recitals, purpose, scope) for rich answers
+            calls.append(ToolCall(
+                tool_name="search_contract_evidence",
+                arguments={"query": query, "top_k": 3, "filter_doc_ids": [doc_id] if doc_id else None},
+                call_id="call_details_search_2"
             ))
 
         elif route == AgentRouteCategory.OBLIGATION_QUERY:
@@ -70,10 +76,10 @@ class DeterministicPlanner(BaseAgentPlanner):
             ))
 
         elif route == AgentRouteCategory.AMENDMENT_QUERY:
-            doc_id = route_params.get("document_id", "doc_03")
+            doc_id = route_params.get("document_id")
             calls.append(ToolCall(
                 tool_name="get_contract_amendments",
-                arguments={"parent_document_id": doc_id},
+                arguments={"parent_document_id": doc_id} if doc_id else {},
                 call_id="call_amend_1"
             ))
             # Also retrieve supporting evidence for amendment
@@ -103,6 +109,13 @@ class DeterministicPlanner(BaseAgentPlanner):
             # Unanswerable route: Do not retrieve irrelevant noisy chunks; proceed directly to grounding with empty bundle
             # which reliably triggers the Phase 16 controlled insufficient evidence state
             pass
+
+        elif route == AgentRouteCategory.COMPARISON_QUERY:
+            calls.append(ToolCall(
+                tool_name="compare_documents",
+                arguments={},
+                call_id="call_compare_1"
+            ))
 
         return calls
 

@@ -63,6 +63,7 @@ class EvidenceCitation(BaseModel):
     validation_status: ValidationStatus = ValidationStatus.VALID
     validation_reason: Optional[str] = None
     source_chunk_id: Optional[str] = None
+    snippet: Optional[str] = None
 
 
 class EvidenceValidation(BaseModel):

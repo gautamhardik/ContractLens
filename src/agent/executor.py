@@ -41,7 +41,8 @@ class AgentExecutor:
         query: str,
         route: AgentRouteCategory,
         plan_calls: List[ToolCall],
-        context: Any = None
+        context: Any = None,
+        step_callback: Optional[Any] = None,
     ) -> AgentResponse:
         """Execute a list of planned tool calls under strict guardrails."""
         start_exec = time.perf_counter()
@@ -56,6 +57,31 @@ class AgentExecutor:
         step_number = 1
 
         for call in plan_calls:
+            # Generate human-readable action label
+            raw_summary = call.arguments.pop("_action_summary", None)
+            if raw_summary:
+                action_label = raw_summary
+            elif call.tool_name == "search_contract_evidence":
+                action_label = f"Searching evidence: '{call.arguments.get('query', query)[:45]}'"
+            elif call.tool_name == "get_contract_details":
+                action_label = f"Checking metadata for {call.arguments.get('document_id', 'contract')}"
+            elif call.tool_name == "get_contract_obligations":
+                action_label = f"Extracting obligations for {call.arguments.get('party_name') or 'parties'}"
+            elif call.tool_name == "get_contract_timeline":
+                action_label = f"Checking milestones & expiration for {call.arguments.get('document_id', 'contract')}"
+            elif call.tool_name == "compare_contract_amendments":
+                action_label = f"Comparing amendment {call.arguments.get('amendment_doc_id')} with parent {call.arguments.get('parent_doc_id')}"
+            elif call.tool_name == "query_contract_graph":
+                action_label = f"Traversing Knowledge Graph for {call.arguments.get('param', 'entities')}"
+            else:
+                action_label = f"Executing {call.tool_name}"
+
+            if step_callback and callable(step_callback):
+                try:
+                    step_callback(call.tool_name, action_label)
+                except Exception:
+                    pass
+
             # Check hard limits
             if calls_executed >= self.MAX_TOOL_CALLS or step_number > self.MAX_STEPS:
                 step = AgentStep(
@@ -66,7 +92,8 @@ class AgentExecutor:
                         tool_name=call.tool_name,
                         status=ToolStatus.LIMIT_EXCEEDED,
                         error_message="Maximum tool execution limit exceeded."
-                    )
+                    ),
+                    action_summary="Execution limit reached"
                 )
                 steps.append(step)
                 break
@@ -80,6 +107,27 @@ class AgentExecutor:
                 accumulated_evidence.extend(res.evidence)
             if res.citations:
                 accumulated_citations.extend(res.citations)
+
+            # Short-circuit for compare_documents: the tool builds a complete structured answer directly
+            if res.tool_name == "compare_documents" and res.status == ToolStatus.SUCCESS and isinstance(res.output, dict) and "answer" in res.output:
+                steps.append(AgentStep(step_number=step_number, tool_call=call, result=res))
+                total_lat = (time.perf_counter() - start_exec) * 1000.0
+                trace = AgentTrace(
+                    query=query,
+                    route=route,
+                    steps=steps,
+                    total_latency_ms=total_lat,
+                    total_tool_calls=len(steps)
+                )
+                return AgentResponse(
+                    query=query,
+                    answer=res.output["answer"],
+                    grounding_status=ClaimVerificationStatus.SUPPORTED,
+                    citations=[],
+                    trace=trace,
+                    is_insufficient_evidence=False,
+                    metadata={"total_steps": len(steps), "comparison": True}
+                )
 
             # Check specific tool outputs
             if isinstance(res.output, EvidenceBundle):
@@ -106,13 +154,31 @@ class AgentExecutor:
             elif res.tool_name in ("get_contract_obligations", "get_contract_timeline", "get_contract_details", "get_contract_amendments", "compare_contract_amendments") and res.evidence:
                 # Convert structured facts and commitments into evidence spans
                 for idx, ev in enumerate(res.evidence):
-                    if isinstance(res.output, list) and idx < len(res.output):
-                        item_dict = res.output[idx]
-                        desc = item_dict.get("action") or item_dict.get("summary") or item_dict.get("description") or item_dict.get("title") or str(item_dict)
-                    elif isinstance(res.output, dict):
-                        desc = res.output.get("preserved_provisions_summary") or f"{res.output.get('contract_type')}: Payment terms {res.output.get('payment_terms')}, Governing law {res.output.get('governing_law')}"
+                    # Attempt to resolve verbatim text from canonical document block
+                    block_text = None
+                    if context and hasattr(context, "documents"):
+                        doc = context.documents.get(ev.document_id)
+                        if doc:
+                            for page in doc.pages:
+                                if page.page_number == ev.page_number:
+                                    for blk in page.blocks:
+                                        if blk.block_id == ev.block_id:
+                                            block_text = blk.raw_text
+                                            break
+                                    if block_text:
+                                        break
+
+                    if block_text:
+                        span_text = block_text
                     else:
-                        desc = "Contractual obligation or amendment modification"
+                        if isinstance(res.output, list) and idx < len(res.output):
+                            item_dict = res.output[idx]
+                            desc = item_dict.get("action") or item_dict.get("summary") or item_dict.get("description") or item_dict.get("title") or str(item_dict)
+                        elif isinstance(res.output, dict):
+                            desc = res.output.get("preserved_provisions_summary") or f"{res.output.get('contract_type')}: Payment terms {res.output.get('payment_terms')}, Governing law {res.output.get('governing_law')}"
+                        else:
+                            desc = "Contractual obligation or amendment modification"
+                        span_text = f"{desc} in {ev.filename}"
                     
                     span = EvidenceSpan(
                         document_id=ev.document_id,
@@ -120,8 +186,8 @@ class AgentExecutor:
                         page_number=ev.page_number,
                         block_id=ev.block_id,
                         reading_order=0,
-                        raw_text=f"{desc} in {ev.filename}",
-                        normalized_text=f"{desc} in {ev.filename}",
+                        raw_text=span_text,
+                        normalized_text=span_text,
                         bbox=ev.bbox,
                         block_type="fact",
                         is_table=False

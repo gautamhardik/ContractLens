@@ -22,10 +22,6 @@ from src.models.amendment import (
 class AmendmentIntelligenceEngine:
     """Deterministic comparison engine analyzing contractual amendments against parent agreements."""
 
-    KNOWN_PARENT_CHILD_PAIRS = {
-        "doc_02": "doc_03",  # Access-E*TRADE Amendment amends Access-E*TRADE MSA
-    }
-
     # Conservative, grounded operational impact mappings
     IMPACT_DICTIONARY = {
         "1.2": "Price calculation and Scope of Work compensation terms replaced.",
@@ -44,7 +40,7 @@ class AmendmentIntelligenceEngine:
         self.intel_map = intel_map
 
     def resolve_parent(self, amendment_doc_id: str) -> Optional[AmendmentResolution]:
-        """Deterministically resolve the parent agreement for an amendment."""
+        """Deterministically resolve the parent agreement for an amendment via composite scoring."""
         aid = amendment_doc_id.lower().strip()
         amend_doc = self.canonical_docs.get(aid)
         amend_intel = self.intel_map.get(aid)
@@ -61,51 +57,48 @@ class AmendmentIntelligenceEngine:
         if not amend_doc or not amend_intel:
             return None
 
-        # Check known dictionary first
-        parent_id = self.KNOWN_PARENT_CHILD_PAIRS.get(aid)
-        parent_doc = self.canonical_docs.get(parent_id) if parent_id else None
+        # Delegate to CompositeAmendmentResolver for multi-signal candidate scoring
+        from src.catalog.catalog import CompositeAmendmentResolver
+        parent_id, telemetry = CompositeAmendmentResolver.resolve_parent_candidate(
+            amend_doc_id=aid,
+            documents=self.canonical_docs,
+            intelligences=self.intel_map,
+        )
 
-        # If not in known dictionary, check recital references
+        if not parent_id:
+            return None
+
+        parent_doc = self.canonical_docs.get(parent_id)
+        if not parent_doc:
+            return None
+
+        # Check recital evidence for provenance
         recital_evidence = None
-        basis = "known_corpus_provenance"
-        conf = 0.95
-
         for p in amend_doc.pages[:2]:
             for b in p.blocks:
                 t = b.normalized_text
-                m = re.search(r'Master\s+Services\s+Agreement\s+effective\s+([A-Za-z0-9,\s]+)', t, re.IGNORECASE)
+                m = re.search(r'Master\s+Services\s+Agreement|Supply\s+Agreement', t, re.IGNORECASE)
                 if m:
                     recital_evidence = b.to_evidence_ref(amend_doc.filename)
-                    basis = f"recital_reference_to_msa_effective_{m.group(1).strip()}"
-                    conf = 0.98
                     break
+            if recital_evidence:
+                break
 
-        if not parent_doc:
-            # Match parties to find parent agreement
-            amend_parties = {p.name.lower() for p in amend_intel.parties}
-            for k, cand_intel in self.intel_map.items():
-                if k == aid:
-                    continue
-                cand_parties = {p.name.lower() for p in cand_intel.parties}
-                if amend_parties and amend_parties.issubset(cand_parties) and "amendment" not in cand_intel.filename.lower():
-                    parent_id = k
-                    parent_doc = self.canonical_docs.get(k)
-                    basis = "bipartite_contract_alignment"
-                    break
-
-        if not parent_doc or not parent_id:
-            return None
-
-        primary_ev = recital_evidence or (amend_doc.pages[0].blocks[0].to_evidence_ref(amend_doc.filename) if amend_doc.pages and amend_doc.pages[0].blocks else EvidenceReference(document_id=aid, filename=amend_doc.filename, page_number=1))
+        primary_ev = recital_evidence or (
+            amend_doc.pages[0].blocks[0].to_evidence_ref(amend_doc.filename)
+            if amend_doc.pages and amend_doc.pages[0].blocks
+            else EvidenceReference(document_id=aid, filename=amend_doc.filename, page_number=1)
+        )
 
         return AmendmentResolution(
             amendment_doc_id=aid,
             amendment_filename=amend_doc.filename,
             parent_doc_id=parent_id,
             parent_filename=parent_doc.filename,
-            resolution_confidence=conf,
-            resolution_basis=basis,
+            resolution_confidence=float(telemetry.get("top_score", 0.95)),
+            resolution_basis="composite_candidate_scoring",
             evidence=primary_ev,
+            metadata=telemetry,
         )
 
     def align_sections(
@@ -264,3 +257,19 @@ class AmendmentIntelligenceEngine:
             business_impact_items=impact_items,
             comparison_timestamp=str(time.time()),
         )
+
+    def resolve_amendment_chain(self, root_doc_id: str, ordered_amendment_ids: List[str]) -> List[VersionComparisonReport]:
+        """Resolve a linear multi-tier amendment chain (Master -> Amendment 1 -> Amendment 2 ...).
+
+        Preserves chronological delta layers and layer-specific physical provenance.
+        """
+        reports: List[VersionComparisonReport] = []
+        current_base = root_doc_id
+
+        for amend_id in ordered_amendment_ids:
+            rep = self.compare_versions(amendment_doc_id=amend_id, parent_doc_id=current_base)
+            if rep:
+                reports.append(rep)
+                current_base = amend_id
+
+        return reports

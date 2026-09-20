@@ -18,7 +18,7 @@ Validates:
 import pytest
 from typing import List, Tuple
 
-from src.models.canonical import BoundingBox
+from src.models.canonical import BoundingBox, CanonicalDocument
 from src.models.chunk import RetrievalChunk, ChunkProvenance
 from src.agent.understanding import (
     ContractQueryUnderstander,
@@ -63,8 +63,24 @@ def make_test_chunk(cid: str, doc_id: str, text: str, page: int = 1) -> Retrieva
 
 def test_1_retrieval_query_from_understanding():
     """Verify RetrievalQuery faithfully consumes Phase 19 QueryUnderstanding."""
+    from src.catalog.catalog import ContractCatalog
+    from src.agent.understanding import CanonicalRole
+
+    test_catalog = ContractCatalog.from_test_fixture(
+        parties={"doc_01": ("AMX Corp.", "BEST CIRCUIT BOARDS, INC.")},
+        roles={"doc_01": {"BEST CIRCUIT BOARDS, INC.": CanonicalRole.SUPPLIER, "AMX Corp.": CanonicalRole.CUSTOMER}},
+        documents={"doc_01": CanonicalDocument(
+            document_id="doc_01",
+            filename="amx_supply_agreement.pdf",
+            file_size=1024,
+            title="AMX Supply Agreement",
+            page_count=1,
+            pages=[]
+        )}
+    )
+
     query = "What obligations does the vendor have under the AMX agreement?"
-    u = ContractQueryUnderstander.analyze_query(query)
+    u = ContractQueryUnderstander.analyze_query(query, catalog=test_catalog)
     rq = RetrievalQuery.from_understanding(u)
 
     assert rq.original_query == query

@@ -102,6 +102,7 @@ class EvidenceResolver:
                 validation_status=val.status,
                 validation_reason="; ".join(val.failure_reasons) if val.failure_reasons else None,
                 source_chunk_id=chunk.chunk_id,
+                snippet=indexed[0].raw_text if indexed else chunk.text,
             )
             citations.append(citation)
 

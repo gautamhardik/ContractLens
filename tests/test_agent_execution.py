@@ -29,15 +29,33 @@ from src.rag.models import ClaimVerificationStatus
 from src.agent.models import ToolCall, ToolStatus
 from src.agent.planner import FakeAgentPlanner
 from src.agent.agent import ContractAgent
+from src.agent.understanding import ContractRoleOntology, CanonicalRole
 
 
 @pytest.fixture
 def full_agent_fixture():
     """Setup multi-contract agent with mock and canonical data."""
+    prev_roles = dict(ContractRoleOntology._TEST_ROLE_PROVENANCE)
+    ContractRoleOntology._TEST_ROLE_PROVENANCE = {
+        "doc_03": {CanonicalRole.SUPPLIER: ["Access Worldwide Communications, Inc"], CanonicalRole.CUSTOMER: ["E*TRADE Financial Corporation"]},
+        "doc_02": {CanonicalRole.SUPPLIER: ["Access Worldwide Communications, Inc"], CanonicalRole.CUSTOMER: ["E*TRADE Financial Corporation"]},
+    }
     bbox = BoundingBox(x0=50.0, y0=100.0, x1=500.0, y1=150.0)
     ev_msa = EvidenceReference(document_id="doc_03", filename="Access-E-TRADE MSA.pdf", page_number=3, block_id="b_p3", bbox=bbox)
     ev_amend = EvidenceReference(document_id="doc_02", filename="Access-E-TRADE Amendment.pdf", page_number=1, block_id="b_amend", bbox=bbox)
 
+    b0 = CanonicalBlock(
+        block_id="b_p1",
+        document_id="doc_03",
+        page_number=1,
+        reading_order=0,
+        block_type=BlockType.PARAGRAPH,
+        bbox=bbox,
+        raw_text='This Master Services Agreement is entered into by Access Worldwide Communications, Inc ("Vendor") and E*TRADE Financial Corporation ("Customer").',
+        normalized_text='This Master Services Agreement is entered into by Access Worldwide Communications, Inc ("Vendor") and E*TRADE Financial Corporation ("Customer").',
+        section_number="PREAMBLE",
+        section_title="Preamble",
+    )
     b1 = CanonicalBlock(
         block_id="b_p3",
         document_id="doc_03",
@@ -63,6 +81,7 @@ def full_agent_fixture():
         section_title="Amendments",
     )
 
+    p1 = CanonicalPage(page_number=1, width=612.0, height=792.0, blocks=[b0])
     p3 = CanonicalPage(page_number=3, width=612.0, height=792.0, blocks=[b1])
     p_amend = CanonicalPage(page_number=1, width=612.0, height=792.0, blocks=[b2])
 
@@ -71,7 +90,7 @@ def full_agent_fixture():
         filename="Access-E-TRADE MSA.pdf",
         file_size=1024,
         page_count=3,
-        pages=[p3],
+        pages=[p1, p3],
     )
     doc_amend = CanonicalDocument(
         document_id="doc_02",
@@ -214,7 +233,8 @@ def full_agent_fixture():
         llm_provider=fake_llm
     )
 
-    return agent
+    yield agent
+    ContractRoleOntology._TEST_ROLE_PROVENANCE = prev_roles
 
 
 def test_agent_graph_execution_with_trace(full_agent_fixture):

@@ -28,8 +28,34 @@ from src.agent.understanding import (
     RoleResolutionStatus,
     TemporalAnchorStatus,
 )
+from src.catalog.catalog import ContractCatalog
+from src.models.canonical import CanonicalDocument
 from src.agent.router import AgentRouter
 from src.agent.models import AgentRouteCategory
+
+
+@pytest.fixture(autouse=True)
+def setup_legacy_test_catalog():
+    """Inject isolated test fixture into ContractRoleOntology._TEST_ROLE_PROVENANCE for legacy unit tests."""
+    ContractRoleOntology.CONTRACT_ROLE_PROVENANCE = {
+        "doc_01": {
+            CanonicalRole.SUPPLIER: ["BEST CIRCUIT BOARDS, INC."],
+            CanonicalRole.BUYER: ["AMX, LLC"],
+            CanonicalRole.CUSTOMER: ["AMX, LLC"],
+        },
+        "doc_02": {
+            CanonicalRole.SERVICE_PROVIDER: ["Access Worldwide Communications, Inc."],
+            CanonicalRole.CUSTOMER: ["E*TRADE Financial Corporation"],
+        },
+        "doc_03": {
+            CanonicalRole.SERVICE_PROVIDER: ["Access Worldwide Communications, Inc."],
+            CanonicalRole.CUSTOMER: ["E*TRADE Financial Corporation"],
+        },
+    }
+    ContractRoleOntology._TEST_ROLE_PROVENANCE = ContractRoleOntology.CONTRACT_ROLE_PROVENANCE
+    yield
+    ContractRoleOntology.CONTRACT_ROLE_PROVENANCE = {}
+    ContractRoleOntology._TEST_ROLE_PROVENANCE = {}
 
 
 def test_1_vendor_to_supplier_resolution():

@@ -13,6 +13,21 @@ Tests:
 
 from src.agent.router import AgentRouter
 from src.agent.models import AgentRouteCategory
+from src.agent.understanding import ContractRoleOntology, CanonicalRole
+from src.catalog.catalog import ContractCatalog
+from src.models.canonical import CanonicalDocument
+import pytest
+
+
+@pytest.fixture(autouse=True)
+def setup_test_catalog():
+    ContractRoleOntology._TEST_ROLE_PROVENANCE = {
+        "doc_01": {CanonicalRole.SUPPLIER: ["BEST CIRCUIT BOARDS, INC."], CanonicalRole.CUSTOMER: ["AMX, LLC"]},
+        "doc_02": {CanonicalRole.SERVICE_PROVIDER: ["Access Worldwide Communications, Inc."], CanonicalRole.CUSTOMER: ["E*TRADE Financial Corporation"]},
+        "doc_03": {CanonicalRole.SERVICE_PROVIDER: ["Access Worldwide Communications, Inc."], CanonicalRole.CUSTOMER: ["E*TRADE Financial Corporation"]},
+    }
+    yield
+    ContractRoleOntology._TEST_ROLE_PROVENANCE = {}
 
 
 def test_route_direct_graph_queries():
