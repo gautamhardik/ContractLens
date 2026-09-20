@@ -572,6 +572,7 @@ export default function App() {
             activeEvidenceCitation={activeEvidenceCitation}
             setActiveEvidenceCitation={setActiveEvidenceCitation}
             onOpenInViewer={handleOpenInViewer}
+            onDeleteContract={handleDeleteContract}
             onUploadSuccess={() => {
               fetchInitialData();
             }}

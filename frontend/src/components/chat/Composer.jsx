@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { ArrowUp, Layers, X, ChevronDown } from 'lucide-react';
+import { ArrowUp, Layers, X, ChevronDown, CheckSquare, Square, Trash2, Check } from 'lucide-react';
 
 /**
  * Composer: Claude-inspired spacious, calm input surface
@@ -13,6 +13,9 @@ export default function Composer({
   contracts = [],
   scopedContractIds = [],
   onToggleContractScope,
+  onSelectAllScope,
+  onClearScope,
+  onDeleteContract,
   isContractPickerOpen,
   setIsContractPickerOpen
 }) {
@@ -73,31 +76,82 @@ export default function Composer({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: '10px',
+            marginBottom: '12px',
             paddingBottom: '8px',
-            borderBottom: '1px solid var(--border-subtle)'
+            borderBottom: '1px solid var(--border-subtle)',
+            flexWrap: 'wrap',
+            gap: '8px'
           }}>
-            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-              Filter Agreement Context ({scopedContractIds.length === 0 ? `All ${contracts.length} Active` : `${scopedContractIds.length} Selected`})
-            </span>
-            <button
-              type="button"
-              onClick={() => setIsContractPickerOpen(false)}
-              style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
-            >
-              <X size={15} />
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '0.74rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Agreement Scope ({scopedContractIds.length === 0 ? `All ${contracts.length} Active` : `${scopedContractIds.length} of ${contracts.length} Selected`})
+              </span>
+            </div>
+
+            {/* Quick Bulk Actions */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  if (onClearScope) onClearScope();
+                }}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: '4px',
+                  padding: '2px 8px',
+                  fontSize: '0.68rem',
+                  fontFamily: 'var(--font-mono)',
+                  color: scopedContractIds.length === 0 ? 'var(--accent-terracotta)' : 'var(--text-muted)',
+                  cursor: 'pointer'
+                }}
+              >
+                Select All
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  // Select none (or toggle)
+                  if (contracts.length > 0) {
+                    contracts.forEach(c => {
+                      if (scopedContractIds.includes(c.document_id)) {
+                        onToggleContractScope(c.document_id);
+                      }
+                    });
+                  }
+                }}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: '4px',
+                  padding: '2px 8px',
+                  fontSize: '0.68rem',
+                  fontFamily: 'var(--font-mono)',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer'
+                }}
+              >
+                Clear Selection
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsContractPickerOpen(false)}
+                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', marginLeft: '4px' }}
+                title="Close"
+              >
+                <X size={15} />
+              </button>
+            </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '6px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '8px' }}>
             {contracts.map(c => {
               const isSelected = scopedContractIds.includes(c.document_id);
               return (
-                <button
+                <div
                   key={c.document_id}
-                  data-testid="scope-contract-item"
-                  type="button"
-                  onClick={() => onToggleContractScope(c.document_id)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -106,36 +160,72 @@ export default function Composer({
                     borderRadius: '8px',
                     background: isSelected ? 'var(--accent-terracotta-dim)' : 'var(--bg-surface)',
                     border: `1px solid ${isSelected ? 'var(--accent-terracotta-border)' : 'var(--border-subtle)'}`,
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    transition: 'all var(--transition-fast)'
+                    transition: 'all var(--transition-fast)',
+                    gap: '8px'
                   }}
                 >
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{
-                      fontSize: '0.75rem',
-                      fontWeight: 500,
-                      color: isSelected ? 'var(--accent-terracotta)' : 'var(--text-primary)',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis'
-                    }}>
-                      {c.filename.replace('.pdf', '')}
+                  {/* Selectable Checkbox + Name Area */}
+                  <div
+                    onClick={() => onToggleContractScope(c.document_id)}
+                    style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1, cursor: 'pointer' }}
+                  >
+                    <div style={{ color: isSelected ? 'var(--accent-terracotta)' : 'var(--text-muted)', display: 'flex', flexShrink: 0 }}>
+                      {isSelected ? <CheckSquare size={16} /> : <Square size={16} />}
                     </div>
-                    <div style={{ fontSize: '0.66rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                      {c.document_id} • {c.contract_type || 'Contract'}
+
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{
+                        fontSize: '0.76rem',
+                        fontWeight: 500,
+                        color: isSelected ? 'var(--accent-terracotta)' : 'var(--text-primary)',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                      }}>
+                        {c.filename.replace('.pdf', '')}
+                      </div>
+                      <div style={{ fontSize: '0.66rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                        {c.document_id} • {c.contract_type || 'Contract'}
+                      </div>
                     </div>
                   </div>
-                  {isSelected && (
-                    <span style={{
-                      width: '6px',
-                      height: '6px',
-                      borderRadius: '50%',
-                      background: 'var(--accent-terracotta)',
-                      flexShrink: 0
-                    }} />
+
+                  {/* Individual Remove / Delete Button */}
+                  {onDeleteContract && (
+                    <button
+                      type="button"
+                      title="Remove contract from workspace"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDeleteContract(c.document_id, e);
+                      }}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'var(--text-muted)',
+                        cursor: 'pointer',
+                        padding: '4px',
+                        borderRadius: '4px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        opacity: 0.65,
+                        transition: 'all 0.15s ease'
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.opacity = '1';
+                        e.currentTarget.style.color = 'var(--accent-ruby, #ef4444)';
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.opacity = '0.65';
+                        e.currentTarget.style.color = 'var(--text-muted)';
+                        e.currentTarget.style.background = 'transparent';
+                      }}
+                    >
+                      <Trash2 size={13} />
+                    </button>
                   )}
-                </button>
+                </div>
               );
             })}
           </div>

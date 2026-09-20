@@ -143,6 +143,7 @@ export default function ChatView({
   activeEvidenceCitation,
   setActiveEvidenceCitation,
   onOpenInViewer,
+  onDeleteContract,
   onUploadSuccess,
   chatEndRef
 }) {
@@ -444,10 +445,12 @@ export default function ChatView({
           scopedContractIds={scopedContractIds}
           onToggleContractScope={toggleContractScope}
           onClearScope={() => setScopedContractIds([])}
+          onSelectAllScope={() => setScopedContractIds([])}
           isContractPickerOpen={isContractPickerOpen}
           setIsContractPickerOpen={setIsContractPickerOpen}
           contracts={contracts}
           onSend={onSendQuery}
+          onDeleteContract={onDeleteContract}
         />
       </div>
 
